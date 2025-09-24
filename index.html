@@ -11,7 +11,7 @@
     <script src="https://unpkg.com/phosphor-icons"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
-    <style>
+    <style id="theme-style-root">
         :root {
             --bg-color: #0d0d1a; 
             --primary-glow: #00f5c3; --primary-glow-rgb: 0, 245, 195;
@@ -20,14 +20,6 @@
             --glass-bg: rgba(15, 23, 42, 0.7); --glass-border: rgba(0, 245, 195, 0.1);
             --shadow-color: rgba(0, 0, 0, 0.37);
         }
-        html[data-theme="gold"] { --primary-glow: #f59e0b; --primary-glow-rgb: 245, 158, 11; }
-        html[data-theme="emerald"] { --primary-glow: #10b981; --primary-glow-rgb: 16, 185, 129; }
-        html[data-theme="crimson"] { --primary-glow: #dc2626; --primary-glow-rgb: 220, 38, 38; }
-        html[data-theme="violet"] { --primary-glow: #8b5cf6; --primary-glow-rgb: 139, 92, 246; }
-        html[data-theme="rose"] { --primary-glow: #f43f5e; --primary-glow-rgb: 244, 63, 94; }
-        html[data-theme="sky"] { --primary-glow: #0ea5e9; --primary-glow-rgb: 14, 165, 233; }
-        html[data-theme="forest"] { --primary-glow: #22c55e; --primary-glow-rgb: 34, 197, 94; }
-        
         body { font-family: 'Cairo', sans-serif; background-color: var(--bg-color); color: var(--text-primary); overflow: hidden; transition: background-color 0.5s ease; }
         #app-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(at 20% 20%, var(--primary-glow) 0px, transparent 30%), radial-gradient(at 80% 80%, var(--secondary-glow) 0px, transparent 30%); animation: bg-pan 20s linear infinite alternate; opacity: 0.1; z-index: -1; transition: background-image 0.5s ease; }
         
@@ -42,8 +34,7 @@
         @keyframes pulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); } 50% { transform: scale(1.05); box-shadow: 0 0 5px 10px rgba(255, 0, 0, 0); } }
         @keyframes icon-3d-float { 0% { transform: translate(0, 0) rotateY(0deg) scale(1); } 25% { transform: translate(5px, -5px) rotateY(15deg) scale(1.1); } 50% { transform: translate(-5px, 0) rotateY(0deg) scale(1); } 75% { transform: translate(0, 5px) rotateY(-15deg) scale(1.1); } 100% { transform: translate(0, 0) rotateY(0deg) scale(1); } }
         @keyframes notification-bell { 0% { transform: rotate(0deg); } 10% { transform: rotate(14deg); } 20% { transform: rotate(-8deg); } 30% { transform: rotate(14deg); } 40% { transform: rotate(-4deg); } 50% { transform: rotate(10deg); } 60% { transform: rotate(0deg); } 100% { transform: rotate(0deg); } }
-        @keyframes broadcast-pulse { 0% { transform: scale(1); filter: drop-shadow(0 0 4px #f87171); } 50% { transform: scale(1.2) rotate(5deg); filter: drop-shadow(0 0 12px #dc2626); } 100% { transform: scale(1); filter: drop-shadow(0 0 4px #f87171); } }
-        @keyframes live-text-glow { 0%, 100% { text-shadow: 0 0 2px #fff, 0 0 6px #f87171, 0 0 10px #dc2626; } 50% { text-shadow: 0 0 4px #fff, 0 0 10px #f87171, 0 0 16px #dc2626; } }
+        @keyframes captcha-spin { to { transform: rotate(360deg); } }
 
         .page { position: absolute; width: 100%; height: 100%; display: none; opacity: 0; animation: page-enter 0.5s ease forwards; }
         .page.active { display: flex; flex-direction: column; }
@@ -62,9 +53,13 @@
         .btn-celestial:active:not(:disabled) { transform: scale(0.98); box-shadow: 0 0 10px var(--primary-glow) inset; }
         .btn-celestial:disabled { opacity: 0.5; cursor: not-allowed; }
         
-        .scrolling-banner { position: absolute; top: 0; left: 0; width: 100%; background: rgba(2, 6, 23, 0.5); backdrop-filter: blur(5px); white-space: nowrap; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 60; }
+        .scrolling-banner { transition: transform 0.5s ease; }
+        .bottom-nav { transition: transform 0.5s ease; }
+        body.focus-mode .scrolling-banner { transform: translateY(-100%); }
+        body.focus-mode .bottom-nav { transform: translateY(100%); }
+        body.focus-mode #exit-focus-mode-btn { display: flex; }
+
         .scrolling-banner p { display: inline-block; padding: 6px 0; font-size: 0.8rem; animation: scroll-text-rtl 25s linear infinite; color: var(--primary-glow); text-shadow: 0 0 8px var(--primary-glow); font-weight: 600; }
-        .bottom-nav { gap: 0.25rem; padding: 0.25rem 0.5rem; justify-content: space-around; }
         .bottom-nav-btn i { filter: drop-shadow(0 0 5px var(--primary-glow)); transition: all 0.3s ease; }
         .bottom-nav-btn:hover i { filter: drop-shadow(0 0 15px var(--primary-glow)); transform: scale(1.1) translateY(-2px); color: var(--primary-glow); }
         .lock-icon-3d { animation: lock-3d-swing 2.5s infinite ease-in-out; display: inline-block; }
@@ -72,39 +67,17 @@
         #modal-body { scrollbar-width: thin; scrollbar-color: var(--primary-glow) transparent; }
         .social-icon-animated { animation: icon-3d-float 6s ease-in-out infinite; transition: all 0.3s ease; }
         .social-icon-animated:hover { transform: scale(1.2); filter: drop-shadow(0 0 8px var(--glow-color)); animation-play-state: paused; }
-        .live-indicator { width: 8px; height: 8px; background-color: #f43f5e; border-radius: 50%; animation: pulse 1.5s infinite; box-shadow: 0 0 10px #f43f5e; }
+        .live-indicator { width: 10px; height: 10px; background-color: red; border-radius: 50%; animation: pulse 1.5s infinite; }
         .rating-star:hover, .rating-star.active { color: #f59e0b; transform: scale(1.2); }
         .notification-indicator { position: absolute; top: 0; right: 0; width: 8px; height: 8px; background-color: #f43f5e; border-radius: 50%; }
         .admin-nav-btn.active { background-color: var(--primary-glow); color: var(--bg-color); font-weight: bold; }
         .admin-panel { animation: fade-in-up 0.5s ease forwards; }
 
-        .subject-card {
-            background-color: rgba(16, 26, 42, 0.75);
-            border: 1px solid rgba(var(--primary-glow-rgb), 0.5);
-            box-shadow: 0 0 15px rgba(var(--primary-glow-rgb), 0.2);
-            transition: all 0.3s ease-out;
-        }
-        .subject-card:hover {
-            transform: translateY(-6px) scale(1.03);
-            border-color: rgba(var(--primary-glow-rgb), 1);
-            box-shadow: 0 0 25px rgba(var(--primary-glow-rgb), 0.5);
-        }
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-            border-radius: 0.5rem;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .live-meeting-icon { animation: broadcast-pulse 1.5s infinite ease-in-out; }
-        .live-meeting-text { animation: live-text-glow 1.5s infinite alternate; }
+        .subject-card { background-color: rgba(16, 26, 42, 0.75); border: 1px solid rgba(var(--primary-glow-rgb), 0.5); box-shadow: 0 0 15px rgba(var(--primary-glow-rgb), 0.2); transition: all 0.3s ease-out; }
+        .subject-card:hover { transform: translateY(-6px) scale(1.03); border-color: rgba(var(--primary-glow-rgb), 1); box-shadow: 0 0 25px rgba(var(--primary-glow-rgb), 0.5); }
+        .footer-text { color: rgba(226, 232, 240, 0.6); text-shadow: 0 0 8px rgba(var(--primary-glow-rgb), 0.5); font-weight: 600; letter-spacing: 0.5px; }
+        .captcha-spinner { width: 100%; height: 100%; border: 2px solid #888; border-top-color: #eee; border-radius: 50%; animation: captcha-spin 1s linear infinite; }
+        #captcha-canvas { border-radius: 0.5rem; }
     </style>
 </head>
 <body class="w-full h-screen">
@@ -116,21 +89,15 @@
         </div>
 
         <div id="splash-screen" class="page justify-center items-center p-4 text-center">
-            <p id="splash-text" class="text-xl font-semibold mb-8 tracking-wider text-shadow" style="color:var(--primary-glow)">متنساش تصلي على النبي ﷺ</p>
+            <p id="splash-text" data-text-key="splashScreenMessage" class="text-xl font-semibold mb-8 tracking-wider text-shadow" style="color:var(--primary-glow)"></p>
             <div class="w-40 h-1 bg-[var(--glass-border)] rounded-full"><div class="h-full bg-[var(--primary-glow)] rounded-full animate-[loading-bar_1s_linear_forwards]"></div></div>
         </div>
 
         <div id="student-dashboard" class="page h-screen w-screen overflow-hidden">
-            <div class="scrolling-banner"><p>شكر خاص لإدارة المعهد وأعضاء هيئة التدريس في تطوير هذا الموقع التعليمي ***&nbsp;</p></div>
+            <div class="scrolling-banner absolute top-0 left-0 w-full bg-slate-900/50 backdrop-blur-sm whitespace-nowrap overflow-hidden shadow-lg z-50"><p data-text-key="scrollingBannerText"></p></div>
             <header class="p-4 flex justify-between items-center mt-10">
                 <div class="flex items-center gap-4">
-                    <div class="relative">
-                        <img src="https://i.postimg.cc/mgdFZ313/IMG-20250414-WA0047-1.jpg" alt="Logo" class="w-12 h-12 rounded-full glowing-logo">
-                        <div id="timer-indicator" class="hidden absolute -top-1 -right-1 flex flex-col items-center">
-                            <div class="live-indicator"></div>
-                            <span class="text-[10px] text-red-400 font-bold animate-pulse" style="text-shadow: 0 0 5px #f43f5e;">مباشر</span>
-                        </div>
-                    </div>
+                    <img src="https://i.postimg.cc/mgdFZ313/IMG-20250414-WA0047-1.jpg" alt="Logo" class="w-12 h-12 rounded-full glowing-logo">
                     <button id="notifications-bell" class="relative text-2xl text-slate-300 hover:text-[var(--primary-glow)] transition">
                         <i class="ph-bell"></i>
                         <div id="notification-dot" class="notification-indicator hidden"></div>
@@ -138,26 +105,29 @@
                 </div>
                 <div class="text-right">
                     <div class="flex justify-end items-center gap-3">
-                        <div class="flex items-center gap-2 bg-black/20 px-3 py-1 rounded-full">
+                        <button id="points-info-btn" class="flex items-center gap-2 bg-black/20 px-3 py-1 rounded-full cursor-pointer transition-transform hover:scale-105">
                              <i class="ph-star text-yellow-400 text-lg"></i>
                              <span id="points-display" class="text-yellow-400 font-bold">0</span>
-                        </div>
-                        <h2 id="welcome-name" class="font-bold text-lg">مرحباً يـ ...</h2>
+                        </button>
+                        <h2 id="welcome-name" class="font-bold text-lg">مرحباً يا ...</h2>
                     </div>
                     <p id="user-details" class="text-xs text-slate-400 mt-1">...</p>
                 </div>
             </header>
             <main class="flex-grow p-4 overflow-y-auto pb-24"><div id="materials-list" class="space-y-4"></div></main>
-            <nav class="fixed bottom-0 right-0 left-0 glass-effect flex text-xs z-50 bottom-nav">
-                <button onclick="showSubjectSelectionModal('books')" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-books text-xl"></i><span data-translate="books">الكتب</span></button>
-                <button onclick="showSubjectSelectionModal('sections')" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-stack-simple text-xl"></i><span data-translate="sections">السكاشن</span></button>
-                <button id="meeting-btn" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-lock-key lock-icon-3d text-xl"></i><span data-translate="meeting">ميتنج</span></button>
-                <button id="courses-btn" class="bottom-nav-btn flex flex-col items-center space-y-1"><i id="courses-icon" class="ph-lock-key lock-icon-3d text-xl"></i><span data-translate="courses">كورسات</span></button>
-                <button data-modal="ai-tools-modal" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-robot text-xl"></i><span data-translate="ai_tools">أدوات AI</span></button>
-                <button data-modal="opinions-modal" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-chats-teardrop text-xl"></i><span data-translate="opinions">آراء</span></button>
-                <button data-modal="about-modal" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-info text-xl"></i><span data-translate="about">عنا</span></button>
-                <button data-modal="settings-modal" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-gear-six text-xl"></i><span data-translate="settings">الإعدادات</span></button>
+            <nav class="bottom-nav fixed bottom-0 right-0 left-0 glass-effect flex text-xs z-50 justify-around p-1">
+                <button onclick="showSubjectSelectionModal('books')" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-books text-xl"></i><span>الكتب</span></button>
+                <button onclick="showSubjectSelectionModal('sections')" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-stack-simple text-xl"></i><span>السكاشن</span></button>
+                <button id="meeting-btn" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-lock-key lock-icon-3d text-xl"></i><span>ميتنج</span></button>
+                <button id="courses-btn" class="bottom-nav-btn flex flex-col items-center space-y-1"><i id="courses-icon" class="ph-lock-key lock-icon-3d text-xl"></i><span>كورسات</span></button>
+                <button data-modal="ai-tools-modal" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-robot text-xl"></i><span>أدوات AI</span></button>
+                <button data-modal="opinions-modal" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-chats-teardrop text-xl"></i><span>آراء</span></button>
+                <button data-modal="about-modal" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-info text-xl"></i><span>عنا</span></button>
+                <button data-modal="settings-modal" class="bottom-nav-btn flex flex-col items-center space-y-1"><i class="ph-gear-six text-xl"></i><span>الإعدادات</span></button>
             </nav>
+            <footer class="fixed bottom-[56px] sm:bottom-2 left-0 w-full p-2 text-center text-xs pointer-events-none z-40">
+                <p class="footer-text" data-text-key="footerText"></p>
+            </footer>
         </div>
         
         <div id="subject-content-page" class="page h-screen w-screen overflow-hidden"></div>
@@ -170,6 +140,7 @@
                           <button data-panel="info-panel" class="admin-nav-btn text-right p-3 rounded-lg hover:bg-slate-700/50 transition">لوحة المعلومات</button>
                           <button data-panel="students-panel" class="admin-nav-btn text-right p-3 rounded-lg hover:bg-slate-700/50 transition">إدارة الطلاب</button>
                           <button data-panel="content-panel" class="admin-nav-btn text-right p-3 rounded-lg hover:bg-slate-700/50 transition">إدارة المحتوى</button>
+                          <button data-panel="text-management-panel" class="admin-nav-btn text-right p-3 rounded-lg hover:bg-slate-700/50 transition">إدارة النصوص</button>
                           <button data-panel="notifications-panel" class="admin-nav-btn text-right p-3 rounded-lg hover:bg-slate-700/50 transition">الإشعارات</button>
                           <button data-panel="courses-panel" class="admin-nav-btn text-right p-3 rounded-lg hover:bg-slate-700/50 transition">إدارة الكورسات</button>
                           <button data-panel="ai-tools-panel" class="admin-nav-btn text-right p-3 rounded-lg hover:bg-slate-700/50 transition">إدارة أدوات AI</button>
@@ -185,6 +156,11 @@
                       <div id="info-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">لوحة المعلومات</h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center"><div class="glass-effect p-6 rounded-lg"><h3 class="text-lg text-slate-400">إجمالي الطلاب</h3><p id="admin-student-count" class="text-4xl font-bold text-[var(--primary-glow)] mt-2">0</p></div><div class="glass-effect p-6 rounded-lg"><h3 class="text-lg text-slate-400">إجمالي الآراء</h3><p id="admin-opinions-count" class="text-4xl font-bold text-[var(--secondary-glow)] mt-2">0</p></div><div class="glass-effect p-6 rounded-lg"><h3 class="text-lg text-slate-400">إجمالي التقييمات</h3><p id="admin-ratings-count" class="text-4xl font-bold text-yellow-400 mt-2">0</p></div><div class="glass-effect p-6 rounded-lg"><h3 class="text-lg text-slate-400">إجمالي الإشعارات</h3><p id="admin-notifications-count" class="text-4xl font-bold text-rose-400 mt-2">0</p></div></div></div>
                       <div id="students-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة الطلاب</h2><div id="admin-students-list" class="space-y-4"></div></div>
                       <div id="content-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة المحتوى</h2><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div><div class="glass-effect p-6 rounded-lg"><h3 id="content-form-title" class="text-xl font-bold mb-4">إضافة محتوى جديد</h3><select id="content-type-select" class="w-full rounded-lg select-field appearance-none mb-4"><option value="lectures">محاضرة</option><option value="books">كتاب</option><option value="sections">سكشن</option></select><select id="content-year-select" class="w-full rounded-lg select-field appearance-none mb-4"><option value="">اختر الفرقة</option><option value="1">الأولى</option><option value="2">الثانية</option></select><select id="content-division-select" class="w-full rounded-lg select-field appearance-none mb-4"><option value="">اختر الشعبة</option><option value="international">أعمال دولية</option><option value="systems">نظم معلومات</option></select><select id="content-subject-select" class="w-full rounded-lg select-field appearance-none mb-4"><option value="">اختر المادة أولاً</option></select><input id="content-title-input" type="text" placeholder="عنوان المحتوى" class="w-full rounded-lg input-field mb-4"><textarea id="content-body-input" placeholder="نص المحتوى أو الرابط..." class="w-full rounded-lg input-field mb-4" rows="4"></textarea><div class="flex gap-4"><button id="save-content-btn" class="w-full py-2 rounded-lg text-sm font-bold btn-celestial">حفظ</button><button id="cancel-edit-btn" class="w-full py-2 rounded-lg text-sm font-bold btn-celestial border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black hidden">إلغاء التعديل</button></div></div></div><div><h3 class="text-xl font-bold mb-4">المحتوى المضاف حاليًا</h3><div id="admin-content-list" class="space-y-3"></div></div></div></div>
+                      <div id="text-management-panel" class="admin-panel hidden">
+                          <h2 class="text-3xl font-bold mb-6">إدارة نصوص الموقع</h2>
+                          <div id="text-management-form" class="space-y-4"></div>
+                          <button id="save-texts-btn" class="w-full max-w-sm mt-6 py-2.5 rounded-lg text-base font-bold btn-celestial">حفظ كل التغييرات</button>
+                      </div>
                       <div id="notifications-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة الإشعارات</h2><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div><div class="glass-effect p-6 rounded-lg"><h3 class="text-xl font-bold mb-4">إرسال إشعار جديد</h3><input id="notification-title-input" type="text" placeholder="عنوان الإشعار (اختياري)" class="w-full rounded-lg input-field mb-4"><textarea id="notification-body-input" placeholder="نص الإشعار..." class="w-full rounded-lg input-field mb-4" rows="4"></textarea><button id="send-notification-btn" class="w-full py-2 rounded-lg text-sm font-bold btn-celestial">إرسال</button></div></div><div><h3 class="text-xl font-bold mb-4">الإشعارات المرسلة</h3><div id="admin-notifications-list" class="space-y-3"></div></div></div></div>
                       <div id="courses-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة الكورسات</h2><div class="glass-effect p-6 rounded-lg mb-6"><h3 class="font-bold mb-4">إضافة كورس جديد</h3><input id="course-title-input" type="text" placeholder="عنوان الكورس" class="w-full rounded-lg input-field mb-4"><textarea id="course-desc-input" placeholder="وصف الكورس" class="w-full rounded-lg input-field mb-4" rows="3"></textarea><input id="course-url-input" type="text" placeholder="رابط فيديو الكورس" class="w-full rounded-lg input-field mb-4"><button id="add-course-btn" class="w-full py-2 rounded-lg font-bold btn-celestial">إضافة الكورس</button></div><div id="admin-courses-list" class="space-y-4"></div></div>
                       <div id="ai-tools-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة أدوات AI</h2><div class="glass-effect p-6 rounded-lg mb-6"><h3 class="font-bold mb-4">إضافة أداة جديدة</h3><input id="ai-name-input" type="text" placeholder="اسم الأداة" class="w-full rounded-lg input-field mb-4"><input id="ai-desc-input" type="text" placeholder="وصف الأداة" class="w-full rounded-lg input-field mb-4"><input id="ai-url-input" type="text" placeholder="رابط الأداة" class="w-full rounded-lg input-field mb-4"><button id="add-ai-tool-btn" class="w-full py-2 rounded-lg font-bold btn-celestial">إضافة الأداة</button></div><div id="admin-ai-tools-list" class="space-y-4"></div></div>
@@ -198,7 +174,7 @@
                                   <div id="meeting-url-container" class="hidden"><input type="url" id="meeting-url-input" placeholder="ادخل رابط الميتنج هنا" class="w-full rounded-lg input-field"></div>
                               </div>
                               <div class="glass-effect p-6 rounded-lg space-y-4">
-                                <label class="flex items-center justify-between cursor-pointer"><span class="font-bold">فتح قسم الكورسات للجميع</span><input type="checkbox" id="courses-toggle" class="form-checkbox h-5 w-5 text-[var(--primary-glow)] rounded"></label>
+                                <label class="flex items-center justify-between cursor-pointer"><span class="font-bold">تفعيل قسم الكورسات</span><input type="checkbox" id="courses-toggle" class="form-checkbox h-5 w-5 text-[var(--primary-glow)] rounded"></label>
                               </div>
                           </div>
                           <div class="max-w-md mt-6">
@@ -223,6 +199,10 @@
     <div id="toast-notification" class="fixed top-5 right-5 glass-effect p-4 rounded-lg shadow-lg z-[2000] opacity-0 -translate-y-12 transition-all duration-500">
         <p id="toast-message"></p>
     </div>
+    
+    <button id="exit-focus-mode-btn" class="fixed bottom-4 right-4 z-[100] hidden h-14 w-14 items-center justify-center rounded-full bg-slate-800/50 text-white shadow-lg backdrop-blur-md transition-transform hover:scale-110 active:scale-95">
+        <i class="ph-gear-six text-2xl"></i>
+    </button>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -237,44 +217,37 @@
         let currentEditState = { id: null, collection: null };
         let currentContentUnsubscribe = null;
         let siteSettings = {};
+        let captchaText = '';
+        let siteTexts = {};
+
+        const defaultTexts = {
+            splashScreenMessage: "متنساش تصلي على النبي ﷺ",
+            scrollingBannerText: "شكر خاص لإدارة المعهد وأعضاء هيئة التدريس في تطوير هذا الموقع التعليمي ***",
+            footerText: "جميع الحقوق محفوظة © Amr lotfy 2025",
+            coursesLockedToast: "لفتح قسم الكورسات، يجب أن تصل إلى 100 نقطة. كل محاضرة تشاهدها تمنحك 25 نقطة. استمر!",
+            meetingLockedToast: "سوف يتم فتح هذا القسم عند شرح المواد اونلاين",
+            pointsInfo_0: "لفتح قسم الكورسات، يجب أن تجمع 100 نقطة. شاهد المحاضرات لتبدأ!",
+            pointsInfo_other: "أحسنت! لقد جمعت {points} نقطة. يتبقى لك {remaining} نقطة فقط لفتح قسم الكورسات.",
+            pointsInfo_unlocked: "رائع! لقد فتحت قسم الكورسات بنجاح.",
+            addPointsToast: "تمت إضافة 25 نقطة! ✨",
+            aboutMain: "هذا الموقع خاص بالفرقة الأولى والثانية لطلاب المعهد العالي للحاسبات والمعلومات بطنطا.",
+            aboutDeveloper: "تطوير Amr lotfy",
+            aboutSupervisors: "تحت رعاية"
+        };
+        const textLabels = {
+            splashScreenMessage: "رسالة شاشة البداية", scrollingBannerText: "الشريط الإخباري المتحرك", footerText: "جملة الحقوق المحفوظة", coursesLockedToast: "رسالة قفل قسم الكورسات", meetingLockedToast: "رسالة قفل قسم الميتنج", pointsInfo_0: "رسالة النقاط (عندما تكون صفر)", pointsInfo_other: "رسالة النقاط (عندما تكون أكبر من صفر)", pointsInfo_unlocked: "رسالة النقاط (بعد فتح الكورسات)", addPointsToast: "رسالة إضافة النقاط", aboutMain: "فقرة 'عنا' الرئيسية", aboutDeveloper: "جملة المطور", aboutSupervisors: "عنوان 'تحت رعاية'"
+        };
 
         const materials = {
             ar: { '1_international': [ 'مبادئ المحاسبة الماليه', 'مبادئ الاقتصاد', 'مبادئ القانون', 'لغه اجنبيه (1)', 'مبادئ اداره الاعمال' ], '1_systems': ['طرق ومهارات الاتصال', 'رياضيات الاعمال', 'حقوق الانسان', 'التفكير الابتكاري', 'السلوك التنظيمي', 'اساسيات الحاسب وتكتولوچيا المعلومات'], '2_international': ['اداره اللوچيستيات وسلاسل الامداد', 'مبادئ التسويق', 'مبادئ الاقتصاد الجزئي', 'محاسبه التكاليف', 'قانون الاعمال'], '2_systems': ['قانون الاعمال', 'قواعد البيانات (1)', 'اداره الانتاج', 'محاسبه الشركات', 'تصميم برامج الحاسب'] },
-            en: { '1_international': [ 'Financial Accounting', 'Principles of Economics', 'Principles of Law', 'Foreign Language (1)', 'Business Administration' ], '1_systems': ['Communication Skills', 'Business Mathematics', 'Human Rights', 'Creative Thinking', 'Organizational Behavior', 'Computer Basics & IT'], '2_international': ['Logistics & Supply Chain', 'Marketing Principles', 'Microeconomics', 'Cost Accounting', 'Business Law'], '2_systems': ['Business Law', 'Databases (1)', 'Production Management', 'Corporate Accounting', 'Software Design'] }
         };
-        const studentDashboardEl = { welcomeName: document.getElementById('welcome-name'), userDetails: document.getElementById('user-details'), materialsList: document.getElementById('materials-list'), pointsDisplay: document.getElementById('points-display'), timerIndicator: document.getElementById('timer-indicator') };
+        const studentDashboardEl = { welcomeName: document.getElementById('welcome-name'), userDetails: document.getElementById('user-details'), materialsList: document.getElementById('materials-list'), pointsDisplay: document.getElementById('points-display') };
         const adminDashboardEl = { studentCount: document.getElementById('admin-student-count'), notificationsCount: document.getElementById('admin-notifications-count'), opinionsCount: document.getElementById('admin-opinions-count'), ratingsCount: document.getElementById('admin-ratings-count'), studentsList: document.getElementById('admin-students-list'), opinionsList: document.getElementById('admin-opinions-list'), coursesList: document.getElementById('admin-courses-list'), aiToolsList: document.getElementById('admin-ai-tools-list'), ratingsList: document.getElementById('admin-ratings-list'), notificationsList: document.getElementById('admin-notifications-list') };
         const adminContentPanelEl = { type: document.getElementById('content-type-select'), year: document.getElementById('content-year-select'), division: document.getElementById('content-division-select'), subject: document.getElementById('content-subject-select'), title: document.getElementById('content-title-input'), body: document.getElementById('content-body-input'), saveBtn: document.getElementById('save-content-btn'), formTitle: document.getElementById('content-form-title'), contentList: document.getElementById('admin-content-list'), cancelBtn: document.getElementById('cancel-edit-btn') };
-
-        const translations = {
-            ar: { welcome: "مرحباً يـ", books: "الكتب", sections: "السكاشن", meeting: "ميتنج", courses: "كورسات", ai_tools: "أدوات AI", opinions: "آراء", about: "عنا", settings: "الإعدادات", first_year: "الفرقة الأولى", second_year: "الفرقة الثانية", int_business: "أعمال دولية", info_systems: "نظم معلومات" },
-            en: { welcome: "Welcome,", books: "Books", sections: "Sections", meeting: "Meeting", courses: "Courses", ai_tools: "AI Tools", opinions: "Opinions", about: "About", settings: "Settings", first_year: "First Year", second_year: "Second Year", int_business: "Int'l Business", info_systems: "Info Systems" }
-        };
-
-        const subjectIcons = {
-            'محاسبه': 'ph-calculator', 'اقتصاد': 'ph-chart-bar', 'قانون': 'ph-scales', 'اداره': 'ph-briefcase', 'تسويق': 'ph-projector-screen-chart', 'لوچيستيات': 'ph-truck', 'حاسب': 'ph-desktop-tower', 'بيانات': 'ph-database', 'برامج': 'ph-code-simple', 'رياضيات': 'ph-function', 'اتصال': 'ph-chats-circle', 'سلوك': 'ph-users-three', 'تفكير': 'ph-lightbulb', 'انتاج': 'ph-factory', 'انسان': 'ph-hand-heart', 'لغه': 'ph-translate', 'accounting': 'ph-calculator', 'economics': 'ph-chart-bar', 'law': 'ph-scales', 'business': 'ph-briefcase', 'administration': 'ph-briefcase', 'marketing': 'ph-projector-screen-chart', 'logistics': 'ph-truck', 'computer': 'ph-desktop-tower', 'databases': 'ph-database', 'software': 'ph-code-simple', 'mathematics': 'ph-function', 'communication': 'ph-chats-circle', 'behavior': 'ph-users-three', 'thinking': 'ph-lightbulb', 'production': 'ph-factory', 'human': 'ph-hand-heart', 'language': 'ph-translate', 'default': 'ph-book-open-text'
-        };
-
+        const subjectIcons = { 'محاسبه': 'ph-calculator', 'اقتصاد': 'ph-chart-bar', 'قانون': 'ph-scales', 'اداره': 'ph-briefcase', 'تسويق': 'ph-projector-screen-chart', 'لوچيستيات': 'ph-truck', 'حاسب': 'ph-desktop-tower', 'بيانات': 'ph-database', 'برامج': 'ph-code-simple', 'رياضيات': 'ph-function', 'اتصال': 'ph-chats-circle', 'سلوك': 'ph-users-three', 'تفكير': 'ph-lightbulb', 'انتاج': 'ph-factory', 'انسان': 'ph-hand-heart', 'لغه': 'ph-translate', 'default': 'ph-book-open-text' };
+        
         function getSubjectIcon(subjectName) { const lowerCaseName = subjectName.toLowerCase(); for (const key in subjectIcons) { if (lowerCaseName.includes(key)) return subjectIcons[key]; } return subjectIcons['default']; }
         function parseUserAgent(ua) { if (!ua) return 'N/A'; if (ua.includes('Windows')) return 'Windows PC'; if (ua.includes('Macintosh')) return 'Mac'; if (ua.includes('iPhone')) return 'iPhone'; if (ua.includes('Android')) return 'Android'; if (ua.includes('Linux')) return 'Linux'; return 'Unknown Device'; }
-
-        function applyLanguage(lang) {
-            document.documentElement.lang = lang;
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            document.querySelectorAll('[data-translate]').forEach(el => {
-                const key = el.dataset.translate;
-                if (translations[lang] && translations[lang][key]) { el.textContent = translations[lang][key]; }
-            });
-            if(currentUser && !currentUser.isAdmin){
-                studentDashboardEl.welcomeName.textContent = `${translations[lang].welcome} ${currentUser.name}`;
-                const yearText = currentUser.year === '1' ? translations[lang].first_year : translations[lang].second_year;
-                const divisionText = currentUser.division === 'international' ? translations[lang].int_business : translations[lang].info_systems;
-                studentDashboardEl.userDetails.textContent = `${yearText} - ${divisionText}`;
-                loadMaterialsForStudent();
-            }
-        }
-
-        function setLanguage(lang) { localStorage.setItem('moraLang', lang); applyLanguage(lang); }
         function showPage(pageId) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(pageId).classList.add('active'); }
         function showToast(message, isError = false) { const t = document.getElementById('toast-notification'), m = document.getElementById('toast-message'); m.textContent = message; t.className = `fixed top-5 right-5 glass-effect p-4 rounded-lg shadow-lg z-[2000] opacity-100 translate-y-0 transition-all duration-500 ${isError ? 'bg-red-900/50 text-white' : 'bg-green-900/50 text-white'}`; setTimeout(() => { t.className = t.className.replace('opacity-100', 'opacity-0').replace('translate-y-0', '-translate-y-12'); }, 4000); }
         function openModalWithContent(title, body) { document.getElementById('modal-title').textContent = title; document.getElementById('modal-body').innerHTML = body; document.getElementById('generic-modal').classList.add('open'); }
@@ -282,112 +255,160 @@
         function destroyVantaBackground() { try { if (vantaEffect) { vantaEffect.destroy(); vantaEffect = null; } } catch (e) { console.error("Vanta failed to destroy", e); } }
         
         function renderAuthForm(isInitial = true, showRegister = false) {
+            captchaText = ''; // Reset captcha text
             const authFormContainer = document.getElementById('auth-form-container'); 
             authFormContainer.innerHTML = `<div class="relative text-center w-full max-w-sm z-20 pb-12" style="animation: fade-in-up 0.5s 0.1s ease-out backwards;"><img src="https://i.postimg.cc/mgdFZ313/IMG-20250414-WA0047-1.jpg" alt="" class="w-28 h-28 rounded-full mb-4 glowing-logo mx-auto" style="animation: fade-in-up 0.5s 0.2s ease-out backwards;"><h1 class="text-2xl font-bold mb-1 tracking-wider text-shadow" style="color:var(--primary-glow); animation: fade-in-up 0.5s 0.3s ease-out backwards;">Welcome to Mora</h1><p class="text-xs text-slate-300 mb-6" style="animation: fade-in-up 0.5s 0.4s ease-out backwards;">For Studying</p><div id="auth-content"></div></div>`; 
-            const authContent = document.getElementById('auth-content'); if (isInitial) { authContent.innerHTML = `<div class="space-y-3" style="animation: fade-in-up 0.6s 0.5s ease-out backwards;"><button id="go-to-register-btn" class="w-40 mx-auto block py-1.5 rounded-lg text-sm font-bold btn-celestial">إنشاء حساب</button><button id="go-to-login-btn" class="w-40 mx-auto block py-1.5 rounded-lg text-sm font-bold btn-celestial">تسجيل الدخول</button></div>`; } else { const captcha = 'ABCDE'.split('').sort(() => 0.5 - Math.random()).join(''); authContent.innerHTML = `<div class="w-full max-w-md mx-auto relative"><button id="back-to-initial-btn" class="absolute top-0 right-0 text-2xl text-slate-400 hover:text-white transition-transform hover:scale-110"><i class="ph-arrow-right"></i></button><div class="space-y-3 pt-8"><input type="text" id="auth-name" placeholder="الاسم" class="w-full rounded-lg text-center input-field">${showRegister ? `<select id="auth-year" class="w-full rounded-lg text-center select-field appearance-none"><option value="">اختر الفرقة</option><option value="1">الأولى</option><option value="2">الثانية</option></select><select id="auth-division" class="w-full rounded-lg text-center select-field appearance-none"><option value="">اختر الشعبة</option><option value="international">أعمال دولية</option><option value="systems">نظم معلومات</option></select>` : ''}<div class="relative"><input type="password" id="auth-password" placeholder="كلمة المرور" class="w-full rounded-lg text-center input-field pr-10"><button id="toggle-password" type="button" class="absolute top-1/2 -translate-y-1/2 right-3 text-slate-400 hover:text-white"><i id="eye-icon" class="ph-eye"></i></button></div>${showRegister ? `<p class="text-xs text-slate-400 -mt-2">يجب ألا تقل كلمة المرور عن 8 أحرف وأرقام بالانجليزي</p><div class="flex items-center justify-center gap-4"><span id="captcha-challenge" class="p-2 glass-effect rounded-lg font-bold text-xl tracking-widest">${captcha}</span><input type="text" id="captcha-input" placeholder="أدخل الرمز" class="w-28 rounded-lg text-center input-field"><button type="button" id="refresh-captcha" class="text-2xl text-slate-400 hover:text-white transition"><i class="ph-arrows-clockwise"></i></button></div>` : ''}<p id="auth-error-msg" class="text-red-400 h-5"></p><button id="auth-submit-btn" class="w-full py-2 rounded-lg text-sm font-bold btn-celestial">${showRegister ? 'سجل الآن' : 'دخــــول'}</button><button id="auth-toggle-btn" type="button" class="text-xs text-slate-400 hover:text-[var(--primary-glow)] transition">${showRegister ? 'لديك حساب بالفعل؟' : 'ليس لديك حساب؟'}</button></div></div>`; } 
-            if (isInitial) { document.getElementById('go-to-register-btn').addEventListener('click', () => renderAuthForm(false, true)); document.getElementById('go-to-login-btn').addEventListener('click', () => renderAuthForm(false, false)); } else { document.getElementById('back-to-initial-btn').addEventListener('click', () => renderAuthForm(true)); document.getElementById('auth-toggle-btn').addEventListener('click', () => renderAuthForm(false, !showRegister)); document.getElementById('auth-submit-btn').addEventListener('click', showRegister ? handleRegister : handleLogin); if (showRegister) document.getElementById('refresh-captcha').addEventListener('click', (e) => e.currentTarget.previousElementSibling.previousElementSibling.textContent = 'ABCDE'.split('').sort(() => 0.5 - Math.random()).join('')); document.getElementById('toggle-password').addEventListener('click', () => { const passInput = document.getElementById('auth-password'); const eyeIcon = document.getElementById('eye-icon'); const isPassword = passInput.type === 'password'; passInput.type = isPassword ? 'text' : 'password'; eyeIcon.className = isPassword ? 'ph-eye-slash' : 'ph-eye'; }); } 
+            const authContent = document.getElementById('auth-content'); 
+            if (isInitial) { 
+                authContent.innerHTML = `<div class="space-y-3" style="animation: fade-in-up 0.6s 0.5s ease-out backwards;"><button id="go-to-register-btn" class="w-40 mx-auto block py-1.5 rounded-lg text-sm font-bold btn-celestial">إنشاء حساب</button><button id="go-to-login-btn" class="w-40 mx-auto block py-1.5 rounded-lg text-sm font-bold btn-celestial">تسجيل الدخول</button></div>`; 
+            } else { 
+                authContent.innerHTML = `<div class="w-full max-w-md mx-auto relative">
+                    <button id="back-to-initial-btn" class="absolute top-0 right-0 text-2xl text-slate-400 hover:text-white transition-transform hover:scale-110"><i class="ph-arrow-right"></i></button>
+                    <div class="space-y-3 pt-8">
+                        <input type="text" id="auth-name" placeholder="الاسم" class="w-full rounded-lg text-center input-field">
+                        ${showRegister ? `
+                            <select id="auth-year" class="w-full rounded-lg text-center select-field appearance-none"><option value="">اختر الفرقة</option><option value="1">الأولى</option><option value="2">الثانية</option></select>
+                            <select id="auth-division" class="w-full rounded-lg text-center select-field appearance-none"><option value="">اختر الشعبة</option><option value="international">أعمال دولية</option><option value="systems">نظم معلومات</option></select>
+                        ` : ''}
+                        <div class="relative">
+                            <input type="password" id="auth-password" placeholder="كلمة المرور" class="w-full rounded-lg text-center input-field pr-10">
+                            <button id="toggle-password" type="button" class="absolute top-1/2 -translate-y-1/2 right-3 text-slate-400 hover:text-white"><i id="eye-icon" class="ph-eye"></i></button>
+                        </div>
+                        ${showRegister ? `
+                            <div id="registration-details" class="hidden space-y-3">
+                                <p class="text-xs text-slate-400 !-mt-2">يجب ألا تقل كلمة المرور عن 8 أحرف وأرقام بالانجليزي</p>
+                                <div id="canvas-captcha-container" class="flex items-center justify-center gap-2">
+                                    <canvas id="captcha-canvas" width="130" height="40" class="cursor-pointer" title="اضغط لتغيير الرمز"></canvas>
+                                    <input type="text" id="captcha-input" placeholder="أدخل الرمز" class="w-28 rounded-lg text-center input-field">
+                                    <button type="button" id="refresh-captcha" class="text-2xl text-slate-400 hover:text-white transition"><i class="ph-arrows-clockwise"></i></button>
+                                </div>
+                            </div>
+                            <div id="captcha-trigger-container" class="flex items-center justify-between p-2 rounded-lg" style="background: rgba(30, 41, 59, 0.5);">
+                                <label class="text-sm text-slate-300">أنا لست برنامج روبوت</label>
+                                <div id="captcha-checkbox" class="w-7 h-7 bg-slate-200 rounded border-2 border-slate-400 cursor-pointer flex items-center justify-center p-0.5"></div>
+                            </div>
+                        ` : ''}
+                        <p id="auth-error-msg" class="text-red-400 h-5"></p>
+                        <button id="auth-submit-btn" class="w-full py-2 rounded-lg text-sm font-bold btn-celestial">${showRegister ? 'سجل الآن' : 'دخــــول'}</button>
+                        <button id="auth-toggle-btn" type="button" class="text-xs text-slate-400 hover:text-[var(--primary-glow)] transition">${showRegister ? 'لديك حساب بالفعل؟' : 'ليس لديك حساب؟'}</button>
+                    </div>
+                </div>`; 
+            } 
+            if (isInitial) { document.getElementById('go-to-register-btn').addEventListener('click', () => renderAuthForm(false, true)); document.getElementById('go-to-login-btn').addEventListener('click', () => renderAuthForm(false, false)); } else { document.getElementById('back-to-initial-btn').addEventListener('click', () => renderAuthForm(true)); document.getElementById('auth-toggle-btn').addEventListener('click', () => renderAuthForm(false, !showRegister)); document.getElementById('auth-submit-btn').addEventListener('click', showRegister ? handleRegister : handleLogin); if (showRegister) { document.getElementById('auth-submit-btn').disabled = true; document.getElementById('captcha-checkbox').addEventListener('click', handleCaptchaTrigger); } document.getElementById('toggle-password').addEventListener('click', () => { const passInput = document.getElementById('auth-password'); const eyeIcon = document.getElementById('eye-icon'); const isPassword = passInput.type === 'password'; passInput.type = isPassword ? 'text' : 'password'; eyeIcon.className = isPassword ? 'ph-eye-slash' : 'ph-eye'; }); } 
         }
-        async function handleRegister() { const submitBtn = document.getElementById('auth-submit-btn'); const errorMsg = document.getElementById('auth-error-msg'); submitBtn.disabled = true; submitBtn.textContent = 'جاري التسجيل...'; errorMsg.textContent = ''; try { const name = document.getElementById('auth-name').value.trim(); const year = document.getElementById('auth-year').value; const division = document.getElementById('auth-division').value; const password = document.getElementById('auth-password').value; const captchaInput = document.getElementById('captcha-input').value; const captchaChallenge = document.getElementById('captcha-challenge').textContent; if (!name || !year || !division || !password || !captchaInput) throw new Error('يرجى ملء جميع الحقول'); if (password.length < 8) throw new Error('كلمة المرور يجب أن تكون 8 أحرف على الأقل'); if (captchaInput.toUpperCase() !== captchaChallenge.toUpperCase()) throw new Error('رمز التحقق غير صحيح'); const q = query(collection(db, "users"), where("name", "==", name)); const querySnapshot = await getDocs(q); if (!querySnapshot.empty) throw new Error('هذا الاسم مستخدم بالفعل'); let ipAddress = 'N/A', city = 'N/A', country = 'N/A'; try { const ipRes = await fetch('https://api.ipify.org?format=json'); if(ipRes.ok) { const ipData = await ipRes.json(); ipAddress = ipData.ip; const geoRes = await fetch(`https://ipapi.co/${ipAddress}/json/`); if(geoRes.ok){ const geoData = await geoRes.json(); city = geoData.city || 'N/A'; country = geoData.country || 'N/A'; } } } catch (e) { console.error('GeoIP Error:', e); } const isBanned = await getDoc(doc(db, "banned_ips", ipAddress)); if(isBanned.exists()) throw new Error("هذا الجهاز محظور من استخدام الموقع."); const userAgent = navigator.userAgent; const newUser = { name, year, division, password, points: 0, isBanned: false, createdAt: serverTimestamp(), completedLectures: [], ipAddress, userAgent, city, country, blogContent: "" }; const docRef = await addDoc(collection(db, "users"), newUser); currentUser = {id: docRef.id, ...newUser}; localStorage.setItem('moraUser', JSON.stringify(currentUser)); destroyVantaBackground(); showPage('splash-screen'); } catch (error) { errorMsg.textContent = error.message; submitBtn.disabled = false; submitBtn.textContent = 'سجل الآن'; } }
+        function handleCaptchaTrigger() {
+            const checkbox = document.getElementById('captcha-checkbox');
+            checkbox.innerHTML = `<div class="captcha-spinner"></div>`;
+            checkbox.style.pointerEvents = 'none';
+            setTimeout(() => {
+                document.getElementById('captcha-trigger-container').classList.add('hidden');
+                document.getElementById('registration-details').classList.remove('hidden');
+                generateCanvasCaptcha();
+                document.getElementById('captcha-canvas').addEventListener('click', generateCanvasCaptcha);
+                document.getElementById('refresh-captcha').addEventListener('click', generateCanvasCaptcha);
+                document.getElementById('auth-submit-btn').disabled = false;
+            }, 1200);
+        }
+        function generateCanvasCaptcha() {
+            const canvas = document.getElementById('captcha-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
+            captchaText = '';
+            for (let i = 0; i < 5; i++) { captchaText += chars.charAt(Math.floor(Math.random() * chars.length)); }
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#1a202c';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < 7; i++) {
+                ctx.strokeStyle = `rgba(var(--primary-glow-rgb), 0.2)`;
+                ctx.beginPath();
+                ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+                ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
+                ctx.stroke();
+            }
+            ctx.font = 'bold 28px Cairo';
+            for (let i = 0; i < captchaText.length; i++) {
+                const char = captchaText[i];
+                const x = (i * 25) + 15;
+                const y = canvas.height / 2 + (Math.random() * 8 - 4);
+                ctx.fillStyle = `hsl(${Math.random() * 360}, 80%, 70%)`;
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate((Math.random() - 0.5) * 0.3);
+                ctx.fillText(char, 0, 0);
+                ctx.restore();
+            }
+        }
+        async function handleRegister() { const submitBtn = document.getElementById('auth-submit-btn'); const errorMsg = document.getElementById('auth-error-msg'); submitBtn.disabled = true; submitBtn.textContent = 'جاري التسجيل...'; errorMsg.textContent = ''; try { const name = document.getElementById('auth-name').value.trim(); const year = document.getElementById('auth-year').value; const division = document.getElementById('auth-division').value; const password = document.getElementById('auth-password').value; const captchaInput = document.getElementById('captcha-input').value; if (!name || !year || !division || !password || !captchaInput) throw new Error('يرجى ملء جميع الحقول'); if (password.length < 8) throw new Error('كلمة المرور يجب أن تكون 8 أحرف على الأقل'); if (captchaInput.toLowerCase() !== captchaText.toLowerCase()) { generateCanvasCaptcha(); throw new Error('رمز التحقق غير صحيح'); } const q = query(collection(db, "users"), where("name", "==", name)); const querySnapshot = await getDocs(q); if (!querySnapshot.empty) throw new Error('هذا الاسم مستخدم بالفعل'); let ipAddress = 'N/A', city = 'N/A', country = 'N/A'; try { const ipRes = await fetch('https://api.ipify.org?format=json'); if(ipRes.ok) { const ipData = await ipRes.json(); ipAddress = ipData.ip; const geoRes = await fetch(`https://ipapi.co/${ipAddress}/json/`); if(geoRes.ok){ const geoData = await geoRes.json(); city = geoData.city || 'N/A'; country = geoData.country || 'N/A'; } } } catch (e) { console.error('GeoIP Error:', e); } const isBanned = await getDoc(doc(db, "banned_ips", ipAddress)); if(isBanned.exists()) throw new Error("هذا الجهاز محظور من استخدام الموقع."); const userAgent = navigator.userAgent; const newUser = { name, year, division, password, points: 0, isBanned: false, createdAt: serverTimestamp(), completedLectures: [], ipAddress, userAgent, city, country, blogContent: "" }; const docRef = await addDoc(collection(db, "users"), newUser); currentUser = {id: docRef.id, ...newUser}; localStorage.setItem('moraUser', JSON.stringify(currentUser)); destroyVantaBackground(); showPage('splash-screen'); } catch (error) { errorMsg.textContent = error.message; submitBtn.disabled = false; submitBtn.textContent = 'سجل الآن'; } }
         async function handleLogin() { const submitBtn = document.getElementById('auth-submit-btn'); const errorMsg = document.getElementById('auth-error-msg'); submitBtn.disabled = true; submitBtn.textContent = 'جاري الدخول...'; errorMsg.textContent = ''; try { let ipAddress = 'N/A'; try { const ipRes = await fetch('https://api.ipify.org?format=json'); if(ipRes.ok){ const ipData = await ipRes.json(); ipAddress = ipData.ip; } } catch (e) {console.error('IP Error:', e);} const isBanned = await getDoc(doc(db, "banned_ips", ipAddress)); if(isBanned.exists()) throw new Error("هذا الجهاز محظور من استخدام الموقع."); const name = document.getElementById('auth-name').value.trim(); const password = document.getElementById('auth-password').value; if (!name || !password) throw new Error('يرجى إدخال البيانات'); if (name === 'admen' && password === 'Amr1221@gmail.com') { destroyVantaBackground(); currentUser = { name: 'Admin', isAdmin: true }; localStorage.setItem('moraUser', JSON.stringify(currentUser)); showPage('splash-screen'); return; } const q = query(collection(db, "users"), where("name", "==", name), where("password", "==", password)); const snapshot = await getDocs(q); if (snapshot.empty) throw new Error('البيانات غير صحيحة أو يجب عليك إنشاء حساب أولاً'); const userDoc = snapshot.docs[0]; if (userDoc.data().isBanned) throw new Error('هذا الحساب محظور'); destroyVantaBackground(); currentUser = { id: userDoc.id, ...userDoc.data() }; localStorage.setItem('moraUser', JSON.stringify(currentUser)); showPage('splash-screen'); } catch (error) { errorMsg.textContent = error.message; submitBtn.disabled = false; submitBtn.textContent = 'دخــــول'; } }
         
-        function initStudentDashboard() { showPage('student-dashboard'); applyLanguage(localStorage.getItem('moraLang') || 'ar'); studentDashboardEl.pointsDisplay.textContent = currentUser.points || 0; listenToSiteSettings(); listenForNotifications(); }
+        function initStudentDashboard() { showPage('student-dashboard'); document.body.classList.toggle('focus-mode', localStorage.getItem('focusMode') === 'true'); studentDashboardEl.welcomeName.textContent = `مرحباً يا ${currentUser.name}`; studentDashboardEl.userDetails.textContent = `${currentUser.year === '1' ? "الفرقة الأولى" : "الفرقة الثانية"} - ${currentUser.division === "international" ? "أعمال دولية" : "نظم معلومات"}`; studentDashboardEl.pointsDisplay.textContent = currentUser.points || 0; loadMaterialsForStudent(); listenToSiteSettings(); listenForNotifications(); }
         function loadMaterialsForStudent() {
-            const currentLang = localStorage.getItem('moraLang') || 'ar';
-            const userMaterials = materials[currentLang][`${currentUser.year}_${currentUser.division}`] || [];
+            const userMaterials = materials['ar'][`${currentUser.year}_${currentUser.division}`] || [];
             studentDashboardEl.materialsList.innerHTML = userMaterials.map((mat, index) => { 
-                const originalMat = materials['ar'][`${currentUser.year}_${currentUser.division}`][index];
                 const iconClass = getSubjectIcon(mat); 
-                return `<div class="subject-card rounded-xl p-6 flex flex-col items-center justify-center gap-4 cursor-pointer" onclick="openSubjectPage('${originalMat}')"> <i class="${iconClass} text-4xl" style="color: var(--primary-glow);"></i> <h4 class="text-lg font-bold text-center">${mat}</h4> </div>`;
+                return `<div class="subject-card rounded-xl p-6 flex flex-col items-center justify-center gap-4 cursor-pointer" onclick="openSubjectPage('${mat}')"> <i class="${iconClass} text-4xl" style="color: var(--primary-glow);"></i> <h4 class="text-lg font-bold text-center">${mat}</h4> </div>`;
             }).join(''); 
         }
         
         window.goBackToDashboard = () => { if (currentContentUnsubscribe) currentContentUnsubscribe(); showPage('student-dashboard'); document.getElementById('subject-content-page').innerHTML = ''; }
-        window.openSubjectPage = (subject) => { const subjectPage = document.getElementById('subject-content-page'); subjectPage.innerHTML = `<header class="p-4 flex justify-between items-center"><h2 class="text-xl font-bold text-[var(--primary-glow)]">${subject}</h2><button onclick="goBackToDashboard()" class="text-3xl hover:text-[var(--primary-glow)] transition"><i class="ph-arrow-right"></i></button></header><main class="flex-grow p-4 overflow-y-auto pb-5"><div id="subject-lectures" class="text-center pt-4"><i class="ph-spinner ph-spin text-2xl"></i></div></main>`; showPage('subject-content-page'); const lecturesContainer = document.getElementById('subject-lectures'); const q = query(collection(db, 'lectures'), where("year", "==", currentUser.year), where("division", "==", currentUser.division), where("subject", "==", subject), where("isHidden", "==", false), orderBy('createdAt', 'desc')); currentContentUnsubscribe = onSnapshot(q, (snapshot) => { if (snapshot.empty) { lecturesContainer.innerHTML = `<p class="text-slate-400 py-4">لا توجد محاضرات منشورة لهذه المادة حالياً.</p>`; } else { let contentHTML = '<div class="space-y-3">'; snapshot.forEach(doc => { const item = doc.data(); contentHTML += `<div class="glass-effect p-3 rounded-lg cursor-pointer hover:bg-slate-500/10 transition-colors" onclick="viewContentDetail('${doc.id}', '${item.title}', '${btoa(encodeURIComponent(item.body))}')"><h4 class="font-bold text-white">${item.title}</h4></div>`; }); contentHTML += '</div>'; lecturesContainer.innerHTML = contentHTML; } }, (error) => { console.error("Error:", error); lecturesContainer.innerHTML = `<p class="text-red-400 py-4">حدث خطأ أثناء تحميل المحاضرات.</p>`; }); };
-        window.viewContentDetail = async (id, title, body) => { if(!currentUser.isAdmin && !(currentUser.completedLectures || []).includes(id)){ const newPoints = (currentUser.points || 0) + 25; const newCompleted = [...(currentUser.completedLectures || []), id]; await updateDoc(doc(db, "users", currentUser.id), { points: newPoints, completedLectures: newCompleted }); currentUser.points = newPoints; currentUser.completedLectures = newCompleted; localStorage.setItem('moraUser', JSON.stringify(currentUser)); studentDashboardEl.pointsDisplay.textContent = newPoints; checkCourseUnlock(); showToast('تمت إضافة 25 نقطة! ✨');} openModalWithContent(title, `<div class="p-2" style="white-space: pre-wrap; user-select: text;">${decodeURIComponent(atob(body))}</div>`); };
+        window.openSubjectPage = (subject) => { 
+            const subjectPage = document.getElementById('subject-content-page'); 
+            const pageHTML = `
+                <header class="p-4 flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-[var(--primary-glow)]">${subject}</h2>
+                    <button onclick="goBackToDashboard()" class="text-3xl hover:text-[var(--primary-glow)] transition"><i class="ph-arrow-right"></i></button>
+                </header>
+                <main class="flex-grow p-4 overflow-y-auto pb-5"><div id="subject-lectures" class="text-center pt-4"><i class="ph-spinner ph-spin text-2xl"></i></div></main>
+                <footer class="fixed bottom-2 left-0 w-full p-2 text-center text-xs pointer-events-none z-40">
+                    <p class="footer-text" data-text-key="footerText"></p>
+                </footer>
+            `;
+            subjectPage.innerHTML = pageHTML;
+            applySiteTexts();
+            showPage('subject-content-page'); 
+            const lecturesContainer = document.getElementById('subject-lectures'); 
+            const q = query(collection(db, 'lectures'), where("year", "==", currentUser.year), where("division", "==", currentUser.division), where("subject", "==", subject), where("isHidden", "==", false), orderBy('createdAt', 'desc')); 
+            currentContentUnsubscribe = onSnapshot(q, (snapshot) => { if (snapshot.empty) { lecturesContainer.innerHTML = `<p class="text-slate-400 py-4">لا توجد محاضرات منشورة لهذه المادة حالياً.</p>`; } else { let contentHTML = '<div class="space-y-3">'; snapshot.forEach(doc => { const item = doc.data(); contentHTML += `<div class="glass-effect p-3 rounded-lg cursor-pointer hover:bg-slate-500/10 transition-colors" onclick="viewContentDetail('${doc.id}', '${item.title}', '${btoa(encodeURIComponent(item.body))}')"><h4 class="font-bold text-white">${item.title}</h4></div>`; }); contentHTML += '</div>'; lecturesContainer.innerHTML = contentHTML; } }, (error) => { console.error("Error:", error); lecturesContainer.innerHTML = `<p class="text-red-400 py-4">حدث خطأ أثناء تحميل المحاضرات.</p>`; }); 
+        };
+        window.viewContentDetail = async (id, title, body) => { if(!currentUser.isAdmin && !(currentUser.completedLectures || []).includes(id)){ const newPoints = (currentUser.points || 0) + 25; const newCompleted = [...(currentUser.completedLectures || []), id]; await updateDoc(doc(db, "users", currentUser.id), { points: newPoints, completedLectures: newCompleted }); currentUser.points = newPoints; currentUser.completedLectures = newCompleted; localStorage.setItem('moraUser', JSON.stringify(currentUser)); studentDashboardEl.pointsDisplay.textContent = newPoints; checkCourseUnlock(); showToast(siteTexts.addPointsToast || defaultTexts.addPointsToast); } openModalWithContent(title, `<div class="p-2" style="white-space: pre-wrap; user-select: text;">${decodeURIComponent(atob(body))}</div>`); };
         
         window.showSubjectSelectionModal = (type) => { const userMaterials = materials['ar'][`${currentUser.year}_${currentUser.division}`] || []; const title = type === 'books' ? 'الكتب' : 'السكاشن'; if (userMaterials.length === 0) { openModalWithContent(title, '<p class="text-center text-slate-400">لا توجد مواد متاحة.</p>'); return; } const subjectsHTML = userMaterials.map(mat => `<div class="glass-effect p-3 rounded-lg cursor-pointer hover:bg-[var(--glass-border)] transition" onclick="openContentModal('${type}', '${mat}')"><h4 class="text-lg font-semibold">${mat}</h4></div>`).join(''); openModalWithContent(`اختر المادة - ${title}`, `<div class="space-y-3">${subjectsHTML}</div>`); };
         window.openContentModal = async (type, subject) => { const title = `${type === 'books' ? 'الكتب' : 'السكاشن'} - ${subject}`; openModalWithContent(title, `<div id="modal-content-list" class="text-center"><i class="ph-spinner ph-spin text-2xl"></i></div>`); const container = document.getElementById('modal-content-list'); const q = query(collection(db, type), where("year", "==", currentUser.year), where("division", "==", currentUser.division), where("subject", "==", subject), where("isHidden", "==", false), orderBy('createdAt', 'desc')); currentContentUnsubscribe = onSnapshot(q, (snapshot) => { let content = ''; if (snapshot.empty) { content = `<div class="text-center p-4"><p>لا يوجد محتوى في هذا القسم حالياً.</p></div>`; } else { content = '<div class="space-y-3">'; snapshot.forEach(doc => { const item = doc.data(); const isUrl = item.body.startsWith('http'); content += `<div class="glass-effect p-3 rounded-lg"><h4 class="font-bold text-[var(--primary-glow)]">${item.title}</h4>${isUrl ? `<button class="w-full mt-2 py-2 rounded-lg text-sm btn-celestial" onclick="openIframeModal('${item.body}')">فتح الملف</button>` : `<p class="text-sm mt-2">${item.body}</p>`}</div>`; }); content += '</div>'; } container.innerHTML = content; }); };
         window.openIframeModal = (url) => { openModalWithContent("عرض الملف", `<iframe src="${url}" class="w-full h-[70vh] rounded-lg bg-white" frameborder="0"></iframe>`); };
 
-        function checkCourseUnlock() {
-            const icon = document.getElementById('courses-icon');
-            if (siteSettings.coursesActive || (currentUser.points || 0) >= 100) {
-                icon.classList.remove('ph-lock-key', 'lock-icon-3d');
-                icon.classList.add('ph-video');
-            } else {
-                icon.classList.add('ph-lock-key', 'lock-icon-3d');
-                icon.classList.remove('ph-video');
-            }
-        }
-
-        async function listenToSiteSettings() {
-            onSnapshot(doc(db, "settings", "site"), (doc) => {
-                siteSettings = doc.data() || { meetingActive: false, coursesActive: false };
-                const meetingBtn = document.getElementById('meeting-btn');
-                if (siteSettings.meetingActive && siteSettings.meetingUrl) {
-                    meetingBtn.innerHTML = `<i class="ph-broadcast text-xl text-red-400 live-meeting-icon"></i><span class="live-meeting-text text-red-400">مباشر</span>`;
-                    meetingBtn.onclick = () => window.open(siteSettings.meetingUrl, '_blank');
-                } else {
-                    meetingBtn.innerHTML = `<i class="ph-lock-key lock-icon-3d text-xl"></i><span data-translate="meeting">ميتنج</span>`;
-                    meetingBtn.onclick = () => showToast('سوف يتم فتح هذا القسم عند شرح المواد اونلاين');
-                }
-                checkCourseUnlock();
-            });
-        }
+        function checkCourseUnlock() { const icon = document.getElementById('courses-icon'); if (siteSettings.coursesActive && (currentUser.points || 0) >= 100) { icon.classList.remove('ph-lock-key', 'lock-icon-3d'); icon.classList.add('ph-video'); } else { icon.classList.add('ph-lock-key', 'lock-icon-3d'); icon.classList.remove('ph-video'); } }
+        async function listenToSiteSettings() { onSnapshot(doc(db, "settings", "site"), (doc) => { siteSettings = doc.data() || { meetingActive: false, coursesActive: true }; const meetingBtn = document.getElementById('meeting-btn'); if (siteSettings.meetingActive && siteSettings.meetingUrl) { meetingBtn.innerHTML = `<i class="ph-video-camera text-xl text-red-500"></i><span class="text-red-500 font-bold">مباشر 3D</span>`; meetingBtn.onclick = () => window.open(siteSettings.meetingUrl, '_blank'); } else { meetingBtn.innerHTML = `<i class="ph-lock-key lock-icon-3d text-xl"></i><span>ميتنج</span>`; meetingBtn.onclick = () => showToast(siteTexts.meetingLockedToast || defaultTexts.meetingLockedToast); } checkCourseUnlock(); }); }
         
-        function getYouTubeEmbedUrl(url) {
-            let videoId = null;
-            const patterns = [
-                /(?:https?:\/\/)?(?:www\.)?(?:m\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
-                /(?:https?:\/\/)?(?:www\.)?youtu\.be\/([a-zA-Z0-9_-]{11})/,
-                /(?:https?:\/\/)?(?:www\.)?youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/
-            ];
-            for (const pattern of patterns) {
-                const match = url.match(pattern);
-                if (match && match[1]) {
-                    videoId = match[1];
-                    break;
-                }
-            }
-            if (videoId) return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-            return null;
-        }
-
-        window.playCourseVideo = (url, title) => {
-            const embedUrl = getYouTubeEmbedUrl(url);
-            if(embedUrl) {
-                const videoHTML = `<div class="video-container"><iframe src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
-                openModalWithContent(title, videoHTML);
-            } else {
-                showToast('لا يمكن عرض الفيديو هنا، سيتم فتحه في صفحة جديدة.');
-                window.open(url, '_blank');
-            }
-        };
-
         document.getElementById('courses-btn').addEventListener('click', async () => {
-            if (siteSettings.coursesActive || (currentUser.points || 0) >= 100) {
-                const q = query(collection(db, "courses"), orderBy("category"));
-                const snapshot = await getDocs(q);
-                let content = '<div class="space-y-4">';
-                let currentCategory = "";
-                if (snapshot.empty) {
-                    content += '<p class="text-center text-slate-400">لا توجد كورسات متاحة حالياً.</p>';
-                } else {
-                    snapshot.forEach(doc => {
-                        const course = doc.data();
-                        const escapedTitle = course.title.replace(/'/g, "\\'");
-                        if (course.category !== currentCategory) {
-                            currentCategory = course.category;
-                            content += `<h4 class="text-lg font-bold text-[var(--primary-glow)] pt-2">${currentCategory}</h4>`;
-                        }
-                        content += `<div onclick="playCourseVideo('${course.url}', '${escapedTitle}')" class="p-3 rounded-lg cursor-pointer transition-all duration-300 hover:bg-slate-500/20"><h5 class="font-bold text-white">${course.title}</h5><p class="text-xs text-slate-400">${course.desc}</p></div>`;
-                    });
-                }
-                content += '</div>';
-                openModalWithContent('الكورسات المجانية', content);
-            } else {
-                showToast(`لفتح هذا القسم يجب عليك جمع 100 نقطة.`, true);
+            const userPoints = currentUser.points || 0;
+            if (userPoints < 100) {
+                showToast(siteTexts.coursesLockedToast || defaultTexts.coursesLockedToast, true);
+                return;
             }
+            if (!siteSettings.coursesActive) {
+                showToast(`تم إيقاف قسم الكورسات مؤقتاً من قبل الإدارة.`, true);
+                return;
+            }
+            const q = query(collection(db, "courses"), orderBy("category")); 
+            const snapshot = await getDocs(q); 
+            let content = '<div class="space-y-4">'; 
+            let currentCategory = ""; 
+            if (snapshot.empty) { 
+                content += '<p class="text-center text-slate-400">لا توجد كورسات متاحة حالياً.</p>'; 
+            } else { 
+                snapshot.forEach(doc => { 
+                    const course = doc.data(); 
+                    if(course.category !== currentCategory) { 
+                        currentCategory = course.category; 
+                        content += `<h4 class="text-lg font-bold text-[var(--primary-glow)] pt-2">${currentCategory}</h4>`; 
+                    } 
+                    content += `<div onclick="handleLinkRedirect('${course.url}')" class="p-3 rounded-lg cursor-pointer transition-all duration-300 hover:bg-slate-500/20"><h5 class="font-bold text-white">${course.title}</h5><p class="text-xs text-slate-400">${course.desc}</p></div>`; 
+                }); 
+            } 
+            content += '</div>'; 
+            openModalWithContent('الكورسات المجانية', content); 
         });
         
         function initAdminDashboard() { 
@@ -395,6 +416,7 @@
             const navBtns = document.querySelectorAll('.admin-nav-btn'), panels = document.querySelectorAll('.admin-panel'); 
             navBtns.forEach(btn => btn.addEventListener('click', e => { navBtns.forEach(b => b.classList.remove('active')); e.currentTarget.classList.add('active'); panels.forEach(p => p.classList.add('hidden')); document.getElementById(e.currentTarget.dataset.panel).classList.remove('hidden'); })); 
             navBtns[0].click(); 
+            initTextManagementPanel();
             onSnapshot(collection(db, "users"), (snap) => { adminDashboardEl.studentCount.textContent = snap.size; }); 
             onSnapshot(collection(db, "opinions"), (snap) => { adminDashboardEl.opinionsCount.textContent = snap.size; }); 
             onSnapshot(collection(db, "ratings"), (snap) => { adminDashboardEl.ratingsCount.textContent = snap.size; }); 
@@ -410,7 +432,7 @@
             ['content-type-select', 'content-year-select', 'content-division-select', 'content-subject-select'].forEach(id => document.getElementById(id).addEventListener('change', id.includes('subject') ? displayAdminContent : updateSubjects)); 
             
             const siteSettingsRef = doc(db, 'settings', 'site'); 
-            getDoc(siteSettingsRef).then(docSnap => { if (docSnap.exists()) { const d = docSnap.data(); document.getElementById('meeting-toggle').checked = d.meetingActive || false; document.getElementById('meeting-url-input').value = d.meetingUrl || ''; document.getElementById('courses-toggle').checked = d.coursesActive ?? false; if (d.meetingActive) document.getElementById('meeting-url-container').classList.remove('hidden'); } }); 
+            getDoc(siteSettingsRef).then(docSnap => { if (docSnap.exists()) { const d = docSnap.data(); document.getElementById('meeting-toggle').checked = d.meetingActive || false; document.getElementById('meeting-url-input').value = d.meetingUrl || ''; document.getElementById('courses-toggle').checked = d.coursesActive ?? true; if (d.meetingActive) document.getElementById('meeting-url-container').classList.remove('hidden'); } }); 
             
             document.getElementById('meeting-toggle').addEventListener('change', e => {
                 document.getElementById('meeting-url-container').classList.toggle('hidden', !e.target.checked);
@@ -430,6 +452,36 @@
         window.populateContentForm = async (id, coll) => { const docSnap = await getDoc(doc(db, coll, id)); if (docSnap.exists()) { const item = docSnap.data(); adminContentPanelEl.title.value = item.title; adminContentPanelEl.body.value = item.body; adminContentPanelEl.subject.value = item.subject; adminContentPanelEl.formTitle.textContent = 'تعديل المحتوى'; adminContentPanelEl.saveBtn.textContent = 'حفظ التعديلات'; adminContentPanelEl.cancelBtn.classList.remove('hidden'); currentEditState = { id, collection: coll }; } }
         function resetContentForm() { adminContentPanelEl.formTitle.textContent = 'إضافة محتوى جديد'; adminContentPanelEl.saveBtn.textContent = 'حفظ'; adminContentPanelEl.cancelBtn.classList.add('hidden'); adminContentPanelEl.title.value = ''; adminContentPanelEl.body.value = ''; currentEditState = { id: null, collection: null }; }
         
+        async function initTextManagementPanel(){
+            const formContainer = document.getElementById('text-management-form');
+            const textsRef = doc(db, 'site_content', 'texts');
+            let currentTexts = (await getDoc(textsRef)).data() || defaultTexts;
+
+            let formHTML = '';
+            for(const key in textLabels){
+                formHTML += `
+                    <div class="glass-effect p-4 rounded-lg">
+                        <label for="text-${key}" class="block text-sm font-bold text-slate-400 mb-2">${textLabels[key]}</label>
+                        <textarea id="text-${key}" data-key="${key}" class="w-full rounded-lg input-field" rows="2">${currentTexts[key] || ''}</textarea>
+                    </div>
+                `;
+            }
+            formContainer.innerHTML = formHTML;
+
+            document.getElementById('save-texts-btn').addEventListener('click', async () => {
+                const newTexts = {};
+                formContainer.querySelectorAll('textarea').forEach(area => {
+                    newTexts[area.dataset.key] = area.value;
+                });
+                try {
+                    await setDoc(textsRef, newTexts);
+                    showToast("تم حفظ النصوص بنجاح!");
+                } catch(e) {
+                    showToast("حدث خطأ أثناء الحفظ.", true);
+                }
+            });
+        }
+
         window.deleteFromCollection = async (id, coll) => { if(confirm('هل أنت متأكد من الحذف؟')) { await deleteDoc(doc(db, coll, id)); showToast('تم الحذف بنجاح.'); }};
         window.deleteContent = (id, coll) => deleteFromCollection(id, coll);
         window.deleteUser = (id) => deleteFromCollection(id, 'users');
@@ -445,32 +497,80 @@
         let timerInterval; let timerState = { running: false, duration: 25 * 60 };
         function formatTime(seconds) { const m = Math.floor(seconds / 60); const s = seconds % 60; return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`; }
         function updateTimerDisplay() { const display = document.getElementById('timer-display'); if(display) display.textContent = formatTime(timerState.duration); }
-        function startTimer() { studentDashboardEl.timerIndicator.classList.remove('hidden'); timerState.running = true; document.getElementById('timer-start-btn').textContent = 'إيقاف مؤقت'; timerInterval = setInterval(() => { timerState.duration--; updateTimerDisplay(); if (timerState.duration < 0) { stopTimer(true); } }, 1000); }
-        function stopTimer(finished = false) { studentDashboardEl.timerIndicator.classList.add('hidden'); clearInterval(timerInterval); timerState.running = false; const startBtn = document.getElementById('timer-start-btn'); if(startBtn) startBtn.textContent = 'بدء'; if(finished){ document.getElementById('generic-modal').classList.remove('open'); openModalWithContent('انتهى الوقت!', '<div class="text-center p-8"><i class="ph-confetti text-6xl text-[var(--primary-glow)] mb-4"></i><h3 class="text-xl font-bold mb-2">أحسنت!</h3><p class="text-slate-400">لقد أكملت جلسة مذاكرة.</p></div>'); timerState.duration = 25*60; } }
+        function startTimer() { timerState.running = true; document.getElementById('timer-start-btn').textContent = 'إيقاف مؤقت'; timerInterval = setInterval(() => { timerState.duration--; updateTimerDisplay(); if (timerState.duration < 0) { stopTimer(true); } }, 1000); }
+        function stopTimer(finished = false) { clearInterval(timerInterval); timerState.running = false; const startBtn = document.getElementById('timer-start-btn'); if(startBtn) startBtn.textContent = 'بدء'; if(finished){ document.getElementById('generic-modal').classList.remove('open'); openModalWithContent('انتهى الوقت!', '<div class="text-center p-8"><i class="ph-confetti text-6xl text-[var(--primary-glow)] mb-4"></i><h3 class="text-xl font-bold mb-2">أحسنت!</h3><p class="text-slate-400">لقد أكملت جلسة مذاكرة.</p></div>'); timerState.duration = 25*60; } }
         
+        const themes = { "default":{n:"افتراضي",p:"#00f5c3",s:"#a78bfa"},"gold":{n:"ذهبي",p:"#f59e0b",s:"#fbbf24"},"emerald":{n:"زمردي",p:"#10b981",s:"#34d399"},"crimson":{n:"قرمزي",p:"#dc2626",s:"#f87171"},"violet":{n:"بنفسجي",p:"#8b5cf6",s:"#c084fc"},"rose":{n:"وردي",p:"#f43f5e",s:"#fb7185"},"sky":{n:"سماوي",p:"#0ea5e9",s:"#38bdf8"},"forest":{n:"غابي",p:"#22c55e",s:"#4ade80"},"ocean":{n:"محيط",p:"#0891b2",s:"#22d3ee"},"sunset":{n:"غروب",p:"#f97316",s:"#f59e0b"},"galaxy":{n:"مجرة",p:"#9333ea",s:"#d946ef"},"candy":{n:"حلوى",p:"#ec4899",s:"#f87171"},"lime":{n:"ليموني",p:"#84cc16",s:"#a3e635"},"fire":{n:"ناري",p:"#f59e0b",s:"#ef4444"},"ice":{n:"جليدي",p:"#22d3ee",s:"#67e8f9"},"royal":{n:"ملكي",p:"#d97706",s:"#f59e0b"},"hacker":{n:"هاكر",p:"#16a34a",s:"#4ade80"},"retro":{n:"ريترو",p:"#ca8a04",s:"#eab308"},"sakura":{n:"ساكورا",p:"#f472b6",s:"#fb7185"},"mint":{n:"نعناع",p:"#2dd4bf",s:"#5eead4"},"copper":{n:"نحاسي",p:"#b45309",s:"#d97706"},"lavender":{n:"خزامي",p:"#a78bfa",s:"#c4b5fd"},"cyber":{n:"سايبر",p:"#ea580c",s:"#f59e0b"},"sand":{n:"رملي",p:"#ca8a04",s:"#eab308"},"grape":{n:"عنبي",p:"#9333ea",s:"#a855f7"},"cherry":{n:"كرزي",p:"#be123c",s:"#e11d48"},"peach":{n:"خوخي",p:"#f97316",s:"#fb923c"},"teal":{n:"بطيخي",p:"#0d9488",s:"#14b8a6"},"indigo":{n:"نيلي",p:"#4f46e5",s:"#6366f1"},"amber":{n:"عنبري",p:"#d97706",s:"#f59e0b"},"fuchsia":{n:"فوشيا",p:"#c026d3",s:"#d946ef"} };
+
+        function applyTheme(themeKey) {
+            const theme = themes[themeKey];
+            if (!theme) return;
+            const style = document.getElementById('theme-style-root');
+            const hexToRgb = hex => hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => '#' + r + r + g + g + b + b).substring(1).match(/.{2}/g).map(x => parseInt(x, 16)).join(', ');
+            
+            style.innerHTML = `
+                :root {
+                    --bg-color: #0d0d1a; 
+                    --primary-glow: ${theme.p}; --primary-glow-rgb: ${hexToRgb(theme.p)};
+                    --secondary-glow: ${theme.s}; --secondary-glow-rgb: ${hexToRgb(theme.s)};
+                    --text-primary: #e2e8f0; --text-secondary: #94a3b8;
+                    --glass-bg: rgba(15, 23, 42, 0.7); --glass-border: rgba(${hexToRgb(theme.p)}, 0.1);
+                    --shadow-color: rgba(0, 0, 0, 0.37);
+                }
+            ` + style.innerHTML.split('}').slice(1).join('}');
+            localStorage.setItem('moraTheme', themeKey);
+        }
+
+        function applySiteTexts() {
+            document.querySelectorAll('[data-text-key]').forEach(el => {
+                const key = el.dataset.textKey;
+                if (siteTexts[key]) {
+                    el.textContent = siteTexts[key];
+                }
+            });
+        }
+        
+        async function listenToSiteContent() {
+            const textDocRef = doc(db, 'site_content', 'texts');
+            const docSnap = await getDoc(textDocRef);
+            if (!docSnap.exists()) {
+                await setDoc(textDocRef, defaultTexts);
+                siteTexts = defaultTexts;
+            } else {
+                siteTexts = docSnap.data();
+            }
+            applySiteTexts();
+
+            onSnapshot(textDocRef, (doc) => {
+                siteTexts = doc.data() || defaultTexts;
+                applySiteTexts();
+            });
+        }
+
+
         document.querySelectorAll('.bottom-nav-btn[data-modal]').forEach(btn => btn.addEventListener('click', async e => {
             const type = e.currentTarget.dataset.modal; 
             if (currentContentUnsubscribe) currentContentUnsubscribe(); 
-            if (type === 'opinions-modal') { 
-                openModalWithContent('آراء الطلاب', `<div id="opinions-view" class="space-y-3 mb-4 max-h-60 overflow-y-auto"></div><textarea id="opinion-input" class="w-full rounded-lg input-field mt-4" rows="3" placeholder="اكتب رأيك هنا..."></textarea><button id="submit-opinion-btn" class="w-full mt-2 py-2 rounded-lg font-bold btn-celestial">نشر الرأي</button>`); 
-                onSnapshot(query(collection(db, "opinions"), orderBy('createdAt', 'desc')), snap => { document.getElementById('opinions-view').innerHTML = snap.docs.map(d => { const o = d.data(); return `<div class="p-3 rounded-lg hover:bg-slate-500/10"><p>"${o.text}"</p><p class="text-xs text-slate-400 mt-2 font-bold">${o.name} - فرقة ${o.year}</p></div>`; }).join('') || '<p class="text-center text-slate-400">لا توجد آراء بعد.</p>'; }); 
-            } 
-            if (type === 'about-modal') { 
-                const aboutHTML = `<div class="text-center p-2 flex flex-col items-center space-y-4 w-full"><p class="text-lg text-slate-300">هذا الموقع خاص بالفرقة الأولى والثانية لطلاب المعهد العالي للحاسبات والمعلومات بطنطا.</p><div class="my-2"><p class="font-bold text-lg text-shadow-lg" style="color:var(--primary-glow)">تطوير Amr lotfy</p></div><hr class="w-full border-t border-[var(--glass-border)]"><p class="font-bold text-slate-400">تحت رعاية</p><div class="space-y-2"><p class="font-bold" style="color:var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow);">ا. د/ عبدالمنعم الدسوقي</p><p class="font-bold" style="color:var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow);">ا. د/ابراهيم ماريه</p><p class="font-bold" style="color:var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow);">ا. د/مصطفى عبدالمنعم</p><p class="font-bold" style="color:var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow);">ا. د/محمد حجازي</p></div><hr class="w-full border-t border-[var(--glass-border)]"><div class="flex justify-center items-center gap-6 my-4"><a href="#" onclick="event.preventDefault(); handleLinkRedirect('https://wa.me/201067941806')" class="social-icon-animated text-3xl" style="color: #25D366; --glow-color: #25D366;"><i class="ph-whatsapp-logo"></i></a><a href="#" onclick="event.preventDefault(); handleLinkRedirect('https://www.facebook.com/share/1CDtFCSPVD/')" class="social-icon-animated text-3xl" style="color: #1877F2; --glow-color: #1877F2; animation-delay: -2s;"><i class="ph-facebook-logo"></i></a><a href="#" onclick="event.preventDefault(); handleLinkRedirect('mailto:amrloutfy2006@gmail.com')" class="social-icon-animated text-3xl" style="color: #EA4335; --glow-color: #EA4335; animation-delay: -4s;"><i class="ph-envelope"></i></a></div><div class="w-full max-w-xs space-y-2 text-sm" id="about-buttons-container"><div id="rating-container"><button id="rate-site-btn" class="w-full p-2 rounded-lg hover:bg-slate-500/20 transition">قيم الموقع</button></div><button id="study-timer-btn" class="w-full p-2 rounded-lg hover:bg-slate-500/20 transition">تايمر المذاكرة</button><button id="privacy-policy-btn" class="w-full p-2 rounded-lg hover:bg-slate-500/20 transition">سياسة الخصوصية</button><button id="logout-btn" class="w-full p-2 rounded-lg hover:bg-slate-500/20 transition text-red-400 mt-2 border-t border-[var(--glass-border)] pt-3">تسجيل الخروج</button><button id="clear-data-btn" class="w-full p-2 rounded-lg hover:bg-slate-500/20 transition text-slate-400">محو البيانات</button></div></div>`; 
-                openModalWithContent('', aboutHTML);
-                const ratingQuery = query(collection(db, "ratings"), where("userId", "==", currentUser.id), limit(1));
-                const snapshot = await getDocs(ratingQuery);
-                if (!snapshot.empty) {
-                    document.getElementById('rating-container').innerHTML = `<button id="my-blog-btn" class="w-full p-2 rounded-lg hover:bg-slate-500/20 transition">مدونتي</button>`;
+            if (type === 'opinions-modal') { openModalWithContent('آراء الطلاب', `<div id="opinions-view" class="space-y-3 mb-4 max-h-60 overflow-y-auto"></div><textarea id="opinion-input" class="w-full rounded-lg input-field mt-4" rows="3" placeholder="اكتب رأيك هنا..."></textarea><button id="submit-opinion-btn" class="w-full mt-2 py-2 rounded-lg font-bold btn-celestial">نشر الرأي</button>`); onSnapshot(query(collection(db, "opinions"), orderBy('createdAt', 'desc')), snap => { document.getElementById('opinions-view').innerHTML = snap.docs.map(d => { const o = d.data(); return `<div class="p-3 rounded-lg hover:bg-slate-500/10"><p>"${o.text}"</p><p class="text-xs text-slate-400 mt-2 font-bold">${o.name} - فرقة ${o.year}</p></div>`; }).join('') || '<p class="text-center text-slate-400">لا توجد آراء بعد.</p>'; }); } 
+            if (type === 'about-modal') { const aboutHTML = `<div class="text-center p-2 flex flex-col items-center space-y-4 w-full"><p class="text-lg text-slate-300" data-text-key="aboutMain"></p><div class="my-2"><p class="font-bold text-lg text-shadow-lg" style="color:var(--primary-glow)" data-text-key="aboutDeveloper"></p></div><hr class="w-full border-t border-[var(--glass-border)]"><p class="font-bold text-slate-400" data-text-key="aboutSupervisors"></p><div class="space-y-2"><p class="font-bold" style="color:var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow);">ا. د/ عبدالمنعم الدسوقي</p><p class="font-bold" style="color:var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow);">ا. د/ابراهيم ماريه</p><p class="font-bold" style="color:var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow);">ا. د/مصطفى عبدالمنعم</p><p class="font-bold" style="color:var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow);">ا. د/محمد حجازي</p></div><hr class="w-full border-t border-[var(--glass-border)]"><div class="flex justify-center items-center gap-6 my-4"><a href="#" onclick="event.preventDefault(); handleLinkRedirect('https://wa.me/201067941806')" class="social-icon-animated text-3xl" style="color: #25D366; --glow-color: #25D366;"><i class="ph-whatsapp-logo"></i></a><a href="#" onclick="event.preventDefault(); handleLinkRedirect('https://www.facebook.com/share/1CDtFCSPVD/')" class="social-icon-animated text-3xl" style="color: #1877F2; --glow-color: #1877F2; animation-delay: -2s;"><i class="ph-facebook-logo"></i></a><a href="#" onclick="event.preventDefault(); handleLinkRedirect('mailto:amrloutfy2006@gmail.com')" class="social-icon-animated text-3xl" style="color: #EA4335; --glow-color: #EA4335; animation-delay: -4s;"><i class="ph-envelope"></i></a></div><div class="w-full max-w-xs space-y-2 text-sm" id="about-buttons-container"><div id="rating-container"><button id="rate-site-btn" class="w-full p-2 rounded-lg hover:bg-slate-500/20 transition">قيم الموقع</button></div><button id="study-timer-btn" class="w-full p-2 rounded-lg hover:bg-slate-500/20 transition">تايمر المذاكرة</button><button id="privacy-policy-btn" class="w-full p-2 rounded-lg hover:bg-slate-500/20 transition">سياسة الخصوصية</button><button id="logout-btn" class="w-full p-2 rounded-lg hover:bg-red-500/20 transition text-red-400 font-semibold">تسجيل الخروج</button><button id="clear-data-btn" class="w-full p-2 rounded-lg hover:bg-slate-500/20 transition">محو البيانات</button></div></div>`; openModalWithContent('', aboutHTML); applySiteTexts(); const ratingQuery = query(collection(db, "ratings"), where("userId", "==", currentUser.id), limit(1)); const snapshot = await getDocs(ratingQuery); if (!snapshot.empty) { document.getElementById('rating-container').innerHTML = `<button id="my-blog-btn" class="w-full p-2 rounded-lg hover:bg-slate-500/20 transition">مدونتي</button>`; } } 
+            if (type === 'settings-modal') { 
+                const isFocusMode = localStorage.getItem('focusMode') === 'true';
+                let themesHTML = '';
+                for (const key in themes) {
+                    themesHTML += `<button data-theme="${key}" class="theme-btn py-2 rounded-lg flex items-center justify-center gap-2"> <div class="w-4 h-4 rounded-full border border-slate-500/50" style="background:${themes[key].p}"></div> ${themes[key].n}</button>`;
                 }
+                const settingsHTML = `<div class="space-y-6 p-2"><h4 class="text-lg font-bold text-slate-300">وضع التركيز</h4><label class="flex items-center justify-between cursor-pointer bg-slate-700/50 p-3 rounded-lg"><span class="font-bold">إخفاء العناصر المشتتة</span><input type="checkbox" id="focus-mode-toggle" class="form-checkbox h-5 w-5 text-[var(--primary-glow)] rounded" ${isFocusMode ? 'checked' : ''}></label><h4 class="text-lg font-bold text-slate-300 mt-4">الثيم اللوني</h4><div id="theme-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">${themesHTML}</div></div>`; 
+                openModalWithContent('الإعدادات', settingsHTML); 
+                const currentTheme = localStorage.getItem('moraTheme') || 'default';
+                document.querySelector(`.theme-btn[data-theme="${currentTheme}"]`).classList.add('bg-[var(--primary-glow)]', 'text-black', 'font-bold');
             } 
-            if (type === 'settings-modal') { const currentTheme = localStorage.getItem('moraTheme') || 'default'; const currentLang = localStorage.getItem('moraLang') || 'ar'; const settingsHTML = `<div class="space-y-6 p-2"><h4 class="text-lg font-bold text-slate-300">اللغة</h4><div class="grid grid-cols-2 gap-3"><button onclick="setLanguage('ar')" class="py-2 rounded-lg ${currentLang === 'ar' ? 'bg-[var(--primary-glow)] text-black font-bold' : 'bg-slate-700/50'}">العربية</button><button onclick="setLanguage('en')" class="py-2 rounded-lg ${currentLang === 'en' ? 'bg-[var(--primary-glow)] text-black font-bold' : 'bg-slate-700/50'}">English</button></div><h4 class="text-lg font-bold text-slate-300 mt-4">الثيم اللوني</h4><div class="grid grid-cols-2 sm:grid-cols-4 gap-3"><button data-theme="default" class="theme-btn py-2 rounded-lg">افتراضي</button><button data-theme="gold" class="theme-btn py-2 rounded-lg">ذهبي</button><button data-theme="emerald" class="theme-btn py-2 rounded-lg">زمردي</button><button data-theme="crimson" class="theme-btn py-2 rounded-lg">قرمزي</button><button data-theme="violet" class="theme-btn py-2 rounded-lg">بنفسجي</button><button data-theme="rose" class="theme-btn py-2 rounded-lg">وردي</button><button data-theme="sky" class="theme-btn py-2 rounded-lg">سماوي</button><button data-theme="forest" class="theme-btn py-2 rounded-lg">غابي</button></div></div>`; openModalWithContent('الإعدادات', settingsHTML); document.querySelector(`.theme-btn[data-theme="${currentTheme}"]`).classList.add('bg-[var(--primary-glow)]', 'text-black', 'font-bold'); } 
             if (type === 'ai-tools-modal') { const q = query(collection(db, "ai_tools")); const snapshot = await getDocs(q); let content = '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">'; if(snapshot.empty){ content += '<p class="md:col-span-2 text-center">لا توجد أدوات حالياً.</p>'; } else { snapshot.forEach(doc => { const t = doc.data(); content += `<div onclick="handleLinkRedirect('${t.url}')" class="p-3 rounded-lg cursor-pointer transition-all duration-300 hover:bg-slate-500/20"><h5 class="font-bold text-white">${t.name}</h5><p class="text-xs text-slate-400">${t.desc}</p></div>`; }); } content += '</div>'; openModalWithContent('أدوات الذكاء الاصطناعي', content); } 
         }));
         
         document.body.addEventListener('click', async e => { 
             if (e.target.id === 'submit-opinion-btn') { const input = document.getElementById('opinion-input'); const text = input.value.trim(); if (!text) { showToast('لا يمكن نشر رأي فارغ', true); return; } await addDoc(collection(db, "opinions"), { name: currentUser.name, year: currentUser.year, text, createdAt: serverTimestamp() }); showToast('تم نشر رأيك بنجاح!'); document.getElementById('generic-modal').classList.remove('open'); } 
-            if (e.target.classList.contains('theme-btn')) { const theme = e.target.dataset.theme; document.documentElement.dataset.theme = theme; localStorage.setItem('moraTheme', theme); document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('bg-[var(--primary-glow)]', 'text-black', 'font-bold')); e.target.classList.add('bg-[var(--primary-glow)]', 'text-black', 'font-bold'); } 
+            if (e.target.closest('.theme-btn')) { const themeKey = e.target.closest('.theme-btn').dataset.theme; applyTheme(themeKey); document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('bg-[var(--primary-glow)]', 'text-black', 'font-bold')); e.target.closest('.theme-btn').classList.add('bg-[var(--primary-glow)]', 'text-black', 'font-bold'); }
+            if (e.target.id === 'focus-mode-toggle') { const isChecked = e.target.checked; document.body.classList.toggle('focus-mode', isChecked); localStorage.setItem('focusMode', isChecked); }
             if (e.target.id === 'logout-btn') { handleLogout(); } 
             if (e.target.id === 'clear-data-btn') { if (confirm('هل أنت متأكد من محو جميع بياناتك؟ سيتم تسجيل خروجك.')) { localStorage.clear(); currentUser = null; document.getElementById('generic-modal').classList.remove('open'); showPage('auth-page'); renderAuthForm(false, true); initVantaBackground(); }} 
             if (e.target.id === 'rate-site-btn') { document.getElementById('rating-container').innerHTML = `<div class="flex justify-center text-2xl text-yellow-400 cursor-pointer">${[1,2,3,4,5].map(i => `<i class="ph-star rating-star" data-value="${i}"></i>`).join('')}</div>`; } 
@@ -479,6 +579,22 @@
             if (e.target.id === 'save-blog-btn') { const content = document.getElementById('blog-input').value; await updateDoc(doc(db, "users", currentUser.id), { blogContent: content }); currentUser.blogContent = content; localStorage.setItem('moraUser', JSON.stringify(currentUser)); showToast("تم حفظ المدونة!"); document.getElementById('generic-modal').classList.remove('open'); }
             if (e.target.id === 'privacy-policy-btn') { openModalWithContent('سياسة الخصوصية', '<div class="p-2 text-sm text-slate-300 space-y-3"><p><strong>مقدمة:</strong> نحن في منصة "Mora For Studying" نأخذ خصوصية بياناتك على محمل الجد.</p><p><strong>البيانات التي نجمعها:</strong> عند إنشاء حساب، نقوم بجمع الاسم، الفرقة، الشعبة، بالإضافة إلى IP Address ونوع الجهاز لأغراض أمنية وتحليلية.</p><p><strong>استخدام البيانات:</strong> لا يتم مشاركة بياناتك الشخصية مع أي طرف ثالث. تستخدم البيانات داخلياً لتحسين تجربتك وتأمين المنصة.</p><p class="font-bold text-red-400 border-t border-red-500/30 pt-3 mt-3"><strong>سياسة الاستخدام العادل:</strong> أي محاولة لإساءة استخدام الموقع، أو نشر محتوى غير لائق، أو التحايل على نظام النقاط سيؤدي إلى <strong>الحظر الفوري والدائم للحساب</strong> دون سابق إنذار.</p><p class="text-xs text-slate-500 text-center pt-3">تطوير Amr lotfy</p></div>'); } 
             if (e.target.id === 'study-timer-btn') { openModalWithContent('تايمر المذاكرة', `<div class="text-center p-4 flex flex-col items-center"><p id="timer-display" class="text-6xl font-mono tracking-widest mb-6">${formatTime(timerState.duration)}</p><div class="flex gap-4"><button id="timer-start-btn" class="w-24 py-2 rounded-lg text-base font-bold btn-celestial">بدء</button><button id="timer-reset-btn" class="w-24 py-2 rounded-lg text-base font-bold btn-celestial border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black">إعادة ضبط</button></div></div>`); document.getElementById('timer-start-btn').onclick = () => timerState.running ? stopTimer() : startTimer(); document.getElementById('timer-reset-btn').onclick = () => { stopTimer(); timerState.duration = 25 * 60; updateTimerDisplay(); }; } 
+            if (e.target.id === 'image-captcha-submit') {
+                const selectedIndexes = Array.from(document.querySelectorAll('.captcha-image-cell.selected')).map(el => parseInt(el.dataset.index));
+                const isCorrect = selectedIndexes.length === correctCaptchaIndices.length && selectedIndexes.every(index => correctCaptchaIndices.includes(index));
+                
+                if (isCorrect) {
+                    captchaVerified = true;
+                    document.getElementById('generic-modal').classList.remove('open');
+                    const checkbox = document.getElementById('captcha-checkbox');
+                    checkbox.innerHTML = `<i class="ph-check text-green-400 text-2xl font-bold"></i>`;
+                    document.getElementById('auth-submit-btn').disabled = false;
+                } else {
+                    document.getElementById('image-captcha-error').textContent = 'الاختيار غير صحيح، حاول مرة أخرى.';
+                    generatePhotoCaptcha();
+                }
+            }
+             if (e.target.closest('.captcha-image-cell')) { e.target.closest('.captcha-image-cell').classList.toggle('selected'); }
         });
         
         let lastNotificationTimestamp = null;
@@ -489,19 +605,15 @@
         window.handleLinkRedirect = (url) => { window.open(url, '_blank'); };
         function handleLogout() { showCountdownModal('تسجيل الخروج', () => { const userToLogOut = { ...currentUser }; localStorage.removeItem('moraUser'); currentUser = null; document.getElementById('generic-modal').classList.remove('open'); showPage('auth-page'); renderAuthForm(false, false); if (userToLogOut && userToLogOut.name) { document.getElementById('auth-name').value = userToLogOut.name; document.getElementById('auth-password').value = userToLogOut.password || ''; } initVantaBackground(); }); }
 
-        window.addEventListener('load', () => {
+        window.addEventListener('load', async () => {
+            await listenToSiteContent();
             const savedTheme = localStorage.getItem('moraTheme') || 'default';
-            document.documentElement.dataset.theme = savedTheme;
-            const savedLang = localStorage.getItem('moraLang') || 'ar';
-            
+            applyTheme(savedTheme);
             const savedUser = localStorage.getItem('moraUser');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
-                applyLanguage(savedLang);
                 showPage('splash-screen');
             } else {
-                document.documentElement.lang = 'ar';
-                document.documentElement.dir = 'rtl';
                 showPage('auth-page');
                 renderAuthForm();
                 initVantaBackground();
@@ -509,6 +621,23 @@
         });
         document.getElementById('splash-screen').addEventListener('animationend', () => { setTimeout(() => { if (currentUser.isAdmin) { initAdminDashboard(); } else { initStudentDashboard(); } }, 500); });
         document.getElementById('admin-logout-btn').addEventListener('click', handleLogout);
+        document.getElementById('exit-focus-mode-btn').addEventListener('click', () => { document.querySelector('.bottom-nav-btn[data-modal="settings-modal"]').click(); });
+        document.getElementById('points-info-btn').addEventListener('click', () => {
+            const points = currentUser.points || 0;
+            if (points >= 100) {
+                showToast(siteTexts.pointsInfo_unlocked || defaultTexts.pointsInfo_unlocked);
+            } else {
+                if (points === 0) {
+                    showToast(siteTexts.pointsInfo_0 || defaultTexts.pointsInfo_0);
+                } else {
+                    const remaining = 100 - points;
+                    const message = (siteTexts.pointsInfo_other || defaultTexts.pointsInfo_other)
+                        .replace('{points}', points)
+                        .replace('{remaining}', remaining);
+                    showToast(message);
+                }
+            }
+        });
         document.getElementById('generic-modal').addEventListener('click', e => { if (e.target.classList.contains('modal') || e.target.closest('.modal-close-btn')) { if(currentContentUnsubscribe) currentContentUnsubscribe(); document.getElementById('generic-modal').classList.remove('open'); } });
     </script>
 </body>
