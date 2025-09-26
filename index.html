@@ -116,8 +116,16 @@
         .footer-text { color: rgba(226, 232, 240, 0.6); text-shadow: 0 0 8px rgba(var(--primary-glow-rgb), 0.5); font-weight: 600; letter-spacing: 0.5px; }
         .captcha-spinner { width: 100%; height: 100%; border: 2px solid #888; border-top-color: #eee; border-radius: 50%; animation: captcha-spin 1s linear infinite; }
         #captcha-canvas { border-radius: 0.5rem; }
-        .video-container { position: relative; width: 100%; padding-top: 56.25%; /* 16:9 Aspect Ratio */ }
+        .video-container { position: relative; width: 100%; padding-top: 56.25%; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        /* Card Customization Styles */
+        .card-bg-default { background-image: linear-gradient(rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); }
+        .card-bg-cosmic { background-image: linear-gradient(45deg, rgba(17, 24, 39, 0.8), rgba(55, 48, 163, 0.8)), url('https://www.transparenttextures.com/patterns/stardust.png'); }
+        .card-bg-tech { background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(0, 61, 61, 0.8)), url('https://www.transparenttextures.com/patterns/clean-textile.png'); }
+        .customization-option { cursor: pointer; transition: transform 0.2s ease; border: 2px solid transparent; }
+        .customization-option:hover { transform: scale(1.1); }
+        .customization-option.active { border-color: var(--primary-glow); }
     </style>
 </head>
 <body class="w-full h-screen">
@@ -184,6 +192,7 @@
                 <button id="courses-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i id="courses-icon" class="ph-lock-key lock-icon-3d text-xl"></i><span>كورسات</span></button>
                 <button data-modal="ai-tools-modal" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-robot text-xl"></i><span>أدوات AI</span></button>
                 <button data-modal="opinions-modal" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-chats-teardrop text-xl"></i><span>آراء</span></button>
+                <button data-modal="polls-modal" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-megaphone-simple text-xl"></i><span>استطلاعات</span></button>
                 <button id="digital-card-nav-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-identification-card text-xl"></i><span>بطاقتي</span></button>
                 <button id="privacy-policy-nav-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-shield-check text-xl"></i><span>الخصوصية</span></button>
                 <button data-modal="support-modal" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-headset text-xl"></i><span>الدعم</span></button>
@@ -212,6 +221,7 @@
                         <button data-panel="courses-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة الكورسات</button>
                         <button data-panel="ai-tools-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة أدوات AI</button>
                         <button data-panel="opinions-panel" class="admin-nav-btn text-right p-3 rounded-lg">آراء الطلاب</button>
+                        <button data-panel="polls-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة الاستطلاعات</button>
                         <button data-panel="ratings-panel" class="admin-nav-btn text-right p-3 rounded-lg">تقييمات الموقع</button>
                         <button data-panel="settings-panel" class="admin-nav-btn text-right p-3 rounded-lg">إعدادات الموقع</button>
                    </nav>
@@ -222,11 +232,12 @@
                 <main class="flex-grow p-4 md:p-8 overflow-y-auto">
                     <div id="info-panel" class="admin-panel hidden">
                         <h2 class="text-3xl font-bold mb-6">لوحة المعلومات</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 text-center">
                             <div class="glass-effect p-6 rounded-lg" style="animation-delay: 0.1s;"><h3 class="text-lg text-slate-400">إجمالي الطلاب</h3><p id="admin-student-count" class="text-4xl font-bold text-[var(--primary-glow)] mt-2 transition-all">0</p></div>
                             <div class="glass-effect p-6 rounded-lg" style="animation-delay: 0.2s;"><h3 class="text-lg text-slate-400">إجمالي الآراء</h3><p id="admin-opinions-count" class="text-4xl font-bold text-[var(--secondary-glow)] mt-2 transition-all">0</p></div>
-                            <div class="glass-effect p-6 rounded-lg" style="animation-delay: 0.3s;"><h3 class="text-lg text-slate-400">إجمالي التقييمات</h3><p id="admin-ratings-count" class="text-4xl font-bold text-yellow-400 mt-2 transition-all">0</p></div>
-                            <div class="glass-effect p-6 rounded-lg" style="animation-delay: 0.4s;"><h3 class="text-lg text-slate-400">إجمالي الإشعارات</h3><p id="admin-notifications-count" class="text-4xl font-bold text-rose-400 mt-2 transition-all">0</p></div>
+                            <div class="glass-effect p-6 rounded-lg" style="animation-delay: 0.3s;"><h3 class="text-lg text-slate-400">إجمالي الاستطلاعات</h3><p id="admin-polls-count" class="text-4xl font-bold text-cyan-400 mt-2 transition-all">0</p></div>
+                            <div class="glass-effect p-6 rounded-lg" style="animation-delay: 0.4s;"><h3 class="text-lg text-slate-400">إجمالي التقييمات</h3><p id="admin-ratings-count" class="text-4xl font-bold text-yellow-400 mt-2 transition-all">0</p></div>
+                            <div class="glass-effect p-6 rounded-lg" style="animation-delay: 0.5s;"><h3 class="text-lg text-slate-400">إجمالي الإشعارات</h3><p id="admin-notifications-count" class="text-4xl font-bold text-rose-400 mt-2 transition-all">0</p></div>
                         </div>
                     </div>
                     
@@ -285,6 +296,7 @@
 
                     <div id="ai-tools-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة أدوات AI</h2><div class="glass-effect p-6 rounded-lg mb-6"><h3 class="font-bold mb-4">إضافة أداة جديدة</h3><input id="ai-name-input" type="text" placeholder="اسم الأداة" class="w-full rounded-lg input-field mb-4"><input id="ai-desc-input" type="text" placeholder="وصف الأداة" class="w-full rounded-lg input-field mb-4"><input id="ai-url-input" type="text" placeholder="رابط الأداة" class="w-full rounded-lg input-field mb-4"><button id="add-ai-tool-btn" class="w-full py-2 rounded-lg font-bold btn-celestial">إضافة الأداة</button></div><div id="admin-ai-tools-list" class="space-y-4"></div></div>
                     <div id="opinions-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">آراء الطلاب</h2><div id="admin-opinions-list" class="space-y-4"></div></div>
+                    <div id="polls-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة الاستطلاعات</h2><div id="admin-polls-list" class="space-y-4"></div></div>
                     <div id="ratings-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">تقييمات الموقع</h2><div id="admin-ratings-list" class="space-y-4"></div></div>
                     
                     <div id="settings-panel" class="admin-panel hidden">
@@ -326,7 +338,12 @@
     <button id="exit-focus-mode-btn" class="fixed bottom-4 right-4 z-[100] hidden h-14 w-14 items-center justify-center rounded-full bg-slate-800/50 text-white shadow-lg backdrop-blur-md transition-transform hover:scale-110 active:scale-95">
         <i class="ph-gear-six text-2xl"></i>
     </button>
-
+    <div id="audio-container" class="hidden">
+        <audio id="register-sound" src="https://code-gemini.github.io/Mora-For-Studying/register.mp3" preload="auto"></audio>
+        <audio id="timer-start-sound" src="https://code-gemini.github.io/Mora-For-Studying/timer-start.mp3" preload="auto"></audio>
+        <audio id="timer-end-sound" src="https://code-gemini.github.io/Mora-For-Studying/timer-end.mp3" preload="auto"></audio>
+        <audio id="admin-notification-sound" src="https://code-gemini.github.io/Mora-For-Studying/notification.mp3" preload="auto"></audio>
+    </div>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, doc, addDoc, getDocs, query, where, onSnapshot, deleteDoc, updateDoc, orderBy, serverTimestamp, getDoc, setDoc, limit, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -348,7 +365,7 @@
             splashScreenMessage: "متنساش تصلي على النبي ﷺ",
             scrollingBannerText: "شكر خاص لإدارة المعهد وأعضاء هيئة التدريس في تطوير هذا الموقع التعليمي ***",
             footerText: "جميع الحقوق محفوظة © Amr lotfy 2025",
-            coursesLockedToast: "لفتح هذا القسم يجب عليك جمع 100نقطه عند دخولك للمحاضره تحصل علي 25 نقطه",
+            coursesLockedToast: "لفتح هذا القسم يجب عليك جمع 100 نقطه عند دخولك للمحاضره تحصل علي 25 نقطه",
             meetingLockedToast: "سوف يتم فتح هذا القسم عند شرح المواد اونلاين",
             pointsInfo_0: "لفتح قسم الكورسات، يجب أن تجمع 100 نقطة. شاهد المحاضرات لتبدأ!",
             pointsInfo_other: "أحسنت! لقد جمعت {points} نقطة. يتبقى لك {remaining} نقطة فقط لفتح قسم الكورسات.",
@@ -367,7 +384,7 @@
         };
         
         const studentDashboardEl = { welcomeName: document.getElementById('welcome-name'), userDetails: document.getElementById('user-details'), studentId: document.getElementById('student-id'), materialsList: document.getElementById('materials-list'), pointsDisplay: document.getElementById('points-display') };
-        const adminDashboardEl = { studentCount: document.getElementById('admin-student-count'), notificationsCount: document.getElementById('admin-notifications-count'), opinionsCount: document.getElementById('admin-opinions-count'), ratingsCount: document.getElementById('admin-ratings-count'), studentsList: document.getElementById('admin-students-list'), opinionsList: document.getElementById('admin-opinions-list'), coursesList: document.getElementById('admin-courses-list'), aiToolsList: document.getElementById('admin-ai-tools-list'), ratingsList: document.getElementById('admin-ratings-list'), notificationsList: document.getElementById('admin-notifications-list') };
+        const adminDashboardEl = { studentCount: document.getElementById('admin-student-count'), notificationsCount: document.getElementById('admin-notifications-count'), opinionsCount: document.getElementById('admin-opinions-count'), ratingsCount: document.getElementById('admin-ratings-count'), studentsList: document.getElementById('admin-students-list'), opinionsList: document.getElementById('admin-opinions-list'), coursesList: document.getElementById('admin-courses-list'), aiToolsList: document.getElementById('admin-ai-tools-list'), ratingsList: document.getElementById('admin-ratings-list'), notificationsList: document.getElementById('admin-notifications-list'), pollsCount: document.getElementById('admin-polls-count'), pollsList: document.getElementById('admin-polls-list') };
         const adminContentPanelEl = { type: document.getElementById('content-type-select'), year: document.getElementById('content-year-select'), division: document.getElementById('content-division-select'), subject: document.getElementById('content-subject-select'), title: document.getElementById('content-title-input'), body: document.getElementById('content-body-input'), saveBtn: document.getElementById('save-content-btn'), formTitle: document.getElementById('content-form-title'), contentList: document.getElementById('admin-content-list'), cancelBtn: document.getElementById('cancel-edit-btn') };
         const subjectIcons = { 'محاسبه': 'ph-calculator', 'اقتصاد': 'ph-chart-bar', 'قانون': 'ph-scales', 'اداره': 'ph-briefcase', 'تسويق': 'ph-projector-screen-chart', 'لوچيستيات': 'ph-truck', 'حاسب': 'ph-desktop-tower', 'بيانات': 'ph-database', 'برامج': 'ph-code-simple', 'رياضيات': 'ph-function', 'اتصال': 'ph-chats-circle', 'سلوك': 'ph-users-three', 'تفكير': 'ph-lightbulb', 'انتاج': 'ph-factory', 'انسان': 'ph-hand-heart', 'لغه': 'ph-translate', 'default': 'ph-book-open-text' };
         
@@ -382,7 +399,7 @@
                         }
                     });
                 } catch (error) {
-                    console.error("Failed to update user activity:", error);
+                    // console.error("Failed to update user activity:", error);
                 }
             }
         }
@@ -476,7 +493,7 @@
                                     <button id="auth-submit-btn" class="w-full py-2 rounded-lg text-sm font-bold btn-celestial">${showRegister ? 'سجل الآن' : 'دخــــول'}</button>
                                     <button id="auth-toggle-btn" type="button" class="text-xs text-slate-400 hover:text-[var(--primary-glow)] transition">${showRegister ? 'لديك حساب بالفعل؟' : 'ليس لديك حساب؟'}</button>
                                 </div>
-                        </div>`; 
+                            </div>`; 
             } 
             if (isInitial) { document.getElementById('go-to-register-btn').addEventListener('click', () => renderAuthForm(false, true)); document.getElementById('go-to-login-btn').addEventListener('click', () => renderAuthForm(false, false)); } else { document.getElementById('back-to-initial-btn').addEventListener('click', () => renderAuthForm(true)); document.getElementById('auth-toggle-btn').addEventListener('click', () => renderAuthForm(false, !showRegister)); document.getElementById('auth-submit-btn').addEventListener('click', showRegister ? handleRegister : handleLogin); if (showRegister) { document.getElementById('auth-submit-btn').disabled = true; document.getElementById('captcha-checkbox').addEventListener('click', handleCaptchaTrigger); } document.getElementById('toggle-password').addEventListener('click', () => { const passInput = document.getElementById('auth-password'); const eyeIcon = document.getElementById('eye-icon'); const isPassword = passInput.type === 'password'; passInput.type = isPassword ? 'text' : 'password'; eyeIcon.className = isPassword ? 'ph-eye-slash' : 'ph-eye'; }); } 
         }
@@ -570,12 +587,13 @@
                 if(isBanned.exists()) throw new Error("هذا الجهاز محظور من استخدام الموقع."); 
                 
                 const userAgent = navigator.userAgent; 
-                const newUser = { studentId, name, year, division, password, points: 0, isBanned: false, createdAt: serverTimestamp(), lastActivity: { timestamp: serverTimestamp(), description: "انضم حديثاً" }, completedLectures: [], ipAddress, userAgent, city, country, blogContent: "", coursesUnlocked: false }; 
+                const newUser = { studentId, name, year, division, password, points: 0, isBanned: false, createdAt: serverTimestamp(), lastActivity: { timestamp: serverTimestamp(), description: "انضم حديثاً" }, completedLectures: [], ipAddress, userAgent, city, country, blogContent: "", coursesUnlocked: false, cardCustomization: {} }; 
                 
                 const docRef = await addDoc(collection(db, "users"), newUser); 
                 currentUser = {id: docRef.id, ...newUser}; 
                 localStorage.setItem('moraUser', JSON.stringify(currentUser)); 
                 destroyVantaBackground(); 
+                document.getElementById('register-sound').play();
                 showPage('splash-screen'); 
             } catch (error) { 
                 errorMsg.textContent = error.message; 
@@ -697,7 +715,7 @@
         
         async function listenToSiteSettings() { 
             onSnapshot(doc(db, "settings", "site"), async (doc) => { 
-                siteSettings = doc.data() || { meetingActive: false, coursesActive: false, isLive: false, meetLink: ''}; 
+                siteSettings = doc.data() || { meetingActive: false, coursesActive: true, isLive: false, meetLink: ''}; 
                 
                 const meetingBtn = document.getElementById('meeting-btn'); 
                 if (siteSettings.meetingActive && siteSettings.meetingUrl) { 
@@ -815,6 +833,7 @@
             initTextManagementPanel();
             onSnapshot(collection(db, "users"), (snap) => { adminDashboardEl.studentCount.textContent = snap.size; }); 
             onSnapshot(collection(db, "opinions"), (snap) => { adminDashboardEl.opinionsCount.textContent = snap.size; }); 
+            onSnapshot(collection(db, "polls"), (snap) => { adminDashboardEl.pollsCount.textContent = snap.size; });
             onSnapshot(collection(db, "ratings"), (snap) => { adminDashboardEl.ratingsCount.textContent = snap.size; }); 
             onSnapshot(collection(db, "notifications"), (snap) => { adminDashboardEl.notificationsCount.textContent = snap.size; }); 
             onSnapshot(query(collection(db, "users"), orderBy('lastActivity.timestamp', 'desc')), s => { 
@@ -849,6 +868,31 @@
                 adminDashboardEl.studentsList.innerHTML = h; 
             }); 
             onSnapshot(query(collection(db, "opinions"), orderBy('createdAt', 'desc')), s => { let h = ''; s.forEach(d => { const o = d.data(); h += `<div class="glass-effect p-4 rounded-lg flex justify-between items-start"><div><p>"${o.text}"</p><p class="text-sm text-slate-400 mt-2 font-bold">${o.name} - فرقة ${o.year}</p></div><button onclick="deleteFromCollection('${d.id}', 'opinions')" class="text-red-500 hover:text-red-400 text-lg"><i class="ph-trash"></i></button></div>`; }); adminDashboardEl.opinionsList.innerHTML = h; }); 
+            onSnapshot(query(collection(db, "polls"), orderBy('createdAt', 'desc')), s => {
+                let h = '';
+                s.forEach(d => {
+                    const poll = d.data();
+                    h += `
+                        <div class="glass-effect p-4 rounded-lg">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="font-bold text-white">${poll.topic}</p>
+                                    <p class="text-xs text-slate-400 mt-1">
+                                        ${poll.userName} (${poll.userYear === '1' ? 'أولى' : 'ثانية'} - ${poll.userDivision === 'international' ? 'أعمال دولية' : 'نظم معلومات'}) - ${poll.createdAt ? poll.createdAt.toDate().toLocaleString('ar-EG') : ''}
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                     <button onclick="toggleAdminRepliesView('replies-${d.id}')" class="px-3 py-1 text-sm rounded bg-sky-600">عرض الردود</button>
+                                     <button onclick="deletePollWithReplies('${d.id}')" class="px-3 py-1 text-sm rounded bg-red-600">حذف</button>
+                                </div>
+                            </div>
+                            <div id="replies-${d.id}" class="hidden mt-3 pt-3 border-t border-slate-700/50 space-y-2">
+                                <p class="text-center text-slate-400">جاري تحميل الردود...</p>
+                            </div>
+                        </div>`;
+                });
+                adminDashboardEl.pollsList.innerHTML = h || '<p class="text-center text-slate-400">لا توجد استطلاعات حالياً.</p>';
+            });
             onSnapshot(query(collection(db, "courses"), orderBy('createdAt', 'desc')), s => { let h = ''; s.forEach(d => { const c = d.data(); h += `<div class="glass-effect p-4 rounded-lg flex justify-between items-start"><div><p class="font-bold text-white">${c.title} <span class="text-xs text-slate-400">(${c.category || 'بدون فئة'})</span></p><p class="text-sm text-slate-400">${c.desc}</p></div><button onclick="deleteFromCollection('${d.id}', 'courses')" class="text-red-500 hover:text-red-400 text-lg"><i class="ph-trash"></i></button></div>`; }); adminDashboardEl.coursesList.innerHTML = h; }); 
             onSnapshot(query(collection(db, "ai_tools"), orderBy('name')), s => { let h = ''; s.forEach(d => { const t = d.data(); h += `<div class="glass-effect p-4 rounded-lg flex justify-between items-start"><div><p class="font-bold text-white">${t.name}</p><p class="text-sm text-slate-400">${t.desc}</p></div><button onclick="deleteFromCollection('${d.id}', 'ai_tools')" class="text-red-500 hover:text-red-400 text-lg"><i class="ph-trash"></i></button></div>`; }); adminDashboardEl.aiToolsList.innerHTML = h; }); 
             onSnapshot(query(collection(db, "ratings"), orderBy('ratedAt', 'desc')), s => { let h = ''; if(s.empty){ h='<p class="text-center text-slate-400">لا توجد تقييمات.</p>'; } else {s.forEach(d => { const r = d.data(); h += `<div class="glass-effect p-4 rounded-lg"><div class="flex justify-between items-start"><div><p class="font-bold text-lg text-white">${r.name}</p><p class="text-sm text-yellow-400">${'⭐'.repeat(r.rating)}</p><p class="text-xs text-slate-400">فرقة ${r.year} | ${r.division}</p></div><button onclick="deleteFromCollection('${d.id}', 'ratings')" class="text-red-500 hover:text-red-400 text-lg"><i class="ph-trash"></i></button></div></div>`; });} adminDashboardEl.ratingsList.innerHTML = h; }); 
@@ -880,7 +924,7 @@
                 });
                 if(container) container.innerHTML = h;
             });
-            listenForNewTickets();
+            listenForNewAdminNotifications();
             
             const updateSubjects = () => { const y = adminContentPanelEl.year.value, d = adminContentPanelEl.division.value; adminContentPanelEl.subject.innerHTML = '<option value="">اختر المادة</option>'; if (y && d) { (materials['ar'][`${y}_${d}`] || []).forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; adminContentPanelEl.subject.appendChild(o); }); } displayAdminContent(); }; 
             ['content-type-select', 'content-year-select', 'content-division-select', 'content-subject-select'].forEach(id => document.getElementById(id).addEventListener('change', id.includes('subject') ? displayAdminContent : updateSubjects)); 
@@ -1028,6 +1072,7 @@
         function formatTime(seconds) { const m = Math.floor(seconds / 60); const s = seconds % 60; return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`; }
         function updateTimerDisplay() { const display = document.getElementById('timer-display'); if(display) display.textContent = formatTime(timerState.duration); }
         function startTimer() { 
+            document.getElementById('timer-start-sound').play();
             timerState.running = true; 
             document.getElementById('timer-start-btn').textContent = 'إيقاف مؤقت'; 
             document.getElementById('timer-live-indicator').classList.remove('hidden');
@@ -1047,6 +1092,7 @@
             const startBtn = document.getElementById('timer-start-btn'); 
             if(startBtn) startBtn.textContent = 'بدء'; 
             if(finished){ 
+                document.getElementById('timer-end-sound').play();
                 openModalWithContent('انتهى الوقت!', '<div class="text-center p-8"><i class="ph-confetti text-6xl text-[var(--primary-glow)] mb-4"></i><h3 class="text-xl font-bold mb-2">أحسنت!</h3><p class="text-slate-400">لقد أكملت جلسة مذاكرة.</p></div>'); 
                 timerState.duration = 25*60; 
             } 
@@ -1099,11 +1145,226 @@
             });
         }
 
+        // ======================= POLLS/DISCUSSION FEATURE =======================
+        async function openPollsView() {
+            updateUserActivity("يتصفح الاستطلاعات");
+            const pollsHTML = `
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-300 mb-2">ابدأ موضوعًا جديدًا</h4>
+                        <textarea id="poll-topic-input" class="w-full rounded-lg input-field" rows="3" placeholder="اكتب سؤالك أو رأيك هنا..."></textarea>
+                        <button id="submit-poll-btn" class="w-full mt-2 py-2 rounded-lg font-bold btn-celestial">نشر الموضوع</button>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-300 mb-2 border-t border-slate-700/50 pt-4">المواضيع الحالية</h4>
+                        <div id="polls-list-container" class="space-y-3 max-h-72 overflow-y-auto">
+                            <p class="text-slate-400 text-center">جاري تحميل المواضيع...</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            openModalWithContent('الاستطلاعات والمناقشات', pollsHTML);
+
+            document.getElementById('submit-poll-btn').addEventListener('click', submitNewPoll);
+
+            const q = query(collection(db, "polls"), orderBy("createdAt", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const container = document.getElementById('polls-list-container');
+                if (!container) return;
+                let listHTML = '';
+                if (snapshot.empty) {
+                    listHTML = '<p class="text-slate-400 text-center">لا توجد مواضيع للنقاش حاليًا. كن أول من يبدأ!</p>';
+                } else {
+                    snapshot.forEach(doc => {
+                        const poll = doc.data();
+                        const divisionText = poll.userDivision === 'international' ? 'أعمال دولية' : 'نظم معلومات';
+                        const yearText = poll.userYear === '1' ? 'الفرقة الأولى' : 'الثانية';
+                        const dateText = poll.createdAt ? poll.createdAt.toDate().toLocaleString('ar-EG-u-nu-latn', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}) : '';
+                        listHTML += `
+                            <div class="glass-effect p-4 rounded-lg cursor-pointer hover:bg-slate-500/10" onclick="openPollDetailView('${doc.id}')">
+                                <p class="text-white mb-2">${poll.topic}</p>
+                                <div class="flex justify-between items-center text-xs text-slate-400 border-t border-slate-700/50 pt-2">
+                                    <span>بواسطة: ${poll.userName} (${yearText} - ${divisionText})</span>
+                                    <span class="font-mono">${dateText}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                container.innerHTML = listHTML;
+            });
+        }
+
+        async function submitNewPoll() {
+            const input = document.getElementById('poll-topic-input');
+            const topic = input.value.trim();
+            if (!topic) {
+                showToast('لا يمكن نشر موضوع فارغ.', true);
+                return;
+            }
+            if (badWords.some(word => topic.toLowerCase().includes(word))) {
+                showToast('النص يحتوي على كلمات مخالفة.', true);
+                return;
+            }
+
+            await addDoc(collection(db, "polls"), {
+                userId: currentUser.id,
+                userName: currentUser.name,
+                userYear: currentUser.year,
+                userDivision: currentUser.division,
+                topic: topic,
+                createdAt: serverTimestamp(),
+                isReadByAdmin: false
+            });
+            showToast('تم نشر موضوعك بنجاح!');
+            input.value = '';
+        }
+
+        window.openPollDetailView = (pollId) => {
+            const detailHTML = `
+                <div class="space-y-4">
+                    <button onclick="document.querySelector('[data-modal=\\'polls-modal\\']').click()" class="text-sm text-slate-400 hover:text-white"><i class="ph-arrow-right align-middle"></i> العودة لقائمة المواضيع</button>
+                    <div id="poll-detail-topic" class="glass-effect p-4 rounded-lg"></div>
+                    <div class="border-t border-slate-700/50 pt-4">
+                        <h4 class="text-lg font-bold text-slate-300 mb-2">الردود</h4>
+                        <div id="poll-replies-list" class="space-y-3 max-h-60 overflow-y-auto mb-4"></div>
+                        <textarea id="poll-reply-input" class="w-full rounded-lg input-field" rows="2" placeholder="اكتب ردك هنا..."></textarea>
+                        <button id="submit-reply-btn" class="w-full mt-2 py-2 rounded-lg font-bold btn-celestial">إضافة رد</button>
+                    </div>
+                </div>
+            `;
+            openModalWithContent('عرض الموضوع', detailHTML);
+
+            // Fetch and display the main topic
+            const pollDocRef = doc(db, "polls", pollId);
+            onSnapshot(pollDocRef, (docSnap) => {
+                const topicContainer = document.getElementById('poll-detail-topic');
+                if (!topicContainer || !docSnap.exists()) return;
+                const poll = docSnap.data();
+                const divisionText = poll.userDivision === 'international' ? 'أعمال دولية' : 'نظم معلومات';
+                const yearText = poll.userYear === '1' ? 'الفرقة الأولى' : 'الثانية';
+                const dateText = poll.createdAt ? poll.createdAt.toDate().toLocaleString('ar-EG-u-nu-latn', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}) : '';
+
+                topicContainer.innerHTML = `
+                    <p class="text-white text-lg">${poll.topic}</p>
+                    <p class="text-sm text-slate-300 mt-2">بواسطة: ${poll.userName}</p>
+                    <p class="text-xs text-slate-400">(${yearText} - ${divisionText})</p>
+                    <p class="text-xs text-slate-500 mt-1 font-mono">${dateText}</p>
+                `;
+            });
+
+            // Listen for and display replies
+            const repliesQuery = query(collection(pollDocRef, "replies"), orderBy("createdAt", "asc"));
+            onSnapshot(repliesQuery, (snapshot) => {
+                const repliesContainer = document.getElementById('poll-replies-list');
+                if (!repliesContainer) return;
+                let repliesHTML = '';
+                if (snapshot.empty) {
+                    repliesHTML = '<p class="text-slate-400 text-center">لا توجد ردود بعد.</p>';
+                } else {
+                    snapshot.forEach(doc => {
+                        const reply = doc.data();
+                        repliesHTML += `
+                            <div class="p-3 rounded-lg bg-slate-900/50">
+                                <p class="text-sm text-slate-200">${reply.replyText}</p>
+                                <p class="text-xs text-slate-500 mt-1">${reply.userName}</p>
+                            </div>
+                        `;
+                    });
+                }
+                repliesContainer.innerHTML = repliesHTML;
+            });
+            
+            document.getElementById('submit-reply-btn').onclick = () => submitNewReply(pollId);
+        }
+
+        async function submitNewReply(pollId) {
+            const input = document.getElementById('poll-reply-input');
+            const replyText = input.value.trim();
+             if (!replyText) {
+                showToast('لا يمكن إضافة رد فارغ.', true);
+                return;
+            }
+            if (badWords.some(word => replyText.toLowerCase().includes(word))) {
+                showToast('الرد يحتوي على كلمات مخالفة.', true);
+                return;
+            }
+            const repliesRef = collection(doc(db, "polls", pollId), "replies");
+            await addDoc(repliesRef, {
+                userId: currentUser.id,
+                userName: currentUser.name,
+                replyText: replyText,
+                createdAt: serverTimestamp()
+            });
+            input.value = '';
+        }
+
+        window.toggleAdminRepliesView = (containerId) => {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const isHidden = container.classList.contains('hidden');
+            if (isHidden) {
+                container.classList.remove('hidden');
+                // Load replies only when opened
+                const pollId = containerId.replace('replies-', '');
+                const pollDocRef = doc(db, "polls", pollId);
+                const repliesQuery = query(collection(pollDocRef, "replies"), orderBy("createdAt", "asc"));
+                onSnapshot(repliesQuery, (snapshot) => {
+                    let repliesHTML = '';
+                    if (snapshot.empty) {
+                        repliesHTML = '<p class="text-slate-400 text-center">لا توجد ردود.</p>';
+                    } else {
+                        snapshot.forEach(doc => {
+                            const reply = doc.data();
+                            repliesHTML += `
+                                <div class="p-2 rounded-lg bg-slate-800/50 flex justify-between items-start">
+                                    <div>
+                                        <p class="text-sm text-slate-200">${reply.replyText}</p>
+                                        <p class="text-xs text-slate-500 mt-1">${reply.userName}</p>
+                                    </div>
+                                    <button onclick="deleteReply('${pollId}', '${doc.id}')" class="text-red-500 hover:text-red-400 text-lg flex-shrink-0 ml-2"><i class="ph-trash"></i></button>
+                                </div>
+                            `;
+                        });
+                    }
+                    container.innerHTML = repliesHTML;
+                });
+            } else {
+                container.classList.add('hidden');
+                container.innerHTML = '<p class="text-center text-slate-400">جاري تحميل الردود...</p>'; // Reset for next open
+            }
+        }
+
+        window.deletePollWithReplies = async (pollId) => {
+             if (!confirm('هل أنت متأكد من حذف هذا الموضوع وكل الردود المتعلقة به؟ لا يمكن التراجع عن هذا الإجراء.')) return;
+            const pollRef = doc(db, 'polls', pollId);
+            const repliesRef = collection(pollRef, 'replies');
+            const repliesSnapshot = await getDocs(repliesRef);
+
+            const batch = writeBatch(db);
+            repliesSnapshot.forEach(doc => {
+                batch.delete(doc.ref);
+            });
+            await batch.commit(); // Delete all replies
+
+            await deleteDoc(pollRef); // Delete the poll document itself
+            showToast('تم حذف الاستطلاع وكل الردود.');
+        }
+
+        window.deleteReply = async (pollId, replyId) => {
+            if (!confirm('هل أنت متأكد من حذف هذا الرد؟')) return;
+            const replyRef = doc(db, 'polls', pollId, 'replies', replyId);
+            await deleteDoc(replyRef);
+            showToast('تم حذف الرد.');
+        }
+        // =========================================================================
+
         function activateNavButtons() {
             document.querySelectorAll('.bottom-nav-btn[data-modal]').forEach(btn => btn.addEventListener('click', async e => {
                 const type = e.currentTarget.dataset.modal; 
                 if (currentContentUnsubscribe) currentContentUnsubscribe(); 
                 if (type === 'opinions-modal') { updateUserActivity('يتصفح قسم الآراء'); openModalWithContent('آراء الطلاب', `<div id="opinions-view" class="space-y-3 mb-4 max-h-60 overflow-y-auto"></div><textarea id="opinion-input" class="w-full rounded-lg input-field mt-4" rows="3" placeholder="اكتب رأيك هنا..."></textarea><button id="submit-opinion-btn" class="w-full mt-2 py-2 rounded-lg font-bold btn-celestial">نشر الرأي</button>`); onSnapshot(query(collection(db, "opinions"), orderBy('createdAt', 'desc')), snap => { document.getElementById('opinions-view').innerHTML = snap.docs.map(d => { const o = d.data(); return `<div class="p-3 rounded-lg hover:bg-slate-500/10"><p>"${o.text}"</p><p class="text-xs text-slate-400 mt-2 font-bold">${o.name} - فرقة ${o.year}</p></div>`; }).join('') || '<p class="text-center text-slate-400">لا توجد آراء بعد.</p>'; }); } 
+                if (type === 'polls-modal') { openPollsView(); }
                 if (type === 'about-modal') { const aboutHTML = `<div class="text-center p-2 flex flex-col items-center space-y-4 w-full"><p class="text-lg text-slate-300" data-text-key="aboutMain"></p><div class="my-2"><p class="font-bold text-lg text-shadow-lg" style="color:var(--primary-glow)" data-text-key="aboutDeveloper"></p></div><hr class="w-full border-t border-[var(--glass-border)]"><p class="font-bold text-slate-400" data-text-key="aboutSupervisors"></p><div class="space-y-2"><p class="font-bold" style="color:var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow);">ا. د/ عبدالمنعم الدسوقي</p><p class="font-bold" style="color:var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow);">ا. د/ابراهيم ماريه</p><p class="font-bold" style="color:var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow);">ا. د/مصطفى عبدالمنعم</p><p class="font-bold" style="color:var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow);">ا. د/محمد حجازي</p></div><hr class="w-full border-t border-[var(--glass-border)]"><div class="flex justify-center items-center gap-6 my-4"><a href="#" onclick="event.preventDefault(); handleLinkRedirect('https://wa.me/201067941806')" class="social-icon-animated text-3xl" style="color: #25D366; --glow-color: #25D366;"><i class="ph-whatsapp-logo"></i></a><a href="#" onclick="event.preventDefault(); handleLinkRedirect('https://www.facebook.com/share/1CDtFCSPVD/')" class="social-icon-animated text-3xl" style="color: #1877F2; --glow-color: #1877F2; animation-delay: -2s;"><i class="ph-facebook-logo"></i></a><a href="#" onclick="event.preventDefault(); handleLinkRedirect('mailto:amrloutfy2006@gmail.com')" class="social-icon-animated text-3xl" style="color: #EA4335; --glow-color: #EA4335; animation-delay: -4s;"><i class="ph-envelope"></i></a></div></div>`; openModalWithContent('عنا', aboutHTML); applySiteTexts(); } 
                 if (type === 'settings-modal') { 
                     updateUserActivity("يفتح الإعدادات");
@@ -1206,7 +1467,7 @@
 
             document.getElementById('privacy-policy-nav-btn').addEventListener('click', () => {
                 updateUserActivity("يقرأ سياسة الخصوصية");
-                openModalWithContent('سياسة الخصوصية', '<div class="p-2 text-sm text-slate-300 space-y-3"><p><strong>مقدمة:</strong> نحن في منصة "Mora For Studying" نأخذ خصوصية بياناتك على محمل الجد.</p><p><strong>البيانات التي نجمعها:</strong> عند إنشاء حساب، نقوم بجمع الاسم، الفرقة، الشعبة، بالإضافة إلى IP Address ونوع الجهاز لأغراض أمنية وتحليلية.</p><p><strong>استخدام البيانات:</strong> لا يتم مشاركة بياناتك الشخصية مع أي طرف ثالث. تستخدم البيانات داخلياً لتحسين تجربتك وتأمين المنصة.</p><p class="font-bold text-red-400 border-t border-red-500/30 pt-3 mt-3"><strong>سياسة الاستخدام العادل:</strong> أي محاولة لإساءة استخدام الموقع، أو نشر محتوى غير لائق، أو التحايل على نظام النقاط سيؤدي إلى <strong>الحظر الفوري والدائم للحساب</strong> دون سابق إنذار.</p><p class="text-xs text-slate-500 text-center pt-3">تطوير Amr lotfy</p></div>');
+                openModalWithContent('سياسة الخصوصية', '<div class="p-2 text-sm text-slate-300 space-y-3"><p><strong>مقدمة:</strong> نحن في منصة "Mora For Studying" نأخذ خصوصية بياناتك على محمل الجد.</p><p><strong>البيانات التي نجمعها:</strong> عند إنشاء حساب، نقوم بجمع الاسم، الفرقة، الشعبة، بالإضافة إلى IP Address ونوع الجهاز لأغراض أمنية وتحليلية.</p><p><strong>استخدام البيانات:</strong> لا يتم مشاركة بياناتك الشخصية مع أي طرف ثالث. تستخدم البيانات داخليياً لتحسين تجربتك وتأمين المنصة.</p><p class="font-bold text-red-400 border-t border-red-500/30 pt-3 mt-3"><strong>سياسة الاستخدام العادل:</strong> أي محاولة لإساءة استخدام الموقع، أو نشر محتوى غير لائق، أو التحايل على نظام النقاط سيؤدي إلى <strong>الحظر الفوري والدائم للحساب</strong> دون سابق إنذار.</p><p class="text-xs text-slate-500 text-center pt-3">تطوير Amr lotfy</p></div>');
             });
             
             document.getElementById('rate-site-nav-btn').addEventListener('click', async () => {
@@ -1321,8 +1582,8 @@
             });
         }
         
-        async function markAdminTicketsAsRead() {
-            const q = query(collection(db, "support_tickets"), where("isReadByAdmin", "==", false));
+        async function markAdminItemsAsRead(collectionName) {
+            const q = query(collection(db, collectionName), where("isReadByAdmin", "==", false));
             const snapshot = await getDocs(q);
             if (snapshot.empty) return;
             const batch = writeBatch(db);
@@ -1332,29 +1593,39 @@
             await batch.commit();
         }
 
-        function listenForNewTickets() {
-            const ticketsNavBtn = document.querySelector('[data-panel="tickets-panel"]');
-            if (!ticketsNavBtn) return;
-            ticketsNavBtn.addEventListener('click', markAdminTicketsAsRead);
+        function listenForNewAdminNotifications() {
+            const collectionsToWatch = {
+                'tickets-panel': 'support_tickets',
+                'opinions-panel': 'opinions',
+                'polls-panel': 'polls',
+                'ratings-panel': 'ratings'
+            };
 
-            const q = query(collection(db, "support_tickets"), where("isReadByAdmin", "==", false));
-            onSnapshot(q, (snapshot) => {
-                const count = snapshot.size;
-                let badge = ticketsNavBtn.querySelector('.notification-badge');
-                if (!badge) {
-                    badge = document.createElement('span');
-                    badge.className = 'notification-badge';
-                    badge.style.right = 'auto'; // override default
-                    badge.style.left = '8px';
-                    ticketsNavBtn.appendChild(badge);
+            for (const [panelId, collectionName] of Object.entries(collectionsToWatch)) {
+                const navBtn = document.querySelector(`[data-panel="${panelId}"]`);
+                if (navBtn) {
+                    navBtn.addEventListener('click', () => markAdminItemsAsRead(collectionName));
+                    const q = query(collection(db, collectionName), where("isReadByAdmin", "==", false));
+                    onSnapshot(q, (snapshot) => {
+                        const count = snapshot.size;
+                        let badge = navBtn.querySelector('.notification-badge');
+                        if (!badge) {
+                            badge = document.createElement('span');
+                            badge.className = 'notification-badge';
+                            badge.style.right = 'auto'; 
+                            badge.style.left = '8px';
+                            navBtn.appendChild(badge);
+                        }
+                        if (count > 0) {
+                            badge.textContent = count;
+                            badge.style.display = 'flex';
+                            document.getElementById('admin-notification-sound').play();
+                        } else {
+                            badge.style.display = 'none';
+                        }
+                    });
                 }
-                if (count > 0) {
-                    badge.textContent = count;
-                    badge.style.display = 'flex';
-                } else {
-                    badge.style.display = 'none';
-                }
-            });
+            }
         }
         
         function showCountdownModal(title, callback) { openModalWithContent(title, `<div class="text-center p-8"><p class="text-lg">سيتم الإجراء خلال <span id="countdown-span" class="font-bold text-xl text-[var(--primary-glow)]">3</span>...</p></div>`); let count = 3; const countdownSpan = document.getElementById('countdown-span'); const interval = setInterval(() => { count--; if(countdownSpan) countdownSpan.textContent = count > 0 ? count + '...' : 'الآن!'; if (count <= 0) { clearInterval(interval); callback(); } }, 1000); }
@@ -1371,9 +1642,9 @@
                 showPage('splash-screen');
                 window.addEventListener('visibilitychange', () => {
                    if (document.visibilityState === 'hidden') {
-                       updateUserActivity("غادر الموقع");
+                        updateUserActivity("غادر الموقع");
                    } else {
-                       updateUserActivity("عاد للموقع");
+                        updateUserActivity("عاد للموقع");
                    }
                 });
             } else {
