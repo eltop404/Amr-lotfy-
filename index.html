@@ -542,6 +542,53 @@
         .content-policy-notice strong {
             color: #fecaca;
         }
+        /* === Lecture Content Styling === */
+        .lecture-content {
+            line-height: 1.8;
+            color: #cbd5e1;
+            font-size: 1.05rem;
+        }
+        .lecture-content h1,
+        .lecture-content h2,
+        .lecture-content h3 {
+            color: #60a5fa;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+        }
+        .lecture-content p {
+            margin-bottom: 1rem;
+            color: #e2e8f0;
+        }
+        .lecture-content strong {
+            color: #93c5fd;
+        }
+        .lecture-content em {
+            color: #bae6fd;
+            font-style: italic;
+        }
+        .lecture-content ul,
+        .lecture-content ol {
+            padding-right: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .lecture-content li {
+            margin-bottom: 0.4rem;
+        }
+        .lecture-content code {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            color: #a7f3d0;
+        }
+        .lecture-content blockquote {
+            border-right: 3px solid var(--primary-glow);
+            padding-right: 1rem;
+            margin: 1.2rem 0;
+            color: #94a3b8;
+            font-style: italic;
+        }
     </style>
 </head>
 <body class="w-full h-screen">
@@ -813,12 +860,7 @@
         const badWords = [
             "كلب", "خرا", "متناك", "معرص", "خول", "شرموطة", "كس", "زب", "عير", "قحبة", "ابن الوسخة",
             "عاهرة", "زنا", "لعين", "حقير", "وضيع", "سافل", "شاذ", "شاذة", "عاهر", "زانية", "عاهرات",
-            "فاسق", "فاسقة", "منحرف", "منحرفة", "ساقطة", "ساقط", "عاهر", "عاهرة", "سافل", "سافلة",
-            "كلاب", "خراا", "متناكك", "معرصص", "خوول", "شرموط", "كسم", "زبر", "عيرر", "قحب", "ابن الوسخ",
-            "كلبة", "خراة", "متناكة", "معرصة", "خولة", "شرموطه", "كسس", "زبب", "عيرير", "قحبه", "ابن الوسخه",
-            "اباحي", "اباحية", "اباحيي", "جنس", "جنسية", "عاهر", "عاهرة", "دعارة", "دعارة", "فاحشة", "فاحش",
-            "سافل", "سافلة", "وقح", "وقاحة", "بذاءة", "بذئ", "منحرف", "منحرفة", "شاذ", "شاذة", "مثلية", "لواط",
-            "شرمط", "شرموطه", "شرموط", "زاني", "زنا", "عاهر", "عاهره", "عاهرة", "عاهرات", "عاهر", "عاهره", "عاهرة",
+            "فاسق", "فاسقة", "منحرف", "منحرفة", "ساقطة", "ساقط", "عاهر", "عاهره", "عاهرة", "عاهرات", "عاهر", "عاهره", "عاهرة",
             "ابن وسخه", "ابن وسخة", "ولد وسخ", "بنت وسخة", "وسخ", "وسخه", "وسخة", "هنيكك", "كسمك", "ابن مىه"
         ];
         const defaultTexts = {
@@ -900,7 +942,7 @@
                     return false;
                 } else {
                     await updateDoc(userDocRef, { hasWarning: true });
-                    showToast(`ملاحظة هامة: سيتم حظر حسابك نهائيًا في حالة تكرار نشر محتوى غير لائق أو يحتوي على أرقام.`, true);
+                    showToast(`تنبيه هام: سيتم حظر حسابك نهائيًا في حالة تكرار نشر محتوى غير لائق أو يحتوي على أرقام.`, true);
                     return false;
                 }
             } catch (error) {
@@ -1015,7 +1057,6 @@
             } else {
                 document.getElementById('onboarding-modal').style.display = 'none';
                 localStorage.setItem('onboardingCompleted', 'true');
-                // ✅ تم إزالة رسالة "شكرًا لاستخدامك Mora!" تمامًا
             }
         });
         // ======================= AUTHENTICATION =======================
@@ -1114,7 +1155,6 @@
                 localStorage.setItem('moraUser', JSON.stringify(currentUser)); 
                 destroyVantaBackground(); 
                 document.getElementById('register-sound').play();
-                // ✅ تم إزالة جملة الترحيب 3D تمامًا
                 showPage('splash-screen');
             } catch (error) { 
                 errorMsg.textContent = error.message; 
@@ -1173,7 +1213,6 @@
             listenToSiteSettings(); 
             listenForNotifications(); 
             listenForSupportReplies();
-            listenForNewUserJoin(); // ✅ استقبال إشعارات انضمام طلاب جدد
             setTimeout(showOnboarding, 800);
         }
         function loadMaterialsForStudent() {
@@ -1187,10 +1226,11 @@
         window.openSubjectPage = async (subject) => { 
             await updateUserActivity(`يتصفح مادة: ${subject}`);
             const subjectPage = document.getElementById('subject-content-page'); 
+            // ✅ زر الرجوع تحت اسم المادة وليس بجانبه
             const pageHTML = `
-                <header class="p-4 flex justify-between items-center">
+                <header class="p-4 text-center">
                     <h2 class="text-xl font-bold text-[var(--primary-glow)]">${subject}</h2>
-                    <button onclick="goBackToDashboard()" class="text-3xl hover:text-[var(--primary-glow)] transition"><i class="ph-arrow-right"></i></button>
+                    <button onclick="goBackToDashboard()" class="text-2xl hover:text-[var(--primary-glow)] transition mt-2"><i class="ph-arrow-right"></i></button>
                 </header>
                 <main class="flex-grow p-4 overflow-y-auto pb-5"><div id="subject-lectures" class="text-center pt-4"><i class="ph-spinner ph-spin text-2xl"></i></div></main>
             `;
@@ -1200,30 +1240,29 @@
             const q = query(collection(db, 'lectures'), where("year", "==", currentUser.year), where("division", "==", currentUser.division), where("subject", "==", subject), where("isHidden", "==", false), orderBy('createdAt', 'desc')); 
             currentContentUnsubscribe = onSnapshot(q, (snapshot) => { if (snapshot.empty) { lecturesContainer.innerHTML = `<p class="text-slate-400 py-4">لا توجد محاضرات منشورة لهذه المادة حالياً.</p>`; } else { let contentHTML = '<div class="space-y-3">'; snapshot.forEach(doc => { const item = doc.data(); contentHTML += `<div class="glass-effect p-3 rounded-lg cursor-pointer hover:bg-slate-500/10 transition-colors" onclick="viewContentDetail('${doc.id}', '${item.title}', '${btoa(encodeURIComponent(item.body))}', '${subject}')"><h4 class="font-bold text-white">${item.title}</h4></div>`; }); contentHTML += '</div>'; lecturesContainer.innerHTML = contentHTML; } }, (error) => { console.error("Error:", error); lecturesContainer.innerHTML = `<p class="text-red-400 py-4">حدث خطأ أثناء تحميل المحاضرات.</p>`; }); 
         };
-        // ======================= NEW USER JOIN NOTIFICATION =======================
-        function listenForNewUserJoin() {
-            const usersRef = collection(db, "users");
-            onSnapshot(usersRef, (snapshot) => {
-                snapshot.docChanges().forEach(change => {
-                    if (change.type === "added") {
-                        const newUser = change.doc.data();
-                        if (newUser.name && currentUser && newUser.id !== currentUser.id) {
-                            const yearText = newUser.year === '1' ? 'الفرقة الأولى' : 'الفرقة الثانية';
-                            const divText = newUser.division === 'international' ? 'أعمال دولية' : 'نظم معلومات';
-                            showToast(`طالب جديد انضم: ${newUser.name} (${yearText} - ${divText})`, false);
-                        }
-                    }
-                });
-            });
-        }
-        // ======================= CONTENT VIEW WITHOUT SPEECH/REVIEW =======================
+        // ======================= CONTENT VIEW WITH STYLING =======================
         window.viewContentDetail = async (id, title, body, subject) => { 
             await updateUserActivity(`يشاهد محاضرة: ${title}`);
             const decodedBody = decodeURIComponent(atob(body));
-            // ✅ لا يوجد أزرار استماع أو تلخيص
-            openModalWithContent(title, `<div class="p-2" style="white-space: pre-wrap; user-select: text;">${decodedBody}</div>`); 
+            // ✅ تنسيق احترافي للنص
+            let formattedBody = decodedBody
+                .replace(/^(#+\s*.*)$/gm, '<h2>$1</h2>')
+                .replace(/^(##+\s*.*)$/gm, '<h3>$1</h3>')
+                .replace(/^\*\s+(.*)$/gm, '<li>$1</li>')
+                .replace(/(?<!<li>)(<li>.*<\/li>)/g, '<ul>$1</ul>')
+                .replace(/(?<!<\/ul>)<\/ul>(?!\s*<\/ul>)/g, '</ul>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/_(.*?)_/g, '<em>$1</em>')
+                .replace(/`(.*?)`/g, '<code>$1</code>')
+                .replace(/^>\s+(.*)$/gm, '<blockquote>$1</blockquote>');
+            // Ensure proper list wrapping
+            formattedBody = formattedBody.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+            formattedBody = formattedBody.replace(/<\/ul>\s*<ul>/g, '');
+            openModalWithContent(title, `<div class="lecture-content p-2">${formattedBody}</div>`); 
         };
-        // ======================= BOOKS WITH WATCH/DOWNLOAD BUTTONS =======================
+        // ======================= BOOKS WITH DOWNLOAD ONLY =======================
         window.showSubjectSelectionModal = (type) => { 
             updateUserActivity(`يتصفح قسم ${type === 'books' ? 'الكتب' : 'السكاشن'}`);
             const userMaterials = materials['ar'][`${currentUser.year}_${currentUser.division}`] || []; 
@@ -1250,11 +1289,11 @@
                         const item = doc.data(); 
                         const isUrl = item.body.startsWith('http'); 
                         if (type === 'books' && isUrl) {
+                            // ✅ فقط زر "تحميل" بدون "مشاهدة"
                             content += `
                                 <div class="glass-effect p-4 rounded-xl">
                                     <h5 class="font-bold text-white text-lg">${item.title}</h5>
                                     <div class="book-actions">
-                                        <button class="book-btn watch-btn" onclick="openIframeModal('${item.body}')">مشاهدة</button>
                                         <button class="book-btn download-btn" onclick="window.open('${item.body}', '_blank')">تحميل</button>
                                     </div>
                                 </div>
@@ -1277,9 +1316,18 @@
                 const meetingBtn = document.getElementById('meeting-btn');
                 const indicator = document.getElementById('meeting-live-indicator');
                 const banner = document.getElementById('live-attendance-banner');
-                if (siteSettings.isLive) {
+                const materials = materials['ar'][`${currentUser?.year}_${currentUser?.division}`] || [];
+                const isLogisticsSubject = materials.includes('اداره اللوچيستيات وسلاسل الامداد');
+                if (siteSettings.isLive && isLogisticsSubject) {
                     indicator.classList.remove('hidden');
                     banner.style.display = 'block';
+                    banner.textContent = '🎓 اضغط هنا للدخول وحضور المحاضرة مباشرة!';
+                } else if (!siteSettings.isLive && isLogisticsSubject) {
+                    indicator.classList.add('hidden');
+                    banner.style.display = 'block';
+                    banner.textContent = 'انتهى البث.';
+                    banner.style.backgroundColor = '#374151';
+                    banner.onclick = null;
                 } else {
                     indicator.classList.add('hidden');
                     banner.style.display = 'none';
@@ -1431,7 +1479,7 @@
             const pollsHTML = `
                 <div class="space-y-4">
                     <div class="content-policy-notice">
-                        <strong>تنبيه هام:</strong> يُمنع تمامًا نشر أي محتوى يحتوي على ألفاظ غير لائقة، شتائم، أرقام، أو محتوى جنسي. سيتم إصدار تحذير عند المخالفة الأولى، وحظر الحساب نهائيًا عند التكرار.
+                        <strong>تنبيه هام:</strong> يُمنع تمامًا نشر أي محتوى يحتوي على ألفاظ غير لائقة، شتائم، أرقام، أو محتوى مخل. سيتم إصدار تحذير عند المخالفة الأولى، وحظر الحساب نهائيًا عند التكرار.
                     </div>
                     <div>
                         <h4 class="text-lg font-bold text-slate-300 mb-2">ابدأ موضوعًا جديدًا</h4>
@@ -1513,7 +1561,6 @@
                 showToast('لا يمكن نشر موضوع فارغ.', true);
                 return;
             }
-            // ✅ لا يوجد حد لعدد الكلمات
             const isAllowed = await checkAndHandleContent(topic, currentUser.id, currentUser.name);
             if (!isAllowed) return;
             await addDoc(collection(db, "polls"), {
@@ -1558,7 +1605,7 @@
                     updateUserActivity('يتصفح قسم الآراء'); 
                     const opinionsHTML = `
                         <div class="content-policy-notice">
-                            <strong>تنبيه هام:</strong> يُمنع تمامًا نشر أي محتوى يحتوي على ألفاظ غير لائقة، شتائم، أرقام، أو محتوى جنسي. سيتم إصدار تحذير عند المخالفة الأولى، وحظر الحساب نهائيًا عند التكرار.
+                            <strong>تنبيه هام:</strong> يُمنع تمامًا نشر أي محتوى يحتوي على ألفاظ غير لائقة، شتائم، أرقام، أو محتوى مخل. سيتم إصدار تحذير عند المخالفة الأولى، وحظر الحساب نهائيًا عند التكرار.
                         </div>
                         <div id="opinions-view" class="space-y-3 mb-4 max-h-60 overflow-y-auto"></div>
                         <textarea id="opinion-input" class="w-full rounded-lg input-field mt-4" rows="3" placeholder="اكتب رأيك هنا..."></textarea>
@@ -1700,6 +1747,7 @@
                             </div>
                             <div class="mt-4 bg-gradient-to-r from-[var(--primary-glow)]/20 to-[var(--secondary-glow)]/20 p-2 rounded-lg text-center backdrop-blur-sm">
                                 <p class="font-mono text-lg md:text-xl text-[var(--primary-glow)] tracking-wider whitespace-nowrap">${currentUser.studentId || 'ID غير متوفر'}</p>
+                                <p class="text-xs text-slate-300 mt-1">استخدم هذا الرقم التعريفي (ID) في أي مكان يتطلب التحقق من هويتك كطالب.</p>
                             </div>
                         </div>
                     </div>
@@ -1810,7 +1858,7 @@
                 'tickets-panel': 'support_tickets',
                 'opinions-panel': 'opinions',
                 'polls-panel': 'polls',
-                'attendance-panel': 'attendance', // ✅
+                'attendance-panel': 'attendance',
             };
             for (const [panelId, collectionName] of Object.entries(collectionsToWatch)) {
                 const navBtn = document.querySelector(`[data-panel="${panelId}"]`);
@@ -1840,11 +1888,13 @@
         }
         function showCountdownModal(title, callback) { openModalWithContent(title, `<div class="text-center p-8"><p class="text-lg">سيتم الإجراء خلال <span id="countdown-span" class="font-bold text-xl text-[var(--primary-glow)]">3</span>...</p></div>`); let count = 3; const countdownSpan = document.getElementById('countdown-span'); const interval = setInterval(() => { count--; if(countdownSpan) countdownSpan.textContent = count > 0 ? count + '...' : 'الآن!'; if (count <= 0) { clearInterval(interval); callback(); } }, 1000); }
         function handleLogout() { showCountdownModal('تسجيل الخروج', () => { updateUserActivity("سجل الخروج"); const userToLogOut = { ...currentUser }; localStorage.removeItem('moraUser'); currentUser = null; document.getElementById('generic-modal').classList.remove('open'); showPage('auth-page'); renderAuthForm(false, false); if (userToLogOut && userToLogOut.name) { document.getElementById('auth-name').value = userToLogOut.name; document.getElementById('auth-password').value = userToLogOut.password || ''; } initVantaBackground(); }); }
+        // ✅ مراقبة حذف الحساب من لوحة التحكم
         function listenForUserBanOrDeletion() {
             if (!currentUser || currentUser.isAdmin || !currentUser.id) return;
             const userDocRef = doc(db, "users", currentUser.id);
             onSnapshot(userDocRef, (doc) => {
                 if (!doc.exists()) {
+                    // تم حذف الحساب من لوحة التحكم
                     handleImmediateBan("تم حذف حسابك من النظام.");
                     return;
                 }
@@ -2053,7 +2103,7 @@
                 });
                 if(container) container.innerHTML = h;
             });
-            // ✅ Attendance Panel
+            // ✅ Attendance Panel with Delete Button (only from attendance, not users)
             const attendanceRef = collection(db, "attendance");
             onSnapshot(query(attendanceRef, orderBy("timestamp", "desc")), (snapshot) => {
                 const container = document.getElementById('attendance-list');
@@ -2068,11 +2118,14 @@
                     const device = parseUserAgent(att.userAgent);
                     const time = att.timestamp ? att.timestamp.toDate().toLocaleString('ar-EG') : 'غير معروف';
                     html += `
-                        <div class="glass-effect p-3 rounded-lg">
-                            <p class="font-bold text-white">${att.userName}</p>
-                            <p class="text-sm text-slate-400">${att.userDivision === 'international' ? 'IB' : 'BIS'} - ${att.userYear}</p>
-                            <p class="text-xs text-slate-500 mt-1">الوقت: ${time}</p>
-                            <p class="text-xs text-slate-500">الجهاز: ${device} | IP: ${att.ipAddress || 'N/A'}</p>
+                        <div class="glass-effect p-3 rounded-lg flex justify-between items-start">
+                            <div>
+                                <p class="font-bold text-white">${att.userName}</p>
+                                <p class="text-sm text-slate-400">${att.userDivision === 'international' ? 'IB' : 'BIS'} - ${att.userYear}</p>
+                                <p class="text-xs text-slate-500 mt-1">الوقت: ${time}</p>
+                                <p class="text-xs text-slate-500">الجهاز: ${device} | IP: ${att.ipAddress || 'N/A'}</p>
+                            </div>
+                            <button onclick="deleteAttendanceRecord('${doc.id}')" class="text-red-500 hover:text-red-400 text-lg p-1"><i class="ph-trash"></i></button>
                         </div>
                     `;
                 });
@@ -2171,6 +2224,17 @@
                 showToast('تمت إضافة الفئة!');
             });
         }
+        // ✅ Delete ONLY attendance record (not user)
+        window.deleteAttendanceRecord = async (recordId) => {
+            if (!confirm('هل أنت متأكد من حذف سجل الحضور لهذا الطالب؟ لن يتمكن من الدخول إلى البث المباشر مستقبلاً، لكن حسابه سيظل نشطًا في الموقع.')) return;
+            try {
+                await deleteDoc(doc(db, "attendance", recordId));
+                showToast('تم حذف سجل الحضور بنجاح.');
+            } catch (error) {
+                console.error("Error deleting attendance record:", error);
+                showToast("حدث خطأ أثناء الحذف.", true);
+            }
+        };
         async function displayAdminContent() { const { type, year, division, subject, contentList } = adminContentPanelEl; const coll = type.value; const filters = [ where("year", "==", year.value), where("division", "==", division.value) ]; if (subject.value) filters.push(where("subject", "==", subject.value)); if (!year.value || !division.value) { contentList.innerHTML = '<p class="text-center text-slate-400">اختر الفرقة والشعبة لعرض المحتوى.</p>'; return; } const q = query(collection(db, coll), ...filters); onSnapshot(q, (snapshot) => { let h = ''; if (snapshot.empty) { h = '<p class="text-center text-slate-400">لا يوجد محتوى يطابق هذا الفلتر.</p>'; } else { snapshot.forEach(doc => { const item = doc.data(); h += `<div class="p-3 rounded-lg flex justify-between items-center hover:bg-slate-500/10 transition"><p class="font-semibold text-white truncate">${item.title} (${item.subject})</p><div class="flex gap-2"><button onclick="populateContentForm('${doc.id}', '${coll}')" class="text-sky-400 hover:text-sky-300 text-lg"><i class="ph-pencil-simple"></i></button><button onclick="toggleContentVisibility('${doc.id}', '${coll}', ${item.isHidden || false})" class="text-yellow-400 hover:text-yellow-300 text-lg"><i class="ph ${item.isHidden ? 'ph-eye-slash' : 'ph-eye'}"></i></button><button onclick="deleteContent('${doc.id}', '${coll}')" class="text-red-500 hover:text-red-400 text-lg"><i class="ph-trash"></i></button></div></div>`; }); } contentList.innerHTML = h; }); }
         window.populateContentForm = async (id, coll) => { const docSnap = await getDoc(doc(db, coll, id)); if (docSnap.exists()) { const item = docSnap.data(); adminContentPanelEl.title.value = item.title; adminContentPanelEl.body.value = item.body; adminContentPanelEl.subject.value = item.subject; adminContentPanelEl.formTitle.textContent = 'تعديل المحتوى'; adminContentPanelEl.saveBtn.textContent = 'حفظ التعديلات'; adminContentPanelEl.cancelBtn.classList.remove('hidden'); currentEditState = { id, collection: coll }; } }
         function resetContentForm() { adminContentPanelEl.formTitle.textContent = 'إضافة محتوى جديد'; adminContentPanelEl.saveBtn.textContent = 'حفظ'; adminContentPanelEl.cancelBtn.classList.add('hidden'); adminContentPanelEl.title.value = ''; adminContentPanelEl.body.value = ''; currentEditState = { id: null, collection: null }; }
@@ -2325,5 +2389,5 @@
             if(modalCloseBtn.onclick) modalCloseBtn.onclick();
         });
     </script>
-</body>  
+</body>
 </html>
