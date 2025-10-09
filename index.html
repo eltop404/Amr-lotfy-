@@ -348,12 +348,12 @@
             background: var(--primary-glow);
             color: var(--bg-color);
         }
-        .course-actions, .book-actions, .ai-summary-actions {
+        .course-actions, .book-actions, .ai-summary-actions, .news-actions {
             display: flex;
             gap: 0.5rem;
             margin-top: 0.75rem;
         }
-        .course-btn, .book-btn, .ai-summary-btn {
+        .course-btn, .book-btn, .ai-summary-btn, .news-btn {
             flex: 1;
             padding: 0.4rem 0.6rem;
             font-size: 0.85rem;
@@ -546,6 +546,90 @@
         .cinematic-divider::after {
             right: 0;
         }
+
+        /* === NEWS SECTION === */
+        .news-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .news-item h4 {
+            color: var(--primary-glow);
+            margin-bottom: 0.5rem;
+        }
+        .news-item p {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .news-meta {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .news-reactions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .reaction-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .reaction-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .reaction-count {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-left: 0.25rem;
+        }
+        .news-placeholder {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 2rem;
+        }
+        .news-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .news-header img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+        .news-header p {
+            color: var(--primary-glow);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .emoji-picker {
+            display: none;
+            position: absolute;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            z-index: 10;
+        }
+        .emoji-option {
+            display: inline-block;
+            padding: 0.25rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .emoji-option:hover {
+            background: rgba(255,255,255,0.1);
+            border-radius: 0.25rem;
+        }
     </style>
 </head>
 <body class="w-full h-screen">
@@ -634,10 +718,28 @@
                 <button id="study-timer-nav-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-timer text-xl"></i><span>تايمر</span></button>
                 <button data-modal="settings-modal" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-gear-six text-xl"></i><span>الإعدادات</span></button>
                 <button id="account-options-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-user-circle text-xl"></i><span>حسابي</span></button>
+                <!-- ✅ NEW: News Button -->
+                <button id="news-nav-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-newspaper text-xl"></i><span>أخبار</span></button>
             </nav>
         </div>
         <!-- Subject Content Page -->
         <div id="subject-content-page" class="page h-screen w-screen overflow-hidden"></div>
+        <!-- ✅ News Page -->
+        <div id="news-page" class="page h-screen w-screen overflow-hidden">
+            <header class="p-4 text-center">
+                <h2 class="text-xl font-bold text-[var(--primary-glow)]">أخبار المعهد</h2>
+                <button onclick="goBackToDashboard()" class="text-2xl hover:text-[var(--primary-glow)] transition mt-2"><i class="ph-arrow-right"></i></button>
+            </header>
+            <main class="flex-grow p-4 overflow-y-auto pb-5">
+                <div class="news-header">
+                    <img src="https://i.postimg.cc/mgdFZ313/IMG-20250414-WA0047-1.jpg" alt="Institute Logo" class="glowing-logo">
+                    <p>الأخبار تُنشر لحظة بلحظة من إدارة المعهد لتواصلكم الفعّال</p>
+                </div>
+                <div id="news-list" class="space-y-4">
+                    <div class="text-center"><i class="ph-spinner ph-spin text-2xl"></i></div>
+                </div>
+            </main>
+        </div>
         <!-- Admin Dashboard -->
         <div id="admin-dashboard" class="page h-screen w-screen overflow-hidden">
              <div class="flex flex-col lg:flex-row h-full">
@@ -659,6 +761,8 @@
                         <button data-panel="attendance-panel" class="admin-nav-btn text-right p-3 rounded-lg">تسجيل الحضور</button>
                         <!-- ✅ NEW: AI Summary Panel -->
                         <button data-panel="ai-summary-panel" class="admin-nav-btn text-right p-3 rounded-lg">شرح المحاضرات بالـ AI</button>
+                        <!-- ✅ NEW: News Panel -->
+                        <button data-panel="news-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة الأخبار</button>
                   </nav>
                   <div class="mt-auto flex-shrink-0 pt-4">
                         <button id="admin-logout-btn" class="w-full py-2 rounded-lg text-lg font-bold btn-celestial border-red-500 text-red-500 hover:bg-red-500 hover:text-white">خروج</button>
@@ -686,10 +790,21 @@
                             </select>
                             <input id="ai-summary-lecture-number" type="number" min="1" placeholder="رقم المحاضرة" class="w-full rounded-lg input-field mb-4">
                             <input id="ai-summary-title" type="text" placeholder="عنوان الفيديو (اختياري)" class="w-full rounded-lg input-field mb-4">
-                            <input id="ai-summary-url" type="text" placeholder="رابط فيديو يوتيوب" class="w-full rounded-lg input-field mb-4">
+                            <input id="ai-summary-url" type="text" placeholder="رابط الفيديو (أي رابط)" class="w-full rounded-lg input-field mb-4">
                             <button id="add-ai-summary-btn" class="w-full py-2 rounded-lg font-bold btn-celestial">إضافة الفيديو</button>
                         </div>
                         <div id="admin-ai-summary-list" class="space-y-4"></div>
+                    </div>
+                    <!-- ✅ NEWS PANEL -->
+                    <div id="news-panel" class="admin-panel hidden">
+                        <h2 class="text-3xl font-bold mb-6">إدارة الأخبار</h2>
+                        <div class="glass-effect p-6 rounded-lg mb-6">
+                            <h3 class="font-bold mb-4">إضافة خبر جديد</h3>
+                            <input id="news-title" type="text" placeholder="عنوان الخبر" class="w-full rounded-lg input-field mb-4">
+                            <textarea id="news-body" placeholder="نص الخبر" class="w-full rounded-lg input-field mb-4" rows="4"></textarea>
+                            <button id="add-news-btn" class="w-full py-2 rounded-lg font-bold btn-celestial">نشر الخبر</button>
+                        </div>
+                        <div id="admin-news-list" class="space-y-4"></div>
                     </div>
                     <!-- Other panels remain unchanged -->
                     <div id="info-panel" class="admin-panel hidden">
@@ -763,7 +878,7 @@
                             </select>
                             <input id="course-title-input" type="text" placeholder="عنوان الكورس" class="w-full rounded-lg input-field mb-4">
                             <textarea id="course-desc-input" placeholder="وصف الكورس" class="w-full rounded-lg input-field mb-4" rows="3"></textarea>
-                            <input id="course-url-input" type="text" placeholder="رابط فيديو يوتيوب" class="w-full rounded-lg input-field mb-4">
+                            <input id="course-url-input" type="text" placeholder="رابط الفيديو (أي رابط)" class="w-full rounded-lg input-field mb-4">
                             <button id="add-course-btn" class="w-full py-2 rounded-lg font-bold btn-celestial">إضافة الكورس</button>
                          </div>
                          <div id="admin-courses-list" class="space-y-4"></div>
@@ -793,6 +908,13 @@
             <div id="modal-body" class="overflow-y-auto flex-grow"></div>
         </div>
     </div>
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal fixed inset-0 bg-black/80 backdrop-blur-md z-[1001] justify-center items-center p-4 hidden">
+        <div class="relative w-full max-w-4xl max-h-[90vh]">
+            <button id="close-video-btn" class="absolute top-2 right-2 z-10 text-white bg-black/50 rounded-full p-2 hover:bg-black/70 transition text-2xl">×</button>
+            <iframe id="video-iframe" class="w-full h-[70vh] rounded-lg" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
     <!-- Toast Notification -->
     <div id="toast-notification" class="fixed top-5 right-5 glass-effect p-4 rounded-lg shadow-lg z-[2000] opacity-0 -translate-y-12 transition-all duration-500">
         <p id="toast-message"></p>
@@ -816,7 +938,7 @@
     <script type="module">
         // === Firebase imports ===
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, doc, addDoc, getDocs, query, where, onSnapshot, deleteDoc, updateDoc, orderBy, serverTimestamp, getDoc, setDoc, limit, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, collection, doc, addDoc, getDocs, query, where, onSnapshot, deleteDoc, updateDoc, orderBy, serverTimestamp, getDoc, setDoc, limit, writeBatch, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         const firebaseConfig = {
             apiKey: "AIzaSyB92ooyA5_tTx1BLDp2EWmqxHuJQ3zqah4",
             authDomain: "mora-for-studying.firebaseapp.com",
@@ -918,7 +1040,6 @@
         // ======================= CINEMATIC MODE =======================
         let cinematicPlayed = {};
         function playCinematicMode(title, category = 'default', isNewUser = false) {
-            // ✅ السينما يشتغل فقط للمستخدم الجديد
             if (!isNewUser) return;
             const key = `${category}-${title}`;
             if (cinematicPlayed[key]) return;
@@ -1010,29 +1131,18 @@
                 } catch (error) {}
             }
         }
-        function getYoutubeEmbedUrl(url) {
-            let videoId = '';
-            try {
-                if (url.includes('embed')) return url;
-                const urlObj = new URL(url);
-                if (urlObj.hostname === 'youtu.be') {
-                    videoId = urlObj.pathname.slice(1);
-                } else if (urlObj.hostname.includes('youtube.com')) {
-                    videoId = urlObj.searchParams.get('v');
-                }
-            } catch(e) { console.error("Invalid URL:", e) }
-            return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
-        }
         window.openVideoModal = (url) => {
-            const embedUrl = getYoutubeEmbedUrl(url);
-            if (embedUrl) {
-                const videoHTML = `<div class="video-container"><iframe src="${embedUrl}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-[70vh] rounded-lg"></iframe></div>`;
-                openModalWithContent('مشاهدة الفيديو', videoHTML);
-            } else {
-                showToast("رابط الفيديو غير صالح، سيتم فتحه في نافذة جديدة.", true);
-                window.open(url, '_blank');
-            }
+            const videoModal = document.getElementById('video-modal');
+            const iframe = document.getElementById('video-iframe');
+            iframe.src = url;
+            videoModal.classList.remove('hidden');
         };
+        document.getElementById('close-video-btn').addEventListener('click', () => {
+            const videoModal = document.getElementById('video-modal');
+            const iframe = document.getElementById('video-iframe');
+            iframe.src = '';
+            videoModal.classList.add('hidden');
+        });
         function getSubjectIcon(subjectName) {
             const lowerCaseName = subjectName.toLowerCase();
             for (const key in subjectIcons) {
@@ -1227,7 +1337,6 @@
                 localStorage.setItem('moraUser', JSON.stringify(currentUser));
                 destroyVantaBackground();
                 document.getElementById('register-sound').play();
-                // ✅ تشغيل سينمائي مرة واحدة فقط للمستخدم الجديد
                 playCinematicMode("مرحباً بك في Mora!", 'welcome', true);
                 showPage('splash-screen');
             } catch (error) {
@@ -1270,7 +1379,6 @@
                 await updateUserActivity("سجل الدخول للتو");
                 localStorage.setItem('moraUser', JSON.stringify(currentUser));
                 showPage('splash-screen');
-                // ✅ لا سينمائي عند تسجيل الدخول العادي
             } catch (error) {
                 errorMsg.textContent = error.message;
                 submitBtn.disabled = false;
@@ -1289,7 +1397,6 @@
             listenToSiteSettings();
             listenForNotifications();
             listenForSupportReplies();
-            // ✅ تم إزالة showOnboarding()
         }
         function loadMaterialsForStudent() {
             const userMaterials = materials['ar'][`${currentUser.year}_${currentUser.division}`] || [];
@@ -1305,10 +1412,10 @@
             if (currentContentUnsubscribe) currentContentUnsubscribe();
             showPage('student-dashboard');
             document.getElementById('subject-content-page').innerHTML = '';
+            document.getElementById('news-page').innerHTML = '';
         }
         window.openSubjectPage = async (subject) => {
             await updateUserActivity(`يتصفح مادة: ${subject}`);
-            // ✅ لا سينمائي عند فتح المادة
             const subjectPage = document.getElementById('subject-content-page');
             const pageHTML = `
                 <header class="p-4 text-center">
@@ -1398,7 +1505,6 @@
         };
         window.openContentModal = async (type, subject) => {
             const title = `${type === 'books' ? 'الكتب' : 'السكاشن'} - ${subject}`;
-            // ✅ لا سينمائي عند فتح الكتب أو السكاشن
             openModalWithContent(title, `<div id="modal-content-list" class="text-center"><i class="ph-spinner ph-spin text-2xl"></i></div>`);
             const container = document.getElementById('modal-content-list');
             const q = query(collection(db, type), where("year", "==", currentUser.year), where("division", "==", currentUser.division), where("subject", "==", subject), where("isHidden", "==", false), orderBy('createdAt', 'desc'));
@@ -1458,7 +1564,6 @@
         }
         async function showCoursesList() {
             await updateUserActivity("يتصفح قسم الكورسات");
-            // ✅ لا سينمائي عند فتح الكورسات
             const q = query(collection(db, "courses"), orderBy("category"));
             const snapshot = await getDocs(q);
             let content = '<div class="space-y-4">';
@@ -1496,6 +1601,129 @@
         document.getElementById('courses-btn').addEventListener('click', async () => {
             showCoursesList();
         });
+
+        // ======================= NEWS SECTION =======================
+        document.getElementById('news-nav-btn').addEventListener('click', async () => {
+            await updateUserActivity("يفتح قسم الأخبار");
+            const newsPage = document.getElementById('news-page');
+            newsPage.innerHTML = `
+                <header class="p-4 text-center">
+                    <h2 class="text-xl font-bold text-[var(--primary-glow)]">أخبار المعهد</h2>
+                    <button onclick="goBackToDashboard()" class="text-2xl hover:text-[var(--primary-glow)] transition mt-2"><i class="ph-arrow-right"></i></button>
+                </header>
+                <main class="flex-grow p-4 overflow-y-auto pb-5">
+                    <div class="news-header">
+                        <img src="https://i.postimg.cc/mgdFZ313/IMG-20250414-WA0047-1.jpg" alt="Institute Logo" class="glowing-logo">
+                        <p>الأخبار تُنشر لحظة بلحظة من إدارة المعهد لتواصلكم الفعّال</p>
+                    </div>
+                    <div id="news-list" class="space-y-4">
+                        <div class="text-center"><i class="ph-spinner ph-spin text-2xl"></i></div>
+                    </div>
+                </main>
+            `;
+            showPage('news-page');
+            loadNewsForStudent();
+        });
+
+        function loadNewsForStudent() {
+            const newsList = document.getElementById('news-list');
+            const q = query(collection(db, 'news'), where("isHidden", "==", false), orderBy('createdAt', 'desc'));
+            onSnapshot(q, (snapshot) => {
+                if (snapshot.empty) {
+                    newsList.innerHTML = '<div class="news-placeholder">لا توجد أخبار حالياً.</div>';
+                } else {
+                    let html = '';
+                    snapshot.forEach(doc => {
+                        const item = doc.data();
+                        const date = item.createdAt ? item.createdAt.toDate().toLocaleDateString('ar-EG') : '';
+                        html += `
+                            <div class="news-item" data-id="${doc.id}">
+                                <h4>${item.title}</h4>
+                                <p>${item.body}</p>
+                                <div class="news-meta">${date}</div>
+                                <div class="news-reactions">
+                                    <button class="reaction-btn like-btn">👍</button>
+                                    <span class="reaction-count like-count">${item.likes?.length || 0}</span>
+                                    <button class="reaction-btn emoji-btn">😊</button>
+                                </div>
+                                <div class="emoji-picker" id="emoji-picker-${doc.id}">
+                                    <span class="emoji-option" data-emoji="😊">😊</span>
+                                    <span class="emoji-option" data-emoji="❤️">❤️</span>
+                                    <span class="emoji-option" data-emoji="🔥">🔥</span>
+                                    <span class="emoji-option" data-emoji="🎉">🎉</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    newsList.innerHTML = html;
+                    attachNewsEventListeners();
+                }
+            });
+        }
+
+        function attachNewsEventListeners() {
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const newsItem = e.target.closest('.news-item');
+                    const newsId = newsItem.dataset.id;
+                    if (!currentUser) return;
+                    const newsRef = doc(db, 'news', newsId);
+                    const newsDoc = await getDoc(newsRef);
+                    if (!newsDoc.exists()) return;
+                    const likes = newsDoc.data().likes || [];
+                    if (likes.includes(currentUser.id)) {
+                        // Unlike
+                        await updateDoc(newsRef, {
+                            likes: likes.filter(id => id !== currentUser.id)
+                        });
+                    } else {
+                        // Like
+                        await updateDoc(newsRef, {
+                            likes: arrayUnion(currentUser.id)
+                        });
+                    }
+                    loadNewsForStudent();
+                });
+            });
+
+            document.querySelectorAll('.emoji-btn').forEach(btn => {
+                btn.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                });
+                btn.addEventListener('mousedown', (e) => {
+                    if (e.button !== 0) return;
+                    const newsItem = e.target.closest('.news-item');
+                    const picker = newsItem.querySelector('.emoji-picker');
+                    picker.style.display = 'block';
+                    setTimeout(() => {
+                        document.addEventListener('click', closeEmojiPicker);
+                    }, 0);
+                });
+            });
+
+            function closeEmojiPicker(e) {
+                if (!e.target.closest('.emoji-picker') && !e.target.closest('.emoji-btn')) {
+                    document.querySelectorAll('.emoji-picker').forEach(p => p.style.display = 'none');
+                    document.removeEventListener('click', closeEmojiPicker);
+                }
+            }
+
+            document.querySelectorAll('.emoji-option').forEach(option => {
+                option.addEventListener('click', async (e) => {
+                    const emoji = e.target.dataset.emoji;
+                    const newsItem = e.target.closest('.news-item');
+                    const newsId = newsItem.dataset.id;
+                    if (!currentUser) return;
+                    const newsRef = doc(db, 'news', newsId);
+                    await updateDoc(newsRef, {
+                        [`reactions.${currentUser.id}`]: emoji
+                    });
+                    showToast(`تفاعلتم بـ ${emoji}`);
+                    document.querySelectorAll('.emoji-picker').forEach(p => p.style.display = 'none');
+                    document.removeEventListener('click', closeEmojiPicker);
+                });
+            });
+        }
 
         // ======================= MEETING BUTTON HANDLER =======================
         document.getElementById('meeting-btn').addEventListener('click', async () => {
@@ -1583,7 +1811,6 @@
         // ======================= SUMMARY SECTION =======================
         document.getElementById('summary-nav-btn').addEventListener('click', () => {
             updateUserActivity("يفتح قسم التلخيص");
-            // ✅ لا سينمائي هنا
             const summaryHTML = `
                 <div class="p-4 space-y-4 text-center">
                     <h3 class="text-xl font-bold text-[var(--primary-glow)]">تلخيص المحاضرات</h3>
@@ -1602,7 +1829,6 @@
         // ======================= POLLS/DISCUSSION FEATURE =======================
         async function openPollsView() {
             updateUserActivity("يتصفح الاستطلاعات");
-            // ✅ لا سينمائي هنا
             const pollsHTML = `
                 <div class="space-y-4">
                     <div class="content-policy-notice">
@@ -1731,7 +1957,6 @@
                 if (currentContentUnsubscribe) currentContentUnsubscribe();
                 if (type === 'opinions-modal') {
                     updateUserActivity('يتصفح قسم الآراء');
-                    // ✅ لا سينمائي
                     const opinionsHTML = `
                         <div class="content-policy-notice">
                             <strong>تنبيه هام:</strong> يُمنع تمامًا نشر أي محتوى يحتوي على ألفاظ غير لائقة، شتائم، أرقام، أو محتوى مخل. سيتم إصدار تحذير عند المخالفة الأولى، وحظر الحساب نهائيًا عند التكرار.
@@ -1788,7 +2013,6 @@
                 }
                 if (type === 'ai-tools-modal') {
                     updateUserActivity("يتصفح أدوات الذكاء الاصطناعي");
-                    // ✅ لا سينمائي
                     const q = query(collection(db, "ai_tools"));
                     const snapshot = await getDocs(q);
                     let content = '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
@@ -1850,7 +2074,6 @@
             }));
             document.getElementById('digital-card-nav-btn').addEventListener('click', () => {
                 updateUserActivity("يفتح بطاقته الرقمية");
-                // ✅ لا سينمائي
                 const issueDate = currentUser.createdAt && currentUser.createdAt.seconds ? new Date(currentUser.createdAt.seconds * 1000).toLocaleDateString('ar-EG') : new Date().toLocaleDateString('ar-EG');
                 const cardHTML = `
                     <div class="p-4 rounded-2xl bg-gradient-to-br from-slate-800 via-slate-900 to-black w-full max-w-md mx-auto shadow-2xl shadow-black/50 border border-[var(--primary-glow)] relative overflow-hidden"
@@ -1898,12 +2121,10 @@
             });
             document.getElementById('privacy-policy-nav-btn').addEventListener('click', () => {
                 updateUserActivity("يقرأ سياسة الخصوصية");
-                // ✅ لا سينمائي
                 openModalWithContent('سياسة الخصوصية', '<div class="p-2 text-sm text-slate-300 space-y-3"><p><strong>مقدمة:</strong> نحن في منصة "Mora For Studying" نأخذ خصوصية بياناتك على محمل الجد.</p><p><strong>البيانات التي نجمعها:</strong> عند إنشاء حساب، نقوم بجمع الاسم، الفرقة، الشعبة، بالإضافة إلى IP Address ونوع الجهاز لأغراض أمنية وتحليلية.</p><p><strong>استخدام البيانات:</strong> لا يتم مشاركة بياناتك الشخصية مع أي طرف ثالث. تستخدم البيانات داخلياً لتحسين تجربتك وتأمين المنصة.</p><p class="font-bold text-red-400 border-t border-red-500/30 pt-3 mt-3"><strong>سياسة الاستخدام العادل:</strong> أي محاولة لإساءة استخدام الموقع، أو نشر محتوى غير لائق، أو التحايل على نظام النقاط سيؤدي إلى <strong>الحظر الفوري والدائم للحساب</strong> دون سابق إنذار.</p><p class="text-xs text-slate-500 text-center pt-3">تطوير Amr lotfy</p></div>');
             });
             document.getElementById('study-timer-nav-btn').addEventListener('click', () => {
                 updateUserActivity("يفتح تايمر المذاكرة");
-                // ✅ لا سينمائي
                 openModalWithContent('تايمر المذاكرة', `<div class="text-center p-4 flex flex-col items-center"><p id="timer-display" class="text-6xl font-mono tracking-widest mb-6">${formatTime(timerState.duration)}</p><div class="flex gap-4"><button id="timer-start-btn" class="w-24 py-2 rounded-lg text-base font-bold btn-celestial">بدء</button><button id="timer-reset-btn" class="w-24 py-2 rounded-lg text-base font-bold btn-celestial border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black">إعادة ضبط</button></div></div>`);
                 document.getElementById('timer-start-btn').onclick = () => timerState.running ? stopTimer() : startTimer();
                 document.getElementById('timer-reset-btn').onclick = () => { stopTimer(); timerState.duration = 25 * 60; updateTimerDisplay(); };
@@ -2039,7 +2260,8 @@
                 'opinions-panel': 'opinions',
                 'polls-panel': 'polls',
                 'attendance-panel': 'attendance',
-                'ai-summary-panel': 'ai_summary_videos'
+                'ai-summary-panel': 'ai_summary_videos',
+                'news-panel': 'news'
             };
             for (const [panelId, collectionName] of Object.entries(collectionsToWatch)) {
                 const navBtn = document.querySelector(`[data-panel="${panelId}"]`);
@@ -2232,7 +2454,6 @@
             }));
             navBtns[0].click();
             initTextManagementPanel();
-            // Existing listeners...
             // ✅ AI Summary Panel Logic
             const aiSummaryYear = document.getElementById('ai-summary-year');
             const aiSummaryDivision = document.getElementById('ai-summary-division');
@@ -2262,10 +2483,6 @@
                 const url = document.getElementById('ai-summary-url').value.trim();
                 if (!year || !division || !subject || !lectureNumber || !url) {
                     showToast('يرجى ملء جميع الحقول', true);
-                    return;
-                }
-                if (!url.startsWith('https://www.youtube.com/') && !url.startsWith('https://youtu.be/')) {
-                    showToast('الرجاء إدخال رابط يوتيوب صحيح.', true);
                     return;
                 }
                 await addDoc(collection(db, 'ai_summary_videos'), {
@@ -2345,10 +2562,6 @@
                         showToast('يرجى ملء جميع الحقول', true);
                         return;
                     }
-                    if (!url.startsWith('https://www.youtube.com/') && !url.startsWith('https://youtu.be/')) {
-                        showToast('الرجاء إدخال رابط يوتيوب صحيح.', true);
-                        return;
-                    }
                     await updateDoc(doc(db, 'ai_summary_videos', currentEditState.id), {
                         year, division, subject, lectureNumber: parseInt(lectureNumber),
                         title: title || `محاضرة رقم ${lectureNumber}`,
@@ -2370,6 +2583,94 @@
                 currentEditState = { id: null, collection: null };
                 document.getElementById('add-ai-summary-btn').textContent = 'إضافة الفيديو';
             }
+
+            // ✅ NEWS PANEL LOGIC
+            document.getElementById('add-news-btn').addEventListener('click', async () => {
+                const title = document.getElementById('news-title').value.trim();
+                const body = document.getElementById('news-body').value.trim();
+                if (!title || !body) {
+                    showToast('يرجى ملء جميع الحقول', true);
+                    return;
+                }
+                await addDoc(collection(db, 'news'), {
+                    title,
+                    body,
+                    createdAt: serverTimestamp(),
+                    isHidden: false,
+                    likes: [],
+                    reactions: {}
+                });
+                showToast('تم نشر الخبر!');
+                document.getElementById('news-title').value = '';
+                document.getElementById('news-body').value = '';
+            });
+
+            onSnapshot(query(collection(db, "news"), orderBy('createdAt', 'desc')), s => {
+                const container = document.getElementById('admin-news-list');
+                if (!container) return;
+                let h = '';
+                if (s.empty) {
+                    h = '<p class="text-center text-slate-400">لا توجد أخبار بعد.</p>';
+                } else {
+                    s.forEach(d => {
+                        const v = d.data();
+                        const date = v.createdAt ? v.createdAt.toDate().toLocaleDateString('ar-EG') : '';
+                        h += `
+                            <div class="glass-effect p-4 rounded-lg flex justify-between items-start">
+                                <div>
+                                    <p class="font-bold text-white">${v.title}</p>
+                                    <p class="text-sm text-slate-400">${v.body.substring(0, 50)}${v.body.length > 50 ? '...' : ''}</p>
+                                    <p class="text-xs text-slate-500">نشر في: ${date}</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="populateNewsForm('${d.id}')" class="text-sky-400 hover:text-sky-300 text-lg"><i class="ph-pencil-simple"></i></button>
+                                    <button onclick="toggleNewsVisibility('${d.id}', ${v.isHidden || false})" class="text-yellow-400 hover:text-yellow-300 text-lg"><i class="ph ${v.isHidden ? 'ph-eye-slash' : 'ph-eye'}"></i></button>
+                                    <button onclick="deleteFromCollection('${d.id}', 'news')" class="text-red-500 hover:text-red-400 text-lg"><i class="ph-trash"></i></button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                container.innerHTML = h;
+            });
+
+            window.populateNewsForm = async (id) => {
+                const docSnap = await getDoc(doc(db, 'news', id));
+                if (docSnap.exists()) {
+                    const item = docSnap.data();
+                    document.getElementById('news-title').value = item.title;
+                    document.getElementById('news-body').value = item.body;
+                    currentEditState = { id, collection: 'news' };
+                    document.getElementById('add-news-btn').textContent = 'حفظ التعديلات';
+                }
+            };
+
+            window.toggleNewsVisibility = async (id, isHidden) => {
+                await updateDoc(doc(db, 'news', id), { isHidden: !isHidden });
+                showToast(`تم ${isHidden ? 'إظهار' : 'إخفاء'} الخبر.`);
+            };
+
+            // Override save button for news
+            document.getElementById('add-news-btn').addEventListener('click', async function(e) {
+                if (currentEditState.id && currentEditState.collection === 'news') {
+                    const title = document.getElementById('news-title').value.trim();
+                    const body = document.getElementById('news-body').value.trim();
+                    if (!title || !body) {
+                        showToast('يرجى ملء جميع الحقول', true);
+                        return;
+                    }
+                    await updateDoc(doc(db, 'news', currentEditState.id), {
+                        title,
+                        body
+                    });
+                    showToast('تم تحديث الخبر!');
+                    document.getElementById('news-title').value = '';
+                    document.getElementById('news-body').value = '';
+                    currentEditState = { id: null, collection: null };
+                    document.getElementById('add-news-btn').textContent = 'نشر الخبر';
+                }
+            });
+
             // Other panels...
             onSnapshot(collection(db, "users"), (snap) => { adminDashboardEl.studentCount.textContent = snap.size; });
             onSnapshot(collection(db, "opinions"), (snap) => { adminDashboardEl.opinionsCount.textContent = snap.size; });
@@ -2628,7 +2929,6 @@
                 showToast('تمت إضافة الفئة!');
             });
         }
-
         // ✅ Delete ONLY attendance record (not user)
         window.deleteAttendanceRecord = async (recordId) => {
             if (!confirm('هل أنت متأكد من حذف سجل الحضور لهذا الطالب؟ لن يتمكن من الدخول إلى البث المباشر مستقبلاً، لكن حسابه سيظل نشطًا في الموقع.')) return;
@@ -2640,7 +2940,6 @@
                 showToast("حدث خطأ أثناء الحذف.", true);
             }
         };
-
         async function displayAdminContent() {
             const { type, year, division, subject, contentList } = adminContentPanelEl;
             const coll = type.value;
