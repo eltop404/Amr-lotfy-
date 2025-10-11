@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" data-theme="default">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Mora For Studying - Final Version</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -101,6 +101,16 @@
             50% { transform: rotate(10deg); }
             60% { transform: rotate(0deg); }
             100% { transform: rotate(0deg); }
+        }
+        @keyframes floating-logo {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-8px) rotate(2deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(-4px) rotate(-2deg); }
+        }
+        @keyframes gentle-float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-6px) scale(1.02); }
         }
         .live-pulse { animation: pulse 1.5s infinite; }
         .unlocked-icon-3d { animation: unlocked-3d-float 5s infinite ease-in-out; display: inline-block; }
@@ -381,7 +391,6 @@
             font-size: 4rem;
             margin-bottom: 1rem;
         }
-        /* Meeting button live indicator */
         .meeting-live-indicator {
             position: absolute;
             top: -6px;
@@ -405,49 +414,55 @@
             color: red;
             white-space: nowrap;
         }
-        /* Polls WhatsApp-like style */
-        .poll-item {
+        .poll-item, .opinion-item {
             background: rgba(30, 41, 59, 0.6);
             border-radius: 12px;
             padding: 12px;
             margin-bottom: 12px;
             position: relative;
+            touch-action: manipulation;
         }
-        .poll-header {
+        .poll-header, .opinion-header {
             display: flex;
             justify-content: space-between;
             margin-bottom: 6px;
         }
-        .poll-author {
+        .poll-author, .opinion-author {
             font-weight: bold;
             color: var(--primary-glow);
         }
-        .poll-time {
+        .poll-time, .opinion-time {
             font-size: 0.75rem;
             color: var(--text-secondary);
         }
-        .poll-body {
+        .poll-body, .opinion-body {
             margin: 6px 0;
             line-height: 1.5;
         }
-        .poll-replies {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+        .poll-reactions, .opinion-reactions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
         }
-        .reply-item {
-            background: rgba(55, 65, 81, 0.5);
-            padding: 6px 10px;
-            border-radius: 10px;
-            margin-top: 6px;
-            font-size: 0.9rem;
+        .reaction-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .reply-author {
-            font-size: 0.75rem;
-            color: var(--secondary-glow);
-            margin-top: 2px;
+        .reaction-btn:hover {
+            background: rgba(255,255,255,0.2);
         }
-        /* Onboarding Modal - بدون زر تخطي */
+        .reaction-count {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-left: 4px;
+        }
         #onboarding-modal {
             display: none;
             position: fixed;
@@ -497,7 +512,6 @@
             font-weight: bold;
             cursor: pointer;
         }
-        /* App Downloads Section */
         .download-item {
             background: rgba(30, 41, 59, 0.6);
             padding: 10px;
@@ -510,7 +524,6 @@
             color: var(--text-secondary);
             margin-top: 4px;
         }
-        /* === LIVE ATTENDANCE BANNER === */
         #live-attendance-banner {
             position: fixed;
             top: 0;
@@ -529,7 +542,6 @@
         #live-attendance-banner:hover {
             background: #ef4444;
         }
-        /* === CONTENT POLICY NOTICE === */
         .content-policy-notice {
             background: rgba(239, 68, 68, 0.1);
             border-left: 3px solid #ef4444;
@@ -542,7 +554,6 @@
         .content-policy-notice strong {
             color: #fecaca;
         }
-        /* === Lecture Content Styling === */
         .lecture-content {
             line-height: 1.8;
             color: #cbd5e1;
@@ -589,11 +600,215 @@
             color: #94a3b8;
             font-style: italic;
         }
+        #explanation-content {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        #explanation-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--primary-glow);
+            box-shadow: 0 0 20px var(--primary-glow);
+            margin-bottom: 1rem;
+            animation: floating-logo 6s ease-in-out infinite;
+        }
+        #explanation-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary-glow);
+            text-shadow: 0 0 8px var(--primary-glow);
+        }
+        #explanation-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        #go-to-channel-btn {
+            background: #ff0000;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            animation: gentle-float 4s ease-in-out infinite;
+        }
+        #go-to-channel-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.7);
+        }
+        .youtube-3d-icon {
+            font-size: 3rem;
+            color: #ff0000;
+            animation: unlocked-3d-float 3s infinite ease-in-out;
+            margin-bottom: 1rem;
+        }
+        .qr-readable-text {
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.65rem;
+            color: transparent;
+            user-select: none;
+            pointer-events: none;
+            opacity: 0;
+        }
+        .qr-readable-text::selection {
+            background: transparent;
+        }
+        /* Correction Button */
+        .correction-btn {
+            background: #f97316;
+            color: white;
+            padding: 0.4rem 0.6rem;
+            border-radius: 0.375rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.85rem;
+        }
+        .correction-btn:hover {
+            background: #ea580c;
+        }
+        /* Correction Form Modal */
+        #correction-form {
+            text-align: center;
+        }
+        #correction-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-glow);
+            box-shadow: 0 0 15px var(--primary-glow);
+            margin: 0 auto 1rem;
+            display: block;
+        }
+        #correction-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-glow);
+            margin-bottom: 0.5rem;
+        }
+        #correction-instructions {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* ========== CALCULATOR STYLES ========== */
+        #calculator-page {
+            background: linear-gradient(135deg, #1e1e2e, #11111f);
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            height: 100vh;
+            width: 100vw;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 999;
+        }
+        #calculator-header {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+        #calculator-back-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        #calculator-back-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        #calculator-display {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 2.5rem;
+            text-align: right;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 245, 195, 0.3);
+        }
+        #calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .calc-btn {
+            height: 60px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .calc-btn:active {
+            transform: scale(0.95);
+        }
+        .calc-number { background: #2d3748; color: white; }
+        .calc-operator { background: #3182ce; color: white; }
+        .calc-equals { background: #00f5c3; color: #000; font-weight: bold; }
+        .calc-clear { background: #e53e3e; color: white; }
+        .calc-function { background: #805ad5; color: white; }
+
+        /* Calculator 3D Intro */
+        #calculator-intro {
+            position: fixed;
+            inset: 0;
+            background: #0d0d1a;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        #calculator-3d-container {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 30px;
+        }
+        #calculator-intro-text {
+            color: var(--primary-glow);
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px var(--primary-glow);
+            margin-top: 20px;
+        }
+        #calculator-countdown {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body class="w-full h-screen">
     <div id="app-bg"></div>
-    <!-- Live Attendance Banner -->
     <div id="live-attendance-banner" onclick="handleLiveAttendanceBannerClick()">
         🎓 اضغط هنا للدخول وحضور المحاضرة مباشرة!
     </div>
@@ -619,7 +834,7 @@
                 </div>
             </div>
         </div>
-        <!-- Onboarding Modal - بدون زر تخطي -->
+        <!-- Onboarding Modal -->
         <div id="onboarding-modal">
             <div id="onboarding-content">
                 <div id="onboarding-icon"><i class="ph-identification-card"></i></div>
@@ -667,14 +882,14 @@
                 <p class="footer-text" data-text-key="footerText"></p>
             </footer>
             <nav class="bottom-nav fixed bottom-0 right-0 left-0 glass-effect flex text-xs z-50 p-1">
-                <button onclick="showSubjectSelectionModal('books')" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-books text-xl"></i><span>كتب</span></button>
+                <!-- Removed Books button -->
                 <button onclick="showSubjectSelectionModal('sections')" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-stack-simple text-xl"></i><span>سكاشن</span></button>
                 <button id="courses-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-cube unlocked-icon-3d text-xl"></i><span>كورسات</span></button>
                 <button data-modal="ai-tools-modal" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-robot text-xl"></i><span>أدوات AI</span></button>
+                <!-- NEW: Calculator Button -->
+                <button id="calculator-nav-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-calculator text-xl"></i><span>حاسبة</span></button>
                 <button data-modal="opinions-modal" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-chats-teardrop text-xl"></i><span>آراء</span></button>
-                <!-- Polls Button -->
                 <button data-modal="polls-modal" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-megaphone-simple text-xl"></i><span>استطلاعات</span></button>
-                <!-- Meeting Button -->
                 <button id="meeting-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2 relative">
                     <i class="ph-video text-xl"></i>
                     <span>ميتنج</span>
@@ -684,8 +899,8 @@
                     </div>
                 </button>
                 <button id="digital-card-nav-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-identification-card text-xl"></i><span>بطاقتي</span></button>
-                <!-- ✅ Summary Button -->
                 <button id="summary-nav-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-notebook text-xl"></i><span>تلخيص</span></button>
+                <button id="explanation-nav-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-video-camera text-xl"></i><span>شرح</span></button>
                 <button id="privacy-policy-nav-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-shield-check text-xl"></i><span>الخصوصية</span></button>
                 <button data-modal="support-modal" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-headset text-xl"></i><span>الدعم</span></button>
                 <button data-modal="about-modal" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-info text-xl"></i><span>عنا</span></button>
@@ -699,31 +914,32 @@
         <div id="subject-content-page" class="page h-screen w-screen overflow-hidden"></div>
         <!-- Admin Dashboard -->
         <div id="admin-dashboard" class="page h-screen w-screen overflow-hidden">
-             <div class="flex flex-col lg:flex-row h-full">
+            <div class="flex flex-col lg:flex-row h-full">
                 <aside class="w-full lg:w-72 glass-effect p-4 flex flex-col flex-shrink-0">
-                  <h1 class="text-2xl font-bold text-[var(--primary-glow)] mb-8">لوحة التحكم</h1>
-                  <nav class="flex-grow flex flex-col space-y-2 overflow-y-auto">
+                    <h1 class="text-2xl font-bold text-[var(--primary-glow)] mb-8">لوحة التحكم</h1>
+                    <nav class="flex-grow flex flex-col space-y-2 overflow-y-auto">
                         <button data-panel="info-panel" class="admin-nav-btn text-right p-3 rounded-lg">لوحة المعلومات</button>
                         <button data-panel="students-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة الطلاب</button>
                         <button data-panel="tickets-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة الشكاوى</button>
                         <button data-panel="live-stream-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة البث المباشر</button>
+                        <!-- Removed books from content panel -->
                         <button data-panel="content-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة المحتوى</button>
                         <button data-panel="text-management-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة النصوص</button>
                         <button data-panel="notifications-panel" class="admin-nav-btn text-right p-3 rounded-lg">الإشعارات</button>
-                        <!-- ✅ NEW: Courses Panel -->
                         <button data-panel="courses-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة الكورسات</button>
                         <button data-panel="ai-tools-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة أدوات AI</button>
                         <button data-panel="opinions-panel" class="admin-nav-btn text-right p-3 rounded-lg">آراء الطلاب</button>
                         <button data-panel="polls-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة الاستطلاعات</button>
+                        <button data-panel="corrections-panel" class="admin-nav-btn text-right p-3 rounded-lg">تصحيحات المحاضرات</button>
                         <button data-panel="settings-panel" class="admin-nav-btn text-right p-3 rounded-lg">إعدادات الموقع</button>
-                        <!-- ✅ NEW: Attendance Panel -->
                         <button data-panel="attendance-panel" class="admin-nav-btn text-right p-3 rounded-lg">تسجيل الحضور</button>
-                  </nav>
-                  <div class="mt-auto flex-shrink-0 pt-4">
+                    </nav>
+                    <div class="mt-auto flex-shrink-0 pt-4">
                         <button id="admin-logout-btn" class="w-full py-2 rounded-lg text-lg font-bold btn-celestial border-red-500 text-red-500 hover:bg-red-500 hover:text-white">خروج</button>
-                  </div>
+                    </div>
                 </aside>
                 <main class="flex-grow p-4 md:p-8 overflow-y-auto">
+                    <!-- Existing panels remain unchanged -->
                     <div id="info-panel" class="admin-panel hidden">
                         <h2 class="text-3xl font-bold mb-6">لوحة المعلومات</h2>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 text-center">
@@ -732,7 +948,6 @@
                             <div class="glass-effect p-6 rounded-lg" style="animation-delay: 0.3s;"><h3 class="text-lg text-slate-400">إجمالي الاستطلاعات</h3><p id="admin-polls-count" class="text-4xl font-bold text-cyan-400 mt-2 transition-all">0</p></div>
                             <div class="glass-effect p-6 rounded-lg" style="animation-delay: 0.4s;"><h3 class="text-lg text-slate-400">إجمالي التقييمات</h3><p id="admin-ratings-count" class="text-4xl font-bold text-yellow-400 mt-2 transition-all">0</p></div>
                             <div class="glass-effect p-6 rounded-lg" style="animation-delay: 0.5s;"><h3 class="text-lg text-slate-400">إجمالي الإشعارات</h3><p id="admin-notifications-count" class="text-4xl font-bold text-rose-400 mt-2 transition-all">0</p></div>
-                            <!-- قسم تحميل التطبيق -->
                             <div class="glass-effect p-6 rounded-lg" style="animation-delay: 0.6s;">
                                 <h3 class="text-lg text-slate-400">تنزيلات التطبيق</h3>
                                 <p id="app-downloads-count" class="text-4xl font-bold text-purple-400 mt-2 transition-all">0</p>
@@ -740,7 +955,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- باقي الألواح كما هي -->
                     <div id="live-stream-panel" class="admin-panel hidden">
                         <h2 class="text-3xl font-bold mb-6">إدارة البث المباشر</h2>
                         <div class="space-y-6 max-w-2xl">
@@ -766,30 +980,33 @@
                             </div>
                         </div>
                     </div>
-                    <!-- ✅ NEW: Attendance Panel -->
                     <div id="attendance-panel" class="admin-panel hidden">
                         <h2 class="text-3xl font-bold mb-6">سجل الحضور</h2>
                         <div id="attendance-list" class="space-y-4">
                             <p class="text-center text-slate-400">جارٍ تحميل سجل الحضور...</p>
                         </div>
                     </div>
-                    <!-- باقي الألواح كما هي -->
                     <div id="tickets-panel" class="admin-panel hidden">
                         <h2 class="text-3xl font-bold mb-6">إدارة الشكاوى والدعم الفني</h2>
                         <div id="admin-tickets-list" class="space-y-4"></div>
                     </div>
                     <div id="students-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة الطلاب</h2><div id="admin-students-list" class="space-y-4"></div></div>
-                    <div id="content-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة المحتوى</h2><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div><div class="glass-effect p-6 rounded-lg"><h3 id="content-form-title" class="text-xl font-bold mb-4">إضافة محتوى جديد</h3><select id="content-type-select" class="w-full rounded-lg select-field appearance-none mb-4"><option value="lectures">محاضرة</option><option value="books">كتاب</option><option value="sections">سكشن</option></select><select id="content-year-select" class="w-full rounded-lg select-field appearance-none mb-4"><option value="">اختر الفرقة</option><option value="1">الأولى</option><option value="2">الثانية</option></select><select id="content-division-select" class="w-full rounded-lg select-field appearance-none mb-4"><option value="">اختر الشعبة</option><option value="international">أعمال دولية</option><option value="systems">نظم معلومات</option></select><select id="content-subject-select" class="w-full rounded-lg select-field appearance-none mb-4"><option value="">اختر المادة أولاً</option></select><input id="content-title-input" type="text" placeholder="عنوان المحتوى" class="w-full rounded-lg input-field mb-4"><textarea id="content-body-input" placeholder="نص المحتوى أو الرابط..." class="w-full rounded-lg input-field mb-4" rows="4"></textarea><div class="flex gap-4"><button id="save-content-btn" class="w-full py-2 rounded-lg text-sm font-bold btn-celestial">حفظ</button><button id="cancel-edit-btn" class="w-full py-2 rounded-lg text-sm font-bold btn-celestial border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black hidden">إلغاء التعديل</button></div></div></div><div><h3 class="text-xl font-bold mb-4">المحتوى المضاف حاليًا</h3><div id="admin-content-list" class="space-y-3"></div></div></div></div>
+                    <div id="content-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة المحتوى</h2><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div><div class="glass-effect p-6 rounded-lg"><h3 id="content-form-title" class="text-xl font-bold mb-4">إضافة محتوى جديد</h3>
+                    <!-- Removed books option -->
+                    <select id="content-type-select" class="w-full rounded-lg select-field appearance-none mb-4">
+                        <option value="lectures">محاضرة</option>
+                        <option value="sections">سكشن</option>
+                    </select>
+                    <select id="content-year-select" class="w-full rounded-lg select-field appearance-none mb-4"><option value="">اختر الفرقة</option><option value="1">الأولى</option><option value="2">الثانية</option></select><select id="content-division-select" class="w-full rounded-lg select-field appearance-none mb-4"><option value="">اختر الشعبة</option><option value="international">أعمال دولية</option><option value="systems">نظم معلومات</option></select><select id="content-subject-select" class="w-full rounded-lg select-field appearance-none mb-4"><option value="">اختر المادة أولاً</option></select><input id="content-title-input" type="text" placeholder="عنوان المحتوى" class="w-full rounded-lg input-field mb-4"><textarea id="content-body-input" placeholder="نص المحتوى أو الرابط..." class="w-full rounded-lg input-field mb-4" rows="4"></textarea><div class="flex gap-4"><button id="save-content-btn" class="w-full py-2 rounded-lg text-sm font-bold btn-celestial">حفظ</button><button id="cancel-edit-btn" class="w-full py-2 rounded-lg text-sm font-bold btn-celestial border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black hidden">إلغاء التعديل</button></div></div></div><div><h3 class="text-xl font-bold mb-4">المحتوى المضاف حاليًا</h3><div id="admin-content-list" class="space-y-3"></div></div></div></div>
                     <div id="text-management-panel" class="admin-panel hidden">
                         <h2 class="text-3xl font-bold mb-6">إدارة نصوص الموقع</h2>
                         <div id="text-management-form" class="space-y-4"></div>
                         <button id="save-texts-btn" class="w-full max-w-sm mt-6 py-2.5 rounded-lg text-base font-bold btn-celestial">حفظ كل التغييرات</button>
                     </div>
                     <div id="notifications-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة الإشعارات</h2><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div><div class="glass-effect p-6 rounded-lg"><h3 class="text-xl font-bold mb-4">إرسال إشعار جديد</h3><input id="notification-title-input" type="text" placeholder="عنوان الإشعار (اختياري)" class="w-full rounded-lg input-field mb-4"><textarea id="notification-body-input" placeholder="نص الإشعار..." class="w-full rounded-lg input-field mb-4" rows="4"></textarea><button id="send-notification-btn" class="w-full py-2 rounded-lg text-sm font-bold btn-celestial">إرسال</button></div></div><div><h3 class="text-xl font-bold mb-4">الإشعارات المرسلة</h3><div id="admin-notifications-list" class="space-y-3"></div></div></div></div>
-                    <!-- ✅ COURSES PANEL (CATEGORIZED) -->
                     <div id="courses-panel" class="admin-panel hidden">
-                         <h2 class="text-3xl font-bold mb-6">إدارة الكورسات</h2>
-                         <div class="glass-effect p-6 rounded-lg mb-6">
+                        <h2 class="text-3xl font-bold mb-6">إدارة الكورسات</h2>
+                        <div class="glass-effect p-6 rounded-lg mb-6">
                             <h3 class="font-bold mb-4">إضافة فئة كورس جديدة</h3>
                             <input id="course-category-input" type="text" placeholder="اسم الفئة (مثال: المونتاج)" class="w-full rounded-lg input-field mb-4">
                             <button id="add-course-category-btn" class="w-full py-2 rounded-lg font-bold btn-celestial">إضافة فئة</button>
@@ -802,12 +1019,19 @@
                             <textarea id="course-desc-input" placeholder="وصف الكورس" class="w-full rounded-lg input-field mb-4" rows="3"></textarea>
                             <input id="course-url-input" type="text" placeholder="رابط فيديو يوتيوب" class="w-full rounded-lg input-field mb-4">
                             <button id="add-course-btn" class="w-full py-2 rounded-lg font-bold btn-celestial">إضافة الكورس</button>
-                         </div>
-                         <div id="admin-courses-list" class="space-y-4"></div>
+                        </div>
+                        <div id="admin-courses-list" class="space-y-4"></div>
                     </div>
                     <div id="ai-tools-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة أدوات AI</h2><div class="glass-effect p-6 rounded-lg mb-6"><h3 class="font-bold mb-4">إضافة أداة جديدة</h3><input id="ai-name-input" type="text" placeholder="اسم الأداة" class="w-full rounded-lg input-field mb-4"><input id="ai-desc-input" type="text" placeholder="وصف الأداة" class="w-full rounded-lg input-field mb-4"><input id="ai-url-input" type="text" placeholder="رابط الأداة" class="w-full rounded-lg input-field mb-4"><button id="add-ai-tool-btn" class="w-full py-2 rounded-lg font-bold btn-celestial">إضافة الأداة</button></div><div id="admin-ai-tools-list" class="space-y-4"></div></div>
                     <div id="opinions-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">آراء الطلاب</h2><div id="admin-opinions-list" class="space-y-4"></div></div>
                     <div id="polls-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة الاستطلاعات</h2><div id="admin-polls-list" class="space-y-4"></div></div>
+                    <!-- NEW: Corrections Panel -->
+                    <div id="corrections-panel" class="admin-panel hidden">
+                        <h2 class="text-3xl font-bold mb-6">تصحيحات المحاضرات</h2>
+                        <div id="admin-corrections-list" class="space-y-4">
+                            <p class="text-center text-slate-400">جارٍ تحميل طلبات التصحيح...</p>
+                        </div>
+                    </div>
                     <div id="settings-panel" class="admin-panel hidden">
                         <h2 class="text-3xl font-bold mb-6">إعدادات الموقع</h2>
                         <div class="space-y-4 max-w-2xl">
@@ -845,9 +1069,52 @@
         <audio id="timer-end-sound" src="https://code-gemini.github.io/Mora-For-Studying/timer-end.mp3" preload="auto"></audio>
         <audio id="admin-notification-sound" src="https://code-gemini.github.io/Mora-For-Studying/notification.mp3" preload="auto"></audio>
     </div>
+
+    <!-- ========== CALCULATOR PAGES ========== -->
+    <!-- 3D Intro -->
+    <div id="calculator-intro" class="page">
+        <div id="calculator-3d-container"></div>
+        <div id="calculator-intro-text">تطوير Amr lotfy</div>
+        <div id="calculator-countdown">3</div>
+    </div>
+
+    <!-- Full-screen Calculator -->
+    <div id="calculator-page">
+        <div id="calculator-header">
+            <button id="calculator-back-btn" onclick="hideCalculatorPage()"><i class="ph-arrow-right"></i></button>
+        </div>
+        <div id="calculator-display">0</div>
+        <div id="calculator-buttons">
+            <button class="calc-btn calc-clear" onclick="calcClear()">C</button>
+            <button class="calc-btn calc-function" onclick="calcAppend('(')">(</button>
+            <button class="calc-btn calc-function" onclick="calcAppend(')')">)</button>
+            <button class="calc-btn calc-operator" onclick="calcAppend('/')">÷</button>
+
+            <button class="calc-btn calc-number" onclick="calcAppend('7')">7</button>
+            <button class="calc-btn calc-number" onclick="calcAppend('8')">8</button>
+            <button class="calc-btn calc-number" onclick="calcAppend('9')">9</button>
+            <button class="calc-btn calc-operator" onclick="calcAppend('*')">×</button>
+
+            <button class="calc-btn calc-number" onclick="calcAppend('4')">4</button>
+            <button class="calc-btn calc-number" onclick="calcAppend('5')">5</button>
+            <button class="calc-btn calc-number" onclick="calcAppend('6')">6</button>
+            <button class="calc-btn calc-operator" onclick="calcAppend('-')">−</button>
+
+            <button class="calc-btn calc-number" onclick="calcAppend('1')">1</button>
+            <button class="calc-btn calc-number" onclick="calcAppend('2')">2</button>
+            <button class="calc-btn calc-number" onclick="calcAppend('3')">3</button>
+            <button class="calc-btn calc-operator" onclick="calcAppend('+')">+</button>
+
+            <button class="calc-btn calc-number" onclick="calcAppend('0')">0</button>
+            <button class="calc-btn calc-function" onclick="calcAppend('.')">.</button>
+            <button class="calc-btn calc-function" onclick="calcBackspace()">⌫</button>
+            <button class="calc-btn calc-equals" onclick="calcEquals()">=</button>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, doc, addDoc, getDocs, query, where, onSnapshot, deleteDoc, updateDoc, orderBy, serverTimestamp, getDoc, setDoc, limit, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, collection, doc, addDoc, getDocs, query, where, onSnapshot, deleteDoc, updateDoc, orderBy, serverTimestamp, getDoc, setDoc, limit, writeBatch, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         const firebaseConfig = { apiKey: "AIzaSyB92ooyA5_tTx1BLDp2EWmqxHuJQ3zqah4", authDomain: "mora-for-studying.firebaseapp.com", projectId: "mora-for-studying", storageBucket: "mora-for-studying.appspot.com", messagingSenderId: "213416531900", appId: "1:213416531900:web:2e4d8bd2a9e1a4e814bdb9" };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -884,10 +1151,10 @@
             ar: { '1_international': [ 'مبادئ المحاسبة الماليه', 'مبادئ الاقتصاد', 'مبادئ القانون', 'لغه اجنبيه (1)', 'مبادئ اداره الاعمال' ], '1_systems': ['طرق ومهارات الاتصال', 'رياضيات الاعمال', 'حقوق الانسان', 'التفكير الابتكاري', 'السلوك التنظيمي', 'اساسيات الحاسب وتكتولوچيا المعلومات'], '2_international': ['اداره اللوچيستيات وسلاسل الامداد', 'مبادئ التسويق', 'مبادئ الاقتصاد الجزئي', 'محاسبه التكاليف', 'قانون الاعمال'], '2_systems': ['قانون الاعمال', 'قواعد البيانات (1)', 'اداره الانتاج', 'محاسبه الشركات', 'تصميم برامج الحاسب'] },
         };
         const onboardingSteps = [
-            { icon: 'ph-books', title: 'الكتب', text: 'استعرض الكتب الدراسية الخاصة بمادتك.' },
             { icon: 'ph-stack-simple', title: 'السكاشن', text: 'شاهد شرح السكاشن من المحاضرات.' },
             { icon: 'ph-cube', title: 'الكورسات', text: 'تعلم من كورسات مجانية متنوعة.' },
             { icon: 'ph-robot', title: 'أدوات الذكاء الاصطناعي', text: 'استخدم أدوات ذكاء اصطناعي مساعدة.' },
+            { icon: 'ph-calculator', title: 'الآلة الحاسبة', text: 'استخدم آلة حاسبة احترافية بملء الشاشة.' },
             { icon: 'ph-chats-teardrop', title: 'آراء الطلاب', text: 'شارك رأيك أو اقرأ آراء زملائك.' },
             { icon: 'ph-megaphone-simple', title: 'استطلاعات', text: 'شارك في استطلاعات الرأي والمناقشات.' },
             { icon: 'ph-video', title: 'ميتنج', text: 'انضم إلى البث المباشر للمحاضرات.' },
@@ -901,9 +1168,155 @@
             { icon: 'ph-user-circle', title: 'حسابي', text: 'إدارة حسابك أو تسجيل الخروج.' }
         ];
         const studentDashboardEl = { welcomeName: document.getElementById('welcome-name'), userDetails: document.getElementById('user-details'), studentId: document.getElementById('student-id'), materialsList: document.getElementById('materials-list') };
-        const adminDashboardEl = { studentCount: document.getElementById('admin-student-count'), notificationsCount: document.getElementById('admin-notifications-count'), opinionsCount: document.getElementById('admin-opinions-count'), ratingsCount: document.getElementById('admin-ratings-count'), studentsList: document.getElementById('admin-students-list'), opinionsList: document.getElementById('admin-opinions-list'), coursesList: document.getElementById('admin-courses-list'), aiToolsList: document.getElementById('admin-ai-tools-list'), notificationsList: document.getElementById('admin-notifications-list'), pollsCount: document.getElementById('admin-polls-count'), pollsList: document.getElementById('admin-polls-list') };
+        const adminDashboardEl = { studentCount: document.getElementById('admin-student-count'), notificationsCount: document.getElementById('admin-notifications-count'), opinionsCount: document.getElementById('admin-opinions-count'), ratingsCount: document.getElementById('admin-ratings-count'), studentsList: document.getElementById('admin-students-list'), opinionsList: document.getElementById('admin-opinions-list'), coursesList: document.getElementById('admin-courses-list'), aiToolsList: document.getElementById('admin-ai-tools-list'), notificationsList: document.getElementById('admin-notifications-list'), pollsCount: document.getElementById('admin-polls-count'), pollsList: document.getElementById('admin-polls-list'), correctionsList: document.getElementById('admin-corrections-list') };
         const adminContentPanelEl = { type: document.getElementById('content-type-select'), year: document.getElementById('content-year-select'), division: document.getElementById('content-division-select'), subject: document.getElementById('content-subject-select'), title: document.getElementById('content-title-input'), body: document.getElementById('content-body-input'), saveBtn: document.getElementById('save-content-btn'), formTitle: document.getElementById('content-form-title'), contentList: document.getElementById('admin-content-list'), cancelBtn: document.getElementById('cancel-edit-btn') };
         const subjectIcons = { 'محاسبه': 'ph-calculator', 'اقتصاد': 'ph-chart-bar', 'قانون': 'ph-scales', 'اداره': 'ph-briefcase', 'تسويق': 'ph-projector-screen-chart', 'لوچيستيات': 'ph-truck', 'حاسب': 'ph-desktop-tower', 'بيانات': 'ph-database', 'برامج': 'ph-code-simple', 'رياضيات': 'ph-function', 'اتصال': 'ph-chats-circle', 'سلوك': 'ph-users-three', 'تفكير': 'ph-lightbulb', 'انتاج': 'ph-factory', 'انسان': 'ph-hand-heart', 'لغه': 'ph-translate', 'default': 'ph-book-open-text' };
+
+        // ======================= CALCULATOR LOGIC =======================
+        let calculatorInitialized = false;
+        let calculator3DScene = null;
+        let calculator3DCamera = null;
+        let calculator3DRenderer = null;
+        let calculator3DObject = null;
+
+        function initCalculator3D() {
+            const container = document.getElementById('calculator-3d-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            calculator3DScene = new THREE.Scene();
+            calculator3DCamera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            calculator3DRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            calculator3DRenderer.setSize(width, height);
+            container.innerHTML = '';
+            container.appendChild(calculator3DRenderer.domElement);
+
+            const geometry = new THREE.BoxGeometry(1, 0.2, 0.8);
+            const material = new THREE.MeshPhongMaterial({
+                color: 0x00f5c3,
+                emissive: 0x005555,
+                shininess: 100
+            });
+            calculator3DObject = new THREE.Mesh(geometry, material);
+            calculator3DScene.add(calculator3DObject);
+
+            const light = new THREE.PointLight(0xffffff, 1, 100);
+            light.position.set(5, 5, 5);
+            calculator3DScene.add(light);
+
+            calculator3DCamera.position.z = 3;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                if (calculator3DObject) {
+                    calculator3DObject.rotation.x += 0.01;
+                    calculator3DObject.rotation.y += 0.01;
+                }
+                calculator3DRenderer.render(calculator3DScene, calculator3DCamera);
+            }
+            animate();
+        }
+
+        function showCalculatorIntro() {
+            if (calculatorInitialized) {
+                showCalculatorPage();
+                return;
+            }
+
+            document.getElementById('calculator-intro').style.display = 'flex';
+            initCalculator3D();
+
+            let count = 3;
+            const countdownEl = document.getElementById('calculator-countdown');
+            countdownEl.textContent = count;
+
+            const interval = setInterval(() => {
+                count--;
+                if (countdownEl) countdownEl.textContent = count;
+                if (count <= 0) {
+                    clearInterval(interval);
+                    document.getElementById('calculator-intro').style.display = 'none';
+                    calculatorInitialized = true;
+                    showCalculatorPage();
+                }
+            }, 1000);
+        }
+
+        function showCalculatorPage() {
+            document.getElementById('calculator-page').style.display = 'flex';
+        }
+
+        function hideCalculatorPage() {
+            document.getElementById('calculator-page').style.display = 'none';
+        }
+
+        // Calculator functions
+        let currentInput = '0';
+        const display = document.getElementById('calculator-display');
+
+        function updateDisplay() {
+            display.textContent = currentInput;
+        }
+
+        function calcAppend(value) {
+            if (currentInput === '0' && value !== '.') {
+                currentInput = value;
+            } else {
+                currentInput += value;
+            }
+            updateDisplay();
+        }
+
+        function calcClear() {
+            currentInput = '0';
+            updateDisplay();
+        }
+
+        function calcBackspace() {
+            if (currentInput.length > 1) {
+                currentInput = currentInput.slice(0, -1);
+            } else {
+                currentInput = '0';
+            }
+            updateDisplay();
+        }
+
+        function calcEquals() {
+            try {
+                // Replace × and ÷ with * and /
+                let expression = currentInput
+                    .replace(/×/g, '*')
+                    .replace(/÷/g, '/')
+                    .replace(/−/g, '-');
+
+                // Prevent dangerous eval
+                if (/[^0-9+\-*/().]/.test(expression)) {
+                    currentInput = 'Error';
+                } else {
+                    let result = Function('"use strict"; return (' + expression + ')')();
+                    if (isNaN(result) || !isFinite(result)) {
+                        currentInput = 'Error';
+                    } else {
+                        // Format result
+                        if (Number.isInteger(result)) {
+                            currentInput = String(result);
+                        } else {
+                            currentInput = parseFloat(result.toFixed(10)).toString();
+                        }
+                    }
+                }
+            } catch (e) {
+                currentInput = 'Error';
+            }
+            updateDisplay();
+        }
+
+        // Add event listener for calculator button
+        document.getElementById('calculator-nav-btn').addEventListener('click', () => {
+            updateUserActivity("يفتح الآلة الحاسبة");
+            showCalculatorIntro();
+        });
+
         // ======================= HELPER FUNCTIONS =======================
         function containsPhoneNumber(text) {
             const phonePattern = /(?:\+?20)?\s*1[0-9]{9}|01[0-9]{8}/;
@@ -1028,7 +1441,89 @@
                 }
             }, 1000);
         };
-        // ======================= ONBOARDING - بدون زر تخطي =======================
+        // ======================= CORRECTION SYSTEM =======================
+        window.openCorrectionForm = async (lectureId, lectureTitle, subject) => {
+            await updateUserActivity(`يفتح نموذج تصحيح للمحاضرة: ${lectureTitle}`);
+            const correctionHTML = `
+                <div id="correction-form">
+                    <img id="correction-logo" src="https://i.postimg.cc/mgdFZ313/IMG-20250414-WA0047-1.jpg" alt="Logo" loading="lazy" decoding="async">
+                    <h3 id="correction-title">نموذج تصحيح المحاضرة</h3>
+                    <p id="correction-instructions">يرجى كتابة الخطأ الذي لاحظته في المحاضرة أدناه. سيتم مراجعته من قبل الإدارة.</p>
+                    <input type="hidden" id="correction-lecture-id" value="${lectureId}">
+                    <input type="hidden" id="correction-lecture-title" value="${lectureTitle}">
+                    <input type="hidden" id="correction-subject" value="${subject}">
+                    <textarea id="correction-text" class="w-full rounded-lg input-field mb-4" rows="5" placeholder="اكتب وصف الخطأ هنا..."></textarea>
+                    <button id="submit-correction-btn" class="w-full py-2 rounded-lg font-bold btn-celestial">إرسال التصحيح</button>
+                </div>
+            `;
+            openModalWithContent('إبلاغ عن خطأ', correctionHTML);
+            document.getElementById('submit-correction-btn').addEventListener('click', submitCorrection);
+        };
+        async function submitCorrection() {
+            const lectureId = document.getElementById('correction-lecture-id').value;
+            const lectureTitle = document.getElementById('correction-lecture-title').value;
+            const subject = document.getElementById('correction-subject').value;
+            const text = document.getElementById('correction-text').value.trim();
+            if (!text) {
+                showToast('يرجى كتابة وصف للخطأ.', true);
+                return;
+            }
+            const isAllowed = await checkAndHandleContent(text, currentUser.id, currentUser.name);
+            if (!isAllowed) return;
+            await addDoc(collection(db, "lecture_corrections"), {
+                userId: currentUser.id,
+                userName: currentUser.name,
+                userYear: currentUser.year,
+                userDivision: currentUser.division,
+                lectureId,
+                lectureTitle,
+                subject,
+                text,
+                status: 'جديد',
+                createdAt: serverTimestamp(),
+                isReadByAdmin: false,
+                adminReply: ''
+            });
+            showToast('تم إرسال طلب التصحيح بنجاح! شكرًا لك.');
+            document.getElementById('generic-modal').classList.remove('open');
+        }
+        // ======================= EXPLANATION SECTION =======================
+        document.getElementById('explanation-nav-btn').addEventListener('click', () => {
+            updateUserActivity("يفتح قسم الشرح");
+            const explanationHTML = `
+                <div id="explanation-content">
+                    <img id="explanation-image" src="https://i.postimg.cc/bYmp72Nx/file-00000000b5d8620a88063b0c43ab368f.png" alt="Amr Lotfy" loading="lazy" decoding="async">
+                    <h3 id="explanation-title">أتعلم مع A͜͡m͜͡r͜͡</h3>
+                    <p id="explanation-subtitle">هذه القناة تم إنشاؤها بواسطة Amr lotfy<br>لشرح وتبسيط المحاضرة بالـ AI</p>
+                    <button id="go-to-channel-btn" onclick="handleExplanationRedirect()">
+                        توجّه إلى القناة 🎥
+                    </button>
+                </div>
+            `;
+            openModalWithContent('شرح', explanationHTML);
+        });
+        window.handleExplanationRedirect = () => {
+            const channelUrl = 'https://youtube.com/@moralotfy?si=txiqe7Bzj0rzQm2b';
+            openModalWithContent('جارٍ التوجيه...', `
+                <div class="text-center p-8">
+                    <i class="ph-youtube-logo youtube-3d-icon"></i>
+                    <p class="text-lg">سيتم تحويلك خلال <span id="redirect-countdown" class="font-bold text-xl">3</span> ثوانٍ...</p>
+                    <p class="text-xs text-slate-500 mt-6">تطوير Amr lotfy</p>
+                </div>
+            `);
+            let count = 3;
+            const countdownEl = document.getElementById('redirect-countdown');
+            const interval = setInterval(() => {
+                count--;
+                if (countdownEl) countdownEl.textContent = count;
+                if (count <= 0) {
+                    clearInterval(interval);
+                    document.getElementById('generic-modal').classList.remove('open');
+                    window.open(channelUrl, '_blank');
+                }
+            }, 1000);
+        };
+        // ======================= ONBOARDING =======================
         let currentOnboardingStep = 0;
         function showOnboarding() {
             if (localStorage.getItem('onboardingCompleted') === 'true') return;
@@ -1213,6 +1708,7 @@
             listenToSiteSettings(); 
             listenForNotifications(); 
             listenForSupportReplies();
+            listenForCorrections();
             setTimeout(showOnboarding, 800);
         }
         function loadMaterialsForStudent() {
@@ -1226,7 +1722,6 @@
         window.openSubjectPage = async (subject) => { 
             await updateUserActivity(`يتصفح مادة: ${subject}`);
             const subjectPage = document.getElementById('subject-content-page'); 
-            // ✅ زر الرجوع تحت اسم المادة وليس بجانبه
             const pageHTML = `
                 <header class="p-4 text-center">
                     <h2 class="text-xl font-bold text-[var(--primary-glow)]">${subject}</h2>
@@ -1238,13 +1733,12 @@
             showPage('subject-content-page'); 
             const lecturesContainer = document.getElementById('subject-lectures'); 
             const q = query(collection(db, 'lectures'), where("year", "==", currentUser.year), where("division", "==", currentUser.division), where("subject", "==", subject), where("isHidden", "==", false), orderBy('createdAt', 'desc')); 
-            currentContentUnsubscribe = onSnapshot(q, (snapshot) => { if (snapshot.empty) { lecturesContainer.innerHTML = `<p class="text-slate-400 py-4">لا توجد محاضرات منشورة لهذه المادة حالياً.</p>`; } else { let contentHTML = '<div class="space-y-3">'; snapshot.forEach(doc => { const item = doc.data(); contentHTML += `<div class="glass-effect p-3 rounded-lg cursor-pointer hover:bg-slate-500/10 transition-colors" onclick="viewContentDetail('${doc.id}', '${item.title}', '${btoa(encodeURIComponent(item.body))}', '${subject}')"><h4 class="font-bold text-white">${item.title}</h4></div>`; }); contentHTML += '</div>'; lecturesContainer.innerHTML = contentHTML; } }, (error) => { console.error("Error:", error); lecturesContainer.innerHTML = `<p class="text-red-400 py-4">حدث خطأ أثناء تحميل المحاضرات.</p>`; }); 
+            currentContentUnsubscribe = onSnapshot(q, (snapshot) => { if (snapshot.empty) { lecturesContainer.innerHTML = `<p class="text-slate-400 py-4">لا توجد محاضرات منشورة لهذه المادة حالياً.</p>`; } else { let contentHTML = '<div class="space-y-3">'; snapshot.forEach(doc => { const item = doc.data(); contentHTML += `<div class="glass-effect p-3 rounded-lg cursor-pointer hover:bg-slate-500/10 transition-colors" onclick="viewContentDetail('${doc.id}', '${item.title}', '${btoa(encodeURIComponent(item.body))}', '${subject}')"><h4 class="font-bold text-white">${item.title}</h4><div class="mt-2 flex justify-end"><button class="correction-btn" onclick="event.stopPropagation(); openCorrectionForm('${doc.id}', '${item.title}', '${subject}')">تصحيح</button></div></div>`; }); contentHTML += '</div>'; lecturesContainer.innerHTML = contentHTML; } }, (error) => { console.error("Error:", error); lecturesContainer.innerHTML = `<p class="text-red-400 py-4">حدث خطأ أثناء تحميل المحاضرات.</p>`; }); 
         };
         // ======================= CONTENT VIEW WITH STYLING =======================
         window.viewContentDetail = async (id, title, body, subject) => { 
             await updateUserActivity(`يشاهد محاضرة: ${title}`);
             const decodedBody = decodeURIComponent(atob(body));
-            // ✅ تنسيق احترافي للنص
             let formattedBody = decodedBody
                 .replace(/^(#+\s*.*)$/gm, '<h2>$1</h2>')
                 .replace(/^(##+\s*.*)$/gm, '<h3>$1</h3>')
@@ -1257,12 +1751,11 @@
                 .replace(/_(.*?)_/g, '<em>$1</em>')
                 .replace(/`(.*?)`/g, '<code>$1</code>')
                 .replace(/^>\s+(.*)$/gm, '<blockquote>$1</blockquote>');
-            // Ensure proper list wrapping
             formattedBody = formattedBody.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
             formattedBody = formattedBody.replace(/<\/ul>\s*<ul>/g, '');
             openModalWithContent(title, `<div class="lecture-content p-2">${formattedBody}</div>`); 
         };
-        // ======================= BOOKS WITH DOWNLOAD ONLY =======================
+        // ======================= BOOKS WITH WATCH & DOWNLOAD =======================
         window.showSubjectSelectionModal = (type) => { 
             updateUserActivity(`يتصفح قسم ${type === 'books' ? 'الكتب' : 'السكاشن'}`);
             const userMaterials = materials['ar'][`${currentUser.year}_${currentUser.division}`] || []; 
@@ -1289,11 +1782,11 @@
                         const item = doc.data(); 
                         const isUrl = item.body.startsWith('http'); 
                         if (type === 'books' && isUrl) {
-                            // ✅ فقط زر "تحميل" بدون "مشاهدة"
                             content += `
                                 <div class="glass-effect p-4 rounded-xl">
                                     <h5 class="font-bold text-white text-lg">${item.title}</h5>
                                     <div class="book-actions">
+                                        <button class="book-btn watch-btn" onclick="openBookInApp('${item.body}')">شاهد</button>
                                         <button class="book-btn download-btn" onclick="window.open('${item.body}', '_blank')">تحميل</button>
                                     </div>
                                 </div>
@@ -1306,6 +1799,9 @@
                 } 
                 container.innerHTML = content; 
             }); 
+        };
+        window.openBookInApp = (url) => {
+            openModalWithContent("عرض الكتاب", `<iframe src="${url}" class="w-full h-[70vh] rounded-lg bg-white" frameborder="0"></iframe>`);
         };
         window.openIframeModal = (url) => { 
             openModalWithContent("عرض الملف", `<iframe src="${url}" class="w-full h-[70vh] rounded-lg bg-white" frameborder="0"></iframe>`); 
@@ -1464,8 +1960,8 @@
                     <h3 class="text-xl font-bold text-[var(--primary-glow)]">تلخيص المحاضرات</h3>
                     <p class="text-slate-300">استخدم الذكاء الاصطناعي لتلخيص المحاضرات، طرح الأسئلة، وفهم أعمق.</p>
                     <div class="mt-6">
-                        <button class="btn-celestial py-2 px-6 rounded-lg font-bold" onclick="handleRedirectWithCountdown('https://notebooklm.google.com/notebook/4537acf2-d026-4183-9a99-e7bb06f3c059')">
-                            الذهاب إلى NotebookLM
+                        <button class="btn-celestial py-2 px-6 rounded-lg font-bold" onclick="handleRedirectWithCountdown('https://chat.deepseek.com/')">
+                            الذهاب إلى DeepSeek
                         </button>
                     </div>
                     <p class="text-xs text-slate-500 mt-6">تطوير Amr lotfy</p>
@@ -1473,7 +1969,54 @@
             `;
             openModalWithContent('تلخيص', summaryHTML);
         });
-        // ======================= POLLS/DISCUSSION FEATURE - بدون حد للكلمات =======================
+        // ======================= POLLS/DISCUSSION FEATURE - GLOBAL =======================
+        const emojis = [
+            '👍', '👎', '❤️', '🔥', '👏', '😂', '😮', '😢', '😡', '🎉', '💯', '🙏', '👌', '👀', '🤔', '😎', '🤩', '🥳', '😜', '🤪',
+            '😇', '🤗', '😏', '😋', '😛', '😴', '🥱', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', '🥶', '🥴', '😵', '🤯', '🤠', '🥳',
+            '🥸', '😎', '🤓', '🧐', '😕', '😟', '🙁', '☹️', '😮‍💨', '😤', '😠', '🤬', '😈', '👿', '💀', '☠️', '💩', '🤡', '👹', '👺',
+            '👻', '👽', '👾', '🤖', '👋', '🤚', '🖐️', '✋', '🖖', '👌', '🤌', '🤏', '✌️', '🤞', '🤟', '🤘', '🤙', '👈', '👉', '👆',
+            '🖕', '👇', '☝️', '👍', '👎', '✊', '👊', '🤛', '🤜', '👏', '🙌', '👐', '🤲', '🤝', '🙏', '✍️', '💅', '🤳', '💪', '🦾', '🦿',
+            '🦵', '🦶', '👂', '🦻', '👃', '🧠', '🫀', '🫁', '🦷', '🦴', '👀', '👁️', '👅', '👄', '👶', '🧒', '👦', '👧', '🧑', '👱', '👨', '🧔',
+            '👩', '🧓', '👴', '👵', '🙍', '🙎', '🙅', '🙆', '💁', '🙋', '🧏', '🙇', '🤦', '🤷', '👮', '🕵️', '💂', '🥷', '👷', '🤴', '👸',
+            '👳', '👲', '🧕', '🤵', '👰', '🤰', '🤱', '👼', '🎅', '🤶', '🦸', '🦹', '🧙', '🧚', '🧛', '🧜', '🧝', '🧞', '🧟', '🧌', '💆', '💇',
+            '🚶', '🧍', '🧎', '🏃', '💃', '🕺', '🕴️', '👯', '🧖', '🧗', '🤺', '🏇', '⛷️', '🏂', '🏌️', '🏄', '🚣', '🏊', '⛹️', '🏋️', '🚴',
+            '🚵', '🤸', '🤼', '🤽', '🤾', '🤹', '🧘', '🛀', '🛌', '👭', '👫', '👬', '💏', '💑', '👪', '🗣️', '👤', '👥', '🫂', '👣', '🦰',
+            '🦱', '🦳', '🦲', '🐵', '🐒', '🦍', '🦧', '🐶', '🐕', '🦮', '🐩', '🐺', '🦊', '🦝', '🐱', '🐈', '🦁', '🐯', '🐅', '🐆', '🐴',
+            '🐎', '🦄', '🦓', '🦌', '🦬', '🐮', '🐂', '🐃', '🐄', '🐷', '🐖', '🐗', '🐽', '🐏', '🐑', '🐐', '🐪', '🐫', '🦙', '🦒', '🐘',
+            '🦣', '🦏', '🦛', '🐭', '🐁', '🐀', '🐹', '🐰', '🐇', '🐿️', '🦫', '🦔', '🦇', '🐻', '🐨', '🐼', '🦥', '🦦', '🦨', '🦘', '🦡',
+            '🐾', '🦃', '🐔', '🐓', '🐣', '🐤', '🐥', '🐦', '🐧', '🕊️', '🦅', '🦆', '🦢', '🦉', '🦤', '🪶', '🦩', '🦚', '🦜', '🐸', '🐊',
+            '🐢', '🦎', '🐍', '🐲', '🐉', '🦕', '🦖', '🐳', '🐋', '🐬', '🦭', '🐟', '🐠', '🐡', '🦈', '🐙', '🐚', '🐌', '🦋', '🐛', '🐜',
+            '🐝', '🪲', '🐞', '🦗', '🪳', '🕷️', '🕸️', '🦂', '🦟', '🪰', '🪱', '🦠', '💐', '🌸', '💮', '🏵️', '🌹', '🥀', '🌺', '🌻', '🌼',
+            '🌷', '🌱', '🪴', '🌲', '🌳', '🌴', '🌵', '🌾', '🌿', '☘️', '🍀', '🍁', '🍂', '🍃', '🍇', '🍈', '🍉', '🍊', '🍋', '🍌', '🍍',
+            '🥭', '🍎', '🍏', '🍐', '🍑', '🍒', '🍓', '🫐', '🥝', '🍅', '🫒', '🥥', '🥑', '🍆', '🥔', '🥕', '🌽', '🌶️', '🫑', '🥒', '🥬',
+            '🥦', '🧄', '🧅', '🍄', '🥜', '🌰', '🍞', '🥐', '🥖', '🫓', '🥨', '🥯', '🥞', '🧇', '🧀', '🍖', '🍗', '🥩', '🥓', '🍔', '🍟',
+            '🍕', '🌭', '🥪', '🌮', '🌯', '🫔', '🥙', '🧆', '🥚', '🍳', '🥘', '🍲', '🫕', '🥣', '🥗', '🍿', '🧈', '🧂', '🥫', '🍱', '🍘',
+            '🍙', '🍚', '🍛', '🍜', '🍝', '🍠', '🍢', '🍣', '🍤', '🍥', '🥮', '🍡', '🥟', '🥠', '🥡', '🦀', '🦞', '🦐', '🦑', '🦪', '🍦',
+            '🍧', '🍨', '🍩', '🍪', '🎂', '🍰', '🧁', '🥧', '🍫', '🍬', '🍭', '🍮', '🍯', '🍼', '🥛', '☕', '🍵', '🍶', '🍾', '🍷', '🍸',
+            '🍹', '🍺', '🍻', '🥂', '🥃', '🥤', '🧋', '🧃', '🧉', '🧊', '🥢', '🍽️', '🍴', '🥄', '🔪', '🏺', '🌍', '🌎', '🌏', '🌐', '🗺️',
+            '🗾', '🧭', '🏔️', '⛰️', '🌋', '🗻', '🏕️', '🏖️', '🏜️', '🏝️', '🏞️', '🏟️', '🏛️', '🏗️', '🧱', '🪨', '🪵', '🛖', '🏘️', '🏚️',
+            '🏠', '🏡', '🏢', '🏣', '🏤', '🏥', '🏦', '🏨', '🏩', '🏪', '🏫', '🏬', '🏭', '🏯', '🏰', '💒', '🗼', '🗽', '⛪', '🕌', '🕍',
+            '⛩️', '🕋', '⛲', '⛺', '🌁', '🌃', '🏙️', '🌄', '🌅', '🌆', '🌇', '🌉', '♨️', '🎠', '🎡', '🎢', '💈', '🎪', '🚂', '🚃', '🚄',
+            '🚅', '🚆', '🚇', '🚈', '🚉', '🚊', '🚝', '🚞', '🚋', '🚌', '🚍', '🚎', '🚐', '🚑', '🚒', '🚓', '🚔', '🚕', '🚖', '🚗', '🚘',
+            '🚙', '🚚', '🚛', '🚜', '🏎️', '🏍️', '🛵', '🦽', '🦼', '🛺', '🚲', '🛴', '🛹', '🛼', '🚏', '🛣️', '🛤️', '🛢️', '⛽', '🚨', '🚥',
+            '🚦', '🛑', '🚧', '⚓', '⛵', '🛶', '🚤', '🛳️', '⛴️', '🛥️', '🚢', '✈️', '🛩️', '🛫', '🛬', '🪂', '💺', '🚁', '🚟', '🚠', '🚡',
+            '🛰️', '🚀', '🛸', '🛎️', '🧳', '⌛', '⏳', '⌚', '⏰', '⏱️', '⏲️', '🕰️', '🕛', '🕧', '🕐', '🕜', '🕑', '🕝', '🕒', '🕞', '🕓',
+            '🕟', '🕔', '🕠', '🕕', '🕖', '🕗', '🕘', '🕙', '🕚', '🕡', '🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘', '🌙', '🌚', '🌛',
+            '🌜', '🌡️', '☀️', '🌝', '🌞', '🪐', '⭐', '🌟', '🌠', '🌌', '☁️', '⛅', '⛈️', '🌤️', '🌥️', '🌦️', '🌧️', '🌨️', 'heim', '🌪️',
+            '🌫️', '🌬️', '🌀', '🌈', '🌂', '☂️', '☔', '⛱️', '⚡', '❄️', '☃️', '⛄', '☄️', '🔥', '💧', '🌊', '🎃', '🎄', '🎆', '🎇', '🧨',
+            '✨', '🎈', '🎉', '🎊', '🎋', '🎍', '🎎', '🎏', '🎐', '🎑', '🧧', '🎀', '🎁', '🎗️', '🎟️', '🎫', '🎖️', '🏆', '🏅', '🥇', '🥈',
+            '🥉', '⚽', '🏀', '🏈', '⚾', '🥎', '🎾', '🏐', '🏉', '🎱', '🏓', '🏸', '🏒', '🏑', '🥍', '🏏', '🪃', '🥏', '🎯', '🪀', '🎮',
+            '🎰', '🎲', '🧩', '♟️', '🎭', '🎨', '🧵', '🪡', '🧶', '🪢', '👓', '🕶️', '🥽', '🥼', '🦺', '👔', '👕', '👖', '🧣', '🧤', '🧥',
+            '🧦', '👗', '👘', '🥻', '🩱', '🩲', '🩳', '👙', '👚', '👛', '👜', '👝', '🛍️', '🎒', '🩴', '👞', '👟', '🥾', '🥿', '👠', '👡',
+            '🩰', '👢', '👑', '👒', '🎩', '🎓', '🧢', '🪖', '⛑️', '📿', '💄', '💍', '💼', '📕', '📖', '📗', '📘', '📙', '📚', '📓', '📔',
+            '📒', '📝', '💼', '📁', '📂', '🗂️', '📅', '📆', '🗒️', '🗓️', '📇', '📈', '📉', '📊', '📋', '📌', '📍', '📎', '🖇️', '📏',
+            '📐', '✂️', '🗃️', '🗄️', '🗑️', '🔒', '🔓', '🔏', '🔐', '🔑', '🔨', '🪓', '⛏️', '⚒️', '🛠️', '🗡️', '⚔️', '🔫', '🏹', '🛡️',
+            '🪚', '🔧', '🪛', '🔩', '⚙️', '🗜️', '⚖️', '🦯', '🔗', '⛓️', '🪝', '🧰', '🧲', '🪜', '⚗️', '🧪', '🧫', '🧬', '🔬', '🔭', '📡',
+            '💉', '🩸', '💊', '🩹', '🩺', '🚪', '🛗', '🪞', '🪟', '🛏️', '🛋️', '🪑', '🚽', '🪠', '🚿', '🛁', '🪤', '🪒', '🧴', '🧷', '🧹',
+            '🧺', '🧻', '🪣', '🧼', '🪥', '🧽', '🧯', '🛒', '🚬', '⚰️', '🪦', '⚱️', '🧿', '🪬', '🔮', '📿', '💈', '⚗️', '🧪', '🧫', '🧬',
+            '🔬', '🔭', '📡', '💉', '🩸', '💊', '🩹', '🩺', '🚪', '🛗', '🪞', '🪟', '🛏️', '🛋️', '🪑', '🚽', '🪠', '🚿', '🛁', '🪤', '🪒',
+            '🧴', '🧷', '🧹', '🧺', '🧻', '🪣', '🧼', '🪥', '🧽', '🧯', '🛒', '🚬', '⚰️', '🪦', '⚱️', '🧿', '🪬', '🔮', '📿', '💈'
+        ];
         async function openPollsView() {
             updateUserActivity("يتصفح الاستطلاعات");
             const pollsHTML = `
@@ -1496,6 +2039,7 @@
             `;
             openModalWithContent('الاستطلاعات والمناقشات', pollsHTML);
             document.getElementById('submit-poll-btn').addEventListener('click', submitNewPoll);
+            // ✅ بدون فلترة حسب الفرقة أو الشعبة → عام للجميع
             const q = query(collection(db, "polls"), orderBy("createdAt", "desc"));
             onSnapshot(q, (snapshot) => {
                 const container = document.getElementById('polls-list-container');
@@ -1510,14 +2054,14 @@
                         const yearText = poll.userYear === '1' ? 'الفرقة الأولى' : 'الثانية';
                         const dateText = poll.createdAt ? poll.createdAt.toDate().toLocaleString('ar-EG-u-nu-latn', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}) : '';
                         listHTML += `
-                            <div class="poll-item">
+                            <div class="poll-item" data-poll-id="${doc.id}" oncontextmenu="return false;">
                                 <div class="poll-header">
                                     <span class="poll-author">${poll.userName}</span>
                                     <span class="poll-time">${dateText}</span>
                                 </div>
                                 <div class="poll-body">${poll.topic}</div>
-                                <div class="poll-replies" id="replies-${doc.id}">
-                                    <p class="text-slate-500 text-sm">جارٍ تحميل الردود...</p>
+                                <div class="poll-reactions" id="reactions-${doc.id}">
+                                    <!-- Reactions will be loaded here -->
                                 </div>
                                 <div class="mt-3">
                                     <textarea id="reply-${doc.id}" class="w-full rounded-lg input-field text-sm" rows="2" placeholder="اكتب ردك..."></textarea>
@@ -1528,31 +2072,142 @@
                     });
                 }
                 container.innerHTML = listHTML;
-                // Load replies for each poll
                 snapshot.forEach(doc => {
-                    const pollDocRef = doc(db, "polls", doc.id);
-                    const repliesQuery = query(collection(pollDocRef, "replies"), orderBy("createdAt", "asc"));
-                    onSnapshot(repliesQuery, (repliesSnap) => {
-                        const repliesContainer = document.getElementById(`replies-${doc.id}`);
-                        if (!repliesContainer) return;
-                        let repliesHTML = '';
-                        if (repliesSnap.empty) {
-                            repliesHTML = '<p class="text-slate-500 text-sm">لا توجد ردود بعد.</p>';
-                        } else {
-                            repliesSnap.forEach(replyDoc => {
-                                const reply = replyDoc.data();
-                                repliesHTML += `
-                                    <div class="reply-item">
-                                        ${reply.replyText}
-                                        <div class="reply-author">${reply.userName}</div>
-                                    </div>
-                                `;
-                            });
-                        }
-                        repliesContainer.innerHTML = repliesHTML;
-                    });
+                    loadReactions(doc.id, 'polls');
+                });
+                document.querySelectorAll('.poll-item').forEach(item => {
+                    addLongPressReaction(item, 'polls');
                 });
             });
+        }
+        // ======================= OPINIONS VIEW =======================
+        async function openOpinionsView() {
+            updateUserActivity("يتصفح قسم الآراء");
+            const opinionsHTML = `
+                <div class="content-policy-notice">
+                    <strong>تنبيه هام:</strong> يُمنع تمامًا نشر أي محتوى يحتوي على ألفاظ غير لائقة، شتائم، أرقام، أو محتوى مخل. سيتم إصدار تحذير عند المخالفة الأولى، وحظر الحساب نهائيًا عند التكرار.
+                </div>
+                <div id="opinions-view" class="space-y-3 mb-4 max-h-60 overflow-y-auto"></div>
+                <textarea id="opinion-input" class="w-full rounded-lg input-field mt-4" rows="3" placeholder="اكتب رأيك هنا..."></textarea>
+                <button id="submit-opinion-btn" class="w-full mt-2 py-2 rounded-lg font-bold btn-celestial">نشر الرأي</button>
+            `;
+            openModalWithContent('آراء الطلاب', opinionsHTML);
+            const q = query(collection(db, "opinions"), orderBy('createdAt', 'desc'));
+            onSnapshot(q, (snapshot) => {
+                const container = document.getElementById('opinions-view');
+                if (!container) return;
+                let listHTML = '';
+                if (snapshot.empty) {
+                    listHTML = '<p class="text-center text-slate-400">لا توجد آراء بعد.</p>';
+                } else {
+                    snapshot.forEach(doc => {
+                        const o = doc.data();
+                        const dateText = o.createdAt ? o.createdAt.toDate().toLocaleString('ar-EG-u-nu-latn', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}) : '';
+                        listHTML += `
+                            <div class="opinion-item" data-opinion-id="${doc.id}" oncontextmenu="return false;">
+                                <div class="opinion-header">
+                                    <span class="opinion-author">${o.name}</span>
+                                    <span class="opinion-time">${dateText}</span>
+                                </div>
+                                <div class="opinion-body">"${o.text}"</div>
+                                <div class="opinion-reactions" id="opinions-reactions-${doc.id}">
+                                    <!-- Reactions will be loaded here -->
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                container.innerHTML = listHTML;
+                snapshot.forEach(doc => {
+                    loadReactions(doc.id, 'opinions');
+                });
+                document.querySelectorAll('.opinion-item').forEach(item => {
+                    addLongPressReaction(item, 'opinions');
+                });
+            });
+        }
+        // ======================= REACTIONS SYSTEM =======================
+        function addLongPressReaction(element, collectionName) {
+            let pressTimer;
+            element.addEventListener('touchstart', () => {
+                pressTimer = setTimeout(() => {
+                    showReactionPicker(element, collectionName);
+                }, 500);
+            });
+            element.addEventListener('touchend', () => {
+                clearTimeout(pressTimer);
+            });
+            element.addEventListener('mousedown', () => {
+                pressTimer = setTimeout(() => {
+                    showReactionPicker(element, collectionName);
+                }, 500);
+            });
+            element.addEventListener('mouseup', () => {
+                clearTimeout(pressTimer);
+            });
+            element.addEventListener('mouseleave', () => {
+                clearTimeout(pressTimer);
+            });
+        }
+        function showReactionPicker(element, collectionName) {
+            const rect = element.getBoundingClientRect();
+            const picker = document.createElement('div');
+            picker.className = 'glass-effect p-2 rounded-lg flex flex-wrap gap-1 absolute z-50 max-w-xs';
+            picker.style.top = `${rect.bottom + window.scrollY}px`;
+            picker.style.left = `${rect.left + window.scrollX}px`;
+            const sampleEmojis = emojis.slice(0, 20);
+            sampleEmojis.forEach(emoji => {
+                const btn = document.createElement('button');
+                btn.className = 'reaction-btn text-lg';
+                btn.textContent = emoji;
+                btn.onclick = () => {
+                    const id = element.dataset[`${collectionName.slice(0, -1)}Id`];
+                    addReaction(id, collectionName, emoji);
+                    document.body.removeChild(picker);
+                };
+                picker.appendChild(btn);
+            });
+            document.body.appendChild(picker);
+            setTimeout(() => {
+                if (document.body.contains(picker)) {
+                    document.body.removeChild(picker);
+                }
+            }, 3000);
+        }
+        async function addReaction(docId, collectionName, emoji) {
+            if (!currentUser) return;
+            const docRef = doc(db, collectionName, docId);
+            try {
+                await updateDoc(docRef, {
+                    reactions: arrayUnion({
+                        userId: currentUser.id,
+                        userName: currentUser.name,
+                        emoji: emoji,
+                        timestamp: serverTimestamp()
+                    })
+                });
+            } catch (error) {
+                console.error("Error adding reaction:", error);
+            }
+        }
+        async function loadReactions(docId, collectionName) {
+            const docRef = doc(db, collectionName, docId);
+            const docSnap = await getDoc(docRef);
+            if (!docSnap.exists()) return;
+            const data = docSnap.data();
+            const reactions = data.reactions || [];
+            const reactionCounts = {};
+            reactions.forEach(r => {
+                reactionCounts[r.emoji] = (reactionCounts[r.emoji] || 0) + 1;
+            });
+            const containerId = collectionName === 'polls' ? `reactions-${docId}` : `opinions-reactions-${docId}`;
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            let html = '';
+            for (const emoji in reactionCounts) {
+                html += `<span class="reaction-btn">${emoji} <span class="reaction-count">${reactionCounts[emoji]}</span></span>`;
+            }
+            container.innerHTML = html;
         }
         async function submitNewPoll() {
             const input = document.getElementById('poll-topic-input');
@@ -1570,7 +2225,8 @@
                 userDivision: currentUser.division,
                 topic: topic,
                 createdAt: serverTimestamp(),
-                isReadByAdmin: false
+                isReadByAdmin: false,
+                reactions: []
             });
             showToast('تم نشر موضوعك بنجاح!');
             input.value = '';
@@ -1589,7 +2245,8 @@
                 userId: currentUser.id,
                 userName: currentUser.name,
                 replyText: replyText,
-                createdAt: serverTimestamp()
+                createdAt: serverTimestamp(),
+                reactions: []
             });
             input.value = '';
         }
@@ -1602,22 +2259,7 @@
                 const type = e.currentTarget.dataset.modal; 
                 if (currentContentUnsubscribe) currentContentUnsubscribe(); 
                 if (type === 'opinions-modal') { 
-                    updateUserActivity('يتصفح قسم الآراء'); 
-                    const opinionsHTML = `
-                        <div class="content-policy-notice">
-                            <strong>تنبيه هام:</strong> يُمنع تمامًا نشر أي محتوى يحتوي على ألفاظ غير لائقة، شتائم، أرقام، أو محتوى مخل. سيتم إصدار تحذير عند المخالفة الأولى، وحظر الحساب نهائيًا عند التكرار.
-                        </div>
-                        <div id="opinions-view" class="space-y-3 mb-4 max-h-60 overflow-y-auto"></div>
-                        <textarea id="opinion-input" class="w-full rounded-lg input-field mt-4" rows="3" placeholder="اكتب رأيك هنا..."></textarea>
-                        <button id="submit-opinion-btn" class="w-full mt-2 py-2 rounded-lg font-bold btn-celestial">نشر الرأي</button>
-                    `;
-                    openModalWithContent('آراء الطلاب', opinionsHTML); 
-                    onSnapshot(query(collection(db, "opinions"), orderBy('createdAt', 'desc')), snap => { 
-                        document.getElementById('opinions-view').innerHTML = snap.docs.map(d => { 
-                            const o = d.data(); 
-                            return `<div class="p-3 rounded-lg hover:bg-slate-500/10"><p>"${o.text}"</p><p class="text-xs text-slate-400 mt-2 font-bold">${o.name} - فرقة ${o.year}</p></div>`; 
-                        }).join('') || '<p class="text-center text-slate-400">لا توجد آراء بعد.</p>'; 
-                    }); 
+                    openOpinionsView();
                 } 
                 if (type === 'polls-modal') { openPollsView(); }
                 if (type === 'about-modal') { 
@@ -1717,6 +2359,9 @@
             document.getElementById('digital-card-nav-btn').addEventListener('click', () => {
                 updateUserActivity("يفتح بطاقته الرقمية");
                 const issueDate = currentUser.createdAt && currentUser.createdAt.seconds ? new Date(currentUser.createdAt.seconds * 1000).toLocaleDateString('ar-EG') : new Date().toLocaleDateString('ar-EG');
+                // ✅ نص مخفي لقارئ QR حقيقي
+                const qrText = `اسم الطالب: ${currentUser.name}
+الرقم التعريفي: ${currentUser.studentId || 'غير متوفر'}`;
                 const cardHTML = `
                     <div class="p-4 rounded-2xl bg-gradient-to-br from-slate-800 via-slate-900 to-black w-full max-w-md mx-auto shadow-2xl shadow-black/50 border border-[var(--primary-glow)] relative overflow-hidden" 
                         style="background-image: radial-gradient(circle at 30% 30%, rgba(0, 245, 195, 0.15) 0%, transparent 40%), radial-gradient(circle at 70% 70%, rgba(167, 139, 250, 0.1) 0%, transparent 40%);">
@@ -1743,12 +2388,14 @@
                                     <p class="text-xs text-slate-500">تاريخ الإصدار</p>
                                     <p class="text-sm font-mono text-slate-300">${issueDate}</p>
                                 </div>
-                                <div id="qrcode-container" class="p-1.5 bg-white rounded-md inline-block shadow-lg"></div>
+                                <div id="qrcode-container" class="inline-block"></div>
                             </div>
                             <div class="mt-4 bg-gradient-to-r from-[var(--primary-glow)]/20 to-[var(--secondary-glow)]/20 p-2 rounded-lg text-center backdrop-blur-sm">
                                 <p class="font-mono text-lg md:text-xl text-[var(--primary-glow)] tracking-wider whitespace-nowrap">${currentUser.studentId || 'ID غير متوفر'}</p>
                                 <p class="text-xs text-slate-300 mt-1">استخدم هذا الرقم التعريفي (ID) في أي مكان يتطلب التحقق من هويتك كطالب.</p>
                             </div>
+                            <!-- نص مخفي يُقرأ عند مسح الـ QR -->
+                            <div class="qr-readable-text">${qrText}</div>
                         </div>
                     </div>
                 `;
@@ -1756,7 +2403,15 @@
                 const qrContainer = document.getElementById('qrcode-container');
                 if(qrContainer && currentUser.studentId) {
                     qrContainer.innerHTML = '';
-                    new QRCode(qrContainer, { text: currentUser.studentId, width: 90, height: 90, colorDark : "#000000", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.H });
+                    // ✅ QR Code حقيقي بدون خلفية بيضاء
+                    new QRCode(qrContainer, {
+                        text: qrText,
+                        width: 100,
+                        height: 100,
+                        colorDark : "#000000",
+                        colorLight : "transparent", // ✅ خلفية شفافة
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
                 } else if (qrContainer) {
                     qrContainer.innerHTML = '<p class="text-center text-xs p-2 text-red-500">ID غير<br>متوفر</p>';
                 }
@@ -1784,7 +2439,7 @@
                 const isAllowed = await checkAndHandleContent(text, currentUser.id, currentUser.name);
                 if (!isAllowed) return;
                 await updateUserActivity("كتب رأياً جديداً");
-                await addDoc(collection(db, "opinions"), { name: currentUser.name, year: currentUser.year, text, createdAt: serverTimestamp() }); 
+                await addDoc(collection(db, "opinions"), { name: currentUser.name, year: currentUser.year, text, createdAt: serverTimestamp(), reactions: [] }); 
                 showToast('تم نشر رأيك بنجاح!'); 
                 document.getElementById('generic-modal').classList.remove('open'); 
             } 
@@ -1843,6 +2498,11 @@
                 }
             });
         }
+        // ======================= CORRECTIONS LISTENER =======================
+        function listenForCorrections() {
+            const correctionsNavBtn = document.querySelector('[data-modal="corrections-modal"]');
+            // Not needed for student, only for admin
+        }
         async function markAdminItemsAsRead(collectionName) {
             const q = query(collection(db, collectionName), where("isReadByAdmin", "==", false));
             const snapshot = await getDocs(q);
@@ -1859,6 +2519,7 @@
                 'opinions-panel': 'opinions',
                 'polls-panel': 'polls',
                 'attendance-panel': 'attendance',
+                'corrections-panel': 'lecture_corrections'
             };
             for (const [panelId, collectionName] of Object.entries(collectionsToWatch)) {
                 const navBtn = document.querySelector(`[data-panel="${panelId}"]`);
@@ -1894,7 +2555,6 @@
             const userDocRef = doc(db, "users", currentUser.id);
             onSnapshot(userDocRef, (doc) => {
                 if (!doc.exists()) {
-                    // تم حذف الحساب من لوحة التحكم
                     handleImmediateBan("تم حذف حسابك من النظام.");
                     return;
                 }
@@ -2132,6 +2792,43 @@
                 html += '</div>';
                 container.innerHTML = html;
             });
+            // ✅ NEW: Corrections Panel
+            const correctionsRef = collection(db, "lecture_corrections");
+            onSnapshot(query(correctionsRef, orderBy("createdAt", "desc")), (snapshot) => {
+                const container = document.getElementById('admin-corrections-list');
+                if (!container) return;
+                if (snapshot.empty) {
+                    container.innerHTML = '<p class="text-center text-slate-400">لا توجد طلبات تصحيح حتى الآن.</p>';
+                    return;
+                }
+                let html = '<div class="space-y-4">';
+                snapshot.forEach(doc => {
+                    const c = doc.data();
+                    const statusColor = c.status === 'تم الرد' ? 'text-green-400' : 'text-yellow-400';
+                    const replySection = c.adminReply ? `<div class="mt-2 pt-2 border-t border-green-500/30"><p class="text-xs text-slate-400">ردك:</p><p class="text-sm text-green-300">${c.adminReply}</p></div>` : `<div class="mt-3"><textarea id="correction-reply-${doc.id}" class="w-full rounded-lg input-field" rows="2" placeholder="اكتب ردك هنا..."></textarea><button onclick="replyToCorrection('${doc.id}')" class="w-full mt-2 py-2 rounded-lg text-sm font-bold btn-celestial">إرسال الرد</button></div>`;
+                    html += `
+                        <div class="glass-effect p-4 rounded-lg">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="font-bold text-white">${c.lectureTitle}</p>
+                                    <p class="text-sm text-slate-400">المادة: ${c.subject}</p>
+                                    <p class="text-xs text-slate-400 mt-1">الطالب: ${c.userName} (${c.userYear} - ${c.userDivision === 'international' ? 'IB' : 'BIS'})</p>
+                                    <p class="text-xs text-slate-400">الوقت: ${c.createdAt.toDate().toLocaleString('ar-EG')}</p>
+                                    <p class="mt-2 text-white">${c.text}</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-bold text-white px-2 py-1 rounded-full ${statusColor}">${c.status}</span>
+                                    <button onclick="hideCorrection('${doc.id}', ${c.isHidden || false})" class="px-2 py-1 text-sm rounded ${c.isHidden ? 'bg-green-600' : 'bg-slate-600'}">${c.isHidden ? 'إظهار' : 'إخفاء'}</button>
+                                    <button onclick="deleteFromCollection('${doc.id}', 'lecture_corrections')" class="text-red-500 hover:text-red-400 text-lg p-1"><i class="ph-trash"></i></button>
+                                </div>
+                            </div>
+                            ${replySection}
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            });
             listenForNewAdminNotifications();
             const updateSubjects = () => { const y = adminContentPanelEl.year.value, d = adminContentPanelEl.division.value; adminContentPanelEl.subject.innerHTML = '<option value="">اختر المادة</option>'; if (y && d) { (materials['ar'][`${y}_${d}`] || []).forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; adminContentPanelEl.subject.appendChild(o); }); } displayAdminContent(); }; 
             ['content-type-select', 'content-year-select', 'content-division-select', 'content-subject-select'].forEach(id => document.getElementById(id).addEventListener('change', id.includes('subject') ? displayAdminContent : updateSubjects)); 
@@ -2283,6 +2980,22 @@
             });
             showToast("تم إرسال الرد بنجاح.");
         };
+        // ✅ NEW: Correction Functions
+        window.replyToCorrection = async (correctionId) => {
+            const replyText = document.getElementById(`correction-reply-${correctionId}`).value.trim();
+            if (!replyText) { showToast("لا يمكن إرسال رد فارغ.", true); return; }
+            await updateDoc(doc(db, "lecture_corrections", correctionId), {
+                adminReply: replyText,
+                status: "تم الرد",
+                resolvedAt: serverTimestamp(),
+                isReadByStudent: false
+            });
+            showToast("تم إرسال الرد بنجاح.");
+        };
+        window.hideCorrection = async (id, isHidden) => {
+            await updateDoc(doc(db, "lecture_corrections", id), { isHidden: !isHidden });
+            showToast(`تم ${isHidden ? 'إظهار' : 'إخفاء'} طلب التصحيح.`);
+        };
         document.getElementById('send-notification-btn').addEventListener('click', async () => { const title = document.getElementById('notification-title-input').value.trim(); const body = document.getElementById('notification-body-input').value.trim(); if (!body) { showToast('نص الإشعار لا يمكن أن يكون فارغاً', true); return; } await addDoc(collection(db, 'notifications'), { title, body, createdAt: serverTimestamp() }); showToast('تم إرسال الإشعار بنجاح!'); document.getElementById('notification-title-input').value = ''; document.getElementById('notification-body-input').value = ''; });
         document.getElementById('add-course-btn').addEventListener('click', async () => { 
             const title = document.getElementById('course-title-input').value.trim();
@@ -2387,6 +3100,11 @@
         });
         modalCloseBtn.addEventListener('click', () => {
             if(modalCloseBtn.onclick) modalCloseBtn.onclick();
+        });
+
+        // Close calculator when clicking back button
+        document.getElementById('calculator-back-btn').addEventListener('click', () => {
+            hideCalculatorPage();
         });
     </script>
 </body>
