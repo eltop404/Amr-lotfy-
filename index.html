@@ -665,47 +665,6 @@
         .qr-readable-text::selection {
             background: transparent;
         }
-        /* Correction Button - Mobile Optimized */
-        .correction-btn {
-            background: #f97316;
-            color: white;
-            padding: 0.3rem 0.5rem;
-            border-radius: 0.375rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            font-size: 0.75rem;
-        }
-        .correction-btn:hover {
-            background: #ea580c;
-        }
-        /* Correction Form Modal */
-        #correction-form {
-            text-align: center;
-        }
-        #correction-logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 2px solid var(--primary-glow);
-            box-shadow: 0 0 15px var(--primary-glow);
-            margin: 0 auto 1rem;
-            display: block;
-            animation: glowing-logo-pulse 4s infinite ease-in-out;
-            will-change: box-shadow;
-        }
-        #correction-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--primary-glow);
-            margin-bottom: 0.5rem;
-        }
-        #correction-instructions {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
         /* ========== STUDENT CARD STYLES ========== */
         .student-card-container {
             width: 100%;
@@ -714,15 +673,14 @@
             padding: 1.5rem;
         }
         .student-card {
-            /* إطار احترافي محدود مع تأثيرات ضوئية */
-            background: var(--glass-bg) !important;
+            /* ✅ إطار مربع احترافي غير شفاف */
+            background: #0f172a !important; /* لون ثابت غير شفاف */
             border: 2px solid var(--primary-glow) !important;
-            border-radius: 20px !important;
-            box-shadow: 0 0 25px rgba(var(--primary-glow-rgb), 0.4),
-                        0 0 40px rgba(var(--secondary-glow-rgb), 0.2) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 0 20px rgba(var(--primary-glow-rgb), 0.5) !important;
             padding: 1.5rem;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
         }
         .student-card-content {
             color: white;
@@ -2222,6 +2180,7 @@
                                         <p class="student-card-label">التخصص</p>
                                         <p class="student-card-value">${currentUser.year === '1' ? "الفرقة الأولى" : "الفرقة الثانية"} - ${currentUser.division === "international" ? "أعمال دولية (IB)" : "نظم معلومات (BIS)"}</p>
                                     </div>
+                                    <!-- ✅ تم حذف "نوع الجهاز" -->
                                     <div>
                                         <p class="student-card-label">تاريخ الانضمام</p>
                                         <p class="student-card-value">${issueDate}</p>
@@ -2390,7 +2349,7 @@
         }
         function showCountdownModal(title, callback) { openModalWithContent(title, `<div class="text-center p-8"><p class="text-lg">سيتم الإجراء خلال <span id="countdown-span" class="font-bold text-xl text-[var(--primary-glow)]">3</span>...</p></div>`); let count = 3; const countdownSpan = document.getElementById('countdown-span'); const interval = setInterval(() => { count--; if(countdownSpan) countdownSpan.textContent = count > 0 ? count + '...' : 'الآن!'; if (count <= 0) { clearInterval(interval); callback(); } }, 1000); }
         function handleLogout() { showCountdownModal('تسجيل الخروج', () => { updateUserActivity("سجل الخروج"); const userToLogOut = { ...currentUser }; localStorage.removeItem('moraUser'); currentUser = null; document.getElementById('generic-modal').classList.remove('open'); showPage('auth-page'); renderAuthForm(false, false); if (userToLogOut && userToLogOut.name) { document.getElementById('auth-name').value = userToLogOut.name; document.getElementById('auth-password').value = userToLogOut.password || ''; } initVantaBackground(); }); }
-        // ✅ مراقبة حذف الحساب من لوحة التحكم
+        // ✅ مراقبة حذف الحساب أو حظره من لوحة التحكم
         function listenForUserBanOrDeletion() {
             if (!currentUser || currentUser.isAdmin || !currentUser.id) return;
             const userDocRef = doc(db, "users", currentUser.id);
@@ -2401,7 +2360,7 @@
                 }
                 const data = doc.data();
                 if (data.isBanned) {
-                    handleImmediateBan("تم حظر حسابك نهائياً.");
+                    handleImmediateBan("تم حظر حسابك نهائيًا.");
                     return;
                 }
                 currentUser = { id: doc.id, ...data };
