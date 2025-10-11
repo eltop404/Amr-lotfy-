@@ -665,17 +665,17 @@
         .qr-readable-text::selection {
             background: transparent;
         }
-        /* Correction Button */
+        /* Correction Button - Mobile Optimized */
         .correction-btn {
             background: #f97316;
             color: white;
-            padding: 0.4rem 0.6rem;
+            padding: 0.3rem 0.5rem; /* Reduced padding for mobile */
             border-radius: 0.375rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s;
             border: none;
-            font-size: 0.85rem;
+            font-size: 0.75rem; /* Smaller font */
         }
         .correction-btn:hover {
             background: #ea580c;
@@ -804,6 +804,21 @@
             font-weight: bold;
             color: white;
             margin-top: 10px;
+        }
+
+        /* Device Icon Styles */
+        .device-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        .device-icon svg {
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
@@ -1171,6 +1186,30 @@
         const adminDashboardEl = { studentCount: document.getElementById('admin-student-count'), notificationsCount: document.getElementById('admin-notifications-count'), opinionsCount: document.getElementById('admin-opinions-count'), ratingsCount: document.getElementById('admin-ratings-count'), studentsList: document.getElementById('admin-students-list'), opinionsList: document.getElementById('admin-opinions-list'), coursesList: document.getElementById('admin-courses-list'), aiToolsList: document.getElementById('admin-ai-tools-list'), notificationsList: document.getElementById('admin-notifications-list'), pollsCount: document.getElementById('admin-polls-count'), pollsList: document.getElementById('admin-polls-list'), correctionsList: document.getElementById('admin-corrections-list') };
         const adminContentPanelEl = { type: document.getElementById('content-type-select'), year: document.getElementById('content-year-select'), division: document.getElementById('content-division-select'), subject: document.getElementById('content-subject-select'), title: document.getElementById('content-title-input'), body: document.getElementById('content-body-input'), saveBtn: document.getElementById('save-content-btn'), formTitle: document.getElementById('content-form-title'), contentList: document.getElementById('admin-content-list'), cancelBtn: document.getElementById('cancel-edit-btn') };
         const subjectIcons = { 'محاسبه': 'ph-calculator', 'اقتصاد': 'ph-chart-bar', 'قانون': 'ph-scales', 'اداره': 'ph-briefcase', 'تسويق': 'ph-projector-screen-chart', 'لوچيستيات': 'ph-truck', 'حاسب': 'ph-desktop-tower', 'بيانات': 'ph-database', 'برامج': 'ph-code-simple', 'رياضيات': 'ph-function', 'اتصال': 'ph-chats-circle', 'سلوك': 'ph-users-three', 'تفكير': 'ph-lightbulb', 'انتاج': 'ph-factory', 'انسان': 'ph-hand-heart', 'لغه': 'ph-translate', 'default': 'ph-book-open-text' };
+
+        // ======================= DEVICE ICON HELPER =======================
+        function getDeviceIcon(userAgent) {
+            if (!userAgent) return { icon: '💻', name: 'جهاز غير معروف' };
+            if (userAgent.includes('iPhone')) {
+                return { 
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.25 14.25a6.75 6.75 0 0 1-6.75 6.75H9a6.75 6.75 0 0 1-6.75-6.75V9A6.75 6.75 0 0 1 9 2.25h1.5a6.75 6.75 0 0 1 6.75 6.75v5.25Z" fill="#007AFF"/><path d="M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" fill="#007AFF"/></svg>',
+                    name: 'iPhone'
+                };
+            }
+            if (userAgent.includes('Android')) {
+                return {
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#3DDC84"/></svg>',
+                    name: 'Android'
+                };
+            }
+            if (userAgent.includes('Windows')) {
+                return { icon: '🪟', name: 'Windows PC' };
+            }
+            if (userAgent.includes('Macintosh')) {
+                return { icon: '🍎', name: 'Mac' };
+            }
+            return { icon: '💻', name: 'جهاز آخر' };
+        }
 
         // ======================= CALCULATOR LOGIC =======================
         let calculatorInitialized = false;
@@ -2359,6 +2398,7 @@
             document.getElementById('digital-card-nav-btn').addEventListener('click', () => {
                 updateUserActivity("يفتح بطاقته الرقمية");
                 const issueDate = currentUser.createdAt && currentUser.createdAt.seconds ? new Date(currentUser.createdAt.seconds * 1000).toLocaleDateString('ar-EG') : new Date().toLocaleDateString('ar-EG');
+                const deviceInfo = getDeviceIcon(currentUser.userAgent);
                 // ✅ نص مخفي لقارئ QR حقيقي
                 const qrText = `اسم الطالب: ${currentUser.name}
 الرقم التعريفي: ${currentUser.studentId || 'غير متوفر'}`;
@@ -2377,20 +2417,33 @@
                                     <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
                                 </div>
                             </div>
-                            <div class="mt-6 text-right">
+                            <div class="mt-6 text-right animate-fade-in-up" style="animation-delay: 0.1s;">
                                 <p class="text-sm text-slate-400">الاســـــم</p>
                                 <p class="text-2xl font-bold text-white -mt-1">${currentUser.name}</p>
-                                <p class="text-sm text-slate-400 mt-2">التخصص</p>
+                            </div>
+                            <div class="mt-3 text-right animate-fade-in-up" style="animation-delay: 0.2s;">
+                                <p class="text-sm text-slate-400">التخصص</p>
                                 <p class="text-lg font-semibold text-slate-200 -mt-1">${currentUser.year === '1' ? "الفرقة الأولى" : "الفرقة الثانية"} - ${currentUser.division === "international" ? "أعمال دولية (IB)" : "نظم معلومات (BIS)"}</p>
                             </div>
-                            <div class="flex justify-between items-end mt-4">
+                            <div class="mt-3 text-right animate-fade-in-up" style="animation-delay: 0.3s;">
+                                <p class="text-sm text-slate-400">نوع الجهاز</p>
+                                <p class="text-lg font-semibold text-slate-200 -mt-1">
+                                    ${deviceInfo.name}
+                                    <span class="device-icon">${deviceInfo.icon}</span>
+                                </p>
+                            </div>
+                            <div class="mt-3 text-right animate-fade-in-up" style="animation-delay: 0.4s;">
+                                <p class="text-sm text-slate-400">تاريخ الانضمام</p>
+                                <p class="text-lg font-semibold text-slate-200 -mt-1">${issueDate}</p>
+                            </div>
+                            <div class="flex justify-between items-end mt-4 animate-fade-in-up" style="animation-delay: 0.5s;">
                                 <div class="text-right">
-                                    <p class="text-xs text-slate-500">تاريخ الإصدار</p>
+                                    <p class="text-xs text-slate-500">الرقم التعريفي</p>
                                     <p class="text-sm font-mono text-slate-300">${issueDate}</p>
                                 </div>
                                 <div id="qrcode-container" class="inline-block"></div>
                             </div>
-                            <div class="mt-4 bg-gradient-to-r from-[var(--primary-glow)]/20 to-[var(--secondary-glow)]/20 p-2 rounded-lg text-center backdrop-blur-sm">
+                            <div class="mt-4 bg-gradient-to-r from-[var(--primary-glow)]/20 to-[var(--secondary-glow)]/20 p-2 rounded-lg text-center backdrop-blur-sm animate-fade-in-up" style="animation-delay: 0.6s;">
                                 <p class="font-mono text-lg md:text-xl text-[var(--primary-glow)] tracking-wider whitespace-nowrap">${currentUser.studentId || 'ID غير متوفر'}</p>
                                 <p class="text-xs text-slate-300 mt-1">استخدم هذا الرقم التعريفي (ID) في أي مكان يتطلب التحقق من هويتك كطالب.</p>
                             </div>
