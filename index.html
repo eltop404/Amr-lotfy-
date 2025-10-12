@@ -665,6 +665,47 @@
         .qr-readable-text::selection {
             background: transparent;
         }
+        /* Correction Button - Mobile Optimized */
+        .correction-btn {
+            background: #f97316;
+            color: white;
+            padding: 0.3rem 0.5rem;
+            border-radius: 0.375rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.75rem;
+        }
+        .correction-btn:hover {
+            background: #ea580c;
+        }
+        /* Correction Form Modal */
+        #correction-form {
+            text-align: center;
+        }
+        #correction-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-glow);
+            box-shadow: 0 0 15px var(--primary-glow);
+            margin: 0 auto 1rem;
+            display: block;
+            animation: glowing-logo-pulse 4s infinite ease-in-out;
+            will-change: box-shadow;
+        }
+        #correction-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-glow);
+            margin-bottom: 0.5rem;
+        }
+        #correction-instructions {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
         /* ========== STUDENT CARD STYLES ========== */
         .student-card-container {
             width: 100%;
@@ -673,14 +714,11 @@
             padding: 1.5rem;
         }
         .student-card {
-            /* ✅ إطار مربع احترافي غير شفاف */
-            background: #0f172a !important; /* لون ثابت غير شفاف */
-            border: 2px solid var(--primary-glow) !important;
-            border-radius: 12px !important;
-            box-shadow: 0 0 20px rgba(var(--primary-glow-rgb), 0.5) !important;
-            padding: 1.5rem;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
+            /* شفاف تمامًا - بدون خلفية أو إطار */
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0;
         }
         .student-card-content {
             color: white;
@@ -1061,13 +1099,13 @@
             if (!userAgent) return { icon: '💻', name: 'جهاز غير معروف' };
             if (userAgent.includes('iPhone')) {
                 return { 
-                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.25 14.25a6.75 6.75 0 0 1-6.75 6.75H9a6.75 6.75 0 0 1-6.75-6.75V9A6.75 6.75 0 0 1 9 2.25h1.5a6.75 6.75 0 0 1 6.75 6.75v5.25Z" fill="#007AFF"/><path d="M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" fill="#007AFF"/></svg>',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.25 14.25a6.75 6.75 0 0 1-6.75 6.75H9a6.75 6.75 0 0 1-6.75-6.75V9A6.75 6.75 0 0 1 9 2.25h1.5a6.75 6.75 0 0 1 6.75 6.75v5.25Z" fill="#007AFF"></path><path d="M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" fill="#007AFF"></path></svg>',
                     name: 'iPhone'
                 };
             }
             if (userAgent.includes('Android')) {
                 return {
-                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#3DDC84"/></svg>',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#3DDC84"></path></svg>',
                     name: 'Android'
                 };
             }
@@ -1079,6 +1117,7 @@
             }
             return { icon: '💻', name: 'جهاز آخر' };
         }
+
         // ======================= HELPER FUNCTIONS =======================
         function containsPhoneNumber(text) {
             const phonePattern = /(?:\+?20)?\s*1[0-9]{9}|01[0-9]{8}/;
@@ -1203,6 +1242,7 @@
                 }
             }, 1000);
         };
+
         // ======================= CORRECTION SYSTEM =======================
         window.openCorrectionForm = async (lectureId, lectureTitle, subject) => {
             await updateUserActivity(`يفتح نموذج تصحيح للمحاضرة: ${lectureTitle}`);
@@ -1249,6 +1289,7 @@
             showToast('تم إرسال طلب التصحيح بنجاح! شكرًا لك.');
             document.getElementById('generic-modal').classList.remove('open');
         };
+
         // ======================= EXPLANATION SECTION =======================
         document.getElementById('explanation-nav-btn').addEventListener('click', () => {
             updateUserActivity("يفتح قسم الشرح");
@@ -1285,6 +1326,7 @@
                 }
             }, 1000);
         };
+
         // ======================= ONBOARDING =======================
         let currentOnboardingStep = 0;
         let onboardingSteps = [];
@@ -1348,6 +1390,7 @@
                 localStorage.setItem('onboardingCompleted', 'true');
             }
         });
+
         // ======================= AUTHENTICATION =======================
         function renderAuthForm(isInitial = true, showRegister = false) {
             const authFormContainer = document.getElementById('auth-form-container'); 
@@ -1491,6 +1534,7 @@
                 submitBtn.textContent = 'دخــــول'; 
             } 
         }
+
         // ======================= STUDENT DASHBOARD =======================
         function initStudentDashboard() { 
             showPage('student-dashboard'); 
@@ -1533,6 +1577,7 @@
             const q = query(collection(db, 'lectures'), where("year", "==", currentUser.year), where("division", "==", currentUser.division), where("subject", "==", subject), where("isHidden", "==", false), orderBy('createdAt', 'desc')); 
             currentContentUnsubscribe = onSnapshot(q, (snapshot) => { if (snapshot.empty) { lecturesContainer.innerHTML = `<p class="text-slate-400 py-4">لا توجد محاضرات منشورة لهذه المادة حالياً.</p>`; } else { let contentHTML = '<div class="space-y-3">'; snapshot.forEach(doc => { const item = doc.data(); contentHTML += `<div class="glass-effect p-3 rounded-lg cursor-pointer hover:bg-slate-500/10 transition-colors" onclick="viewContentDetail('${doc.id}', '${item.title}', '${btoa(encodeURIComponent(item.body))}', '${subject}')"><h4 class="font-bold text-white">${item.title}</h4><div class="mt-2 flex justify-end"><button class="correction-btn" onclick="event.stopPropagation(); openCorrectionForm('${doc.id}', '${item.title}', '${subject}')">تصحيح</button></div></div>`; }); contentHTML += '</div>'; lecturesContainer.innerHTML = contentHTML; } }, (error) => { console.error("Error:", error); lecturesContainer.innerHTML = `<p class="text-red-400 py-4">حدث خطأ أثناء تحميل المحاضرات.</p>`; }); 
         };
+
         // ======================= CONTENT VIEW WITH STYLING =======================
         window.viewContentDetail = async (id, title, body, subject) => { 
             await updateUserActivity(`يشاهد محاضرة: ${title}`);
@@ -1553,6 +1598,7 @@
             formattedBody = formattedBody.replace(/<\/ul>\s*<ul>/g, '');
             openModalWithContent(title, `<div class="lecture-content p-2">${formattedBody}</div>`); 
         };
+
         // ======================= BOOKS WITH WATCH & DOWNLOAD =======================
         window.showSubjectSelectionModal = (type) => { 
             updateUserActivity(`يتصفح قسم ${type === 'books' ? 'الكتب' : 'السكاشن'}`);
@@ -1667,6 +1713,7 @@
         document.getElementById('courses-btn').addEventListener('click', async () => {
             showCoursesList();
         });
+
         // ======================= MEETING BUTTON HANDLER =======================
         document.getElementById('meeting-btn').addEventListener('click', async () => {
             if (!currentUser || currentUser.isAdmin) return;
@@ -1711,6 +1758,7 @@
                 showToast("حدث خطأ أثناء تسجيل الحضور.", true);
             }
         });
+
         // ======================= LIVE ATTENDANCE BANNER CLICK =======================
         window.handleLiveAttendanceBannerClick = async () => {
             if (!currentUser || currentUser.isAdmin) return;
@@ -1750,6 +1798,7 @@
                 showToast("حدث خطأ أثناء تسجيل الحضور.", true);
             }
         };
+
         // ======================= SUMMARY SECTION =======================
         document.getElementById('summary-nav-btn').addEventListener('click', () => {
             updateUserActivity("يفتح قسم التلخيص");
@@ -1767,6 +1816,7 @@
             `;
             openModalWithContent('تلخيص', summaryHTML);
         });
+
         // ======================= POLLS/DISCUSSION FEATURE - GLOBAL =======================
         const emojis = [
             '👍', '👎', '❤️', '🔥', '👏', '😂', '😮', '😢', '😡', '🎉', '💯', '🙏', '👌', '👀', '🤔', '😎', '🤩', '🥳', '😜', '🤪',
@@ -1878,6 +1928,7 @@
                 });
             });
         }
+
         // ======================= OPINIONS VIEW =======================
         async function openOpinionsView() {
             updateUserActivity("يتصفح قسم الآراء");
@@ -1924,6 +1975,7 @@
                 });
             });
         }
+
         // ======================= REACTIONS SYSTEM =======================
         function addLongPressReaction(element, collectionName) {
             let pressTimer;
@@ -2048,6 +2100,7 @@
             });
             input.value = '';
         }
+
         // =========================================================================
         function activateNavButtons() {
             document.getElementById('platform-btn').addEventListener('click', () => {
@@ -2157,6 +2210,7 @@
             document.getElementById('digital-card-nav-btn').addEventListener('click', () => {
                 updateUserActivity("يفتح بطاقته الرقمية");
                 const issueDate = currentUser.createdAt && currentUser.createdAt.seconds ? new Date(currentUser.createdAt.seconds * 1000).toLocaleDateString('ar-EG') : new Date().toLocaleDateString('ar-EG');
+                const deviceInfo = getDeviceIcon(currentUser.userAgent);
                 // ✅ نص مخفي لقارئ QR حقيقي
                 const qrText = `اسم الطالب: ${currentUser.name}
 الرقم التعريفي: ${currentUser.studentId || 'غير متوفر'}`;
@@ -2180,7 +2234,13 @@
                                         <p class="student-card-label">التخصص</p>
                                         <p class="student-card-value">${currentUser.year === '1' ? "الفرقة الأولى" : "الفرقة الثانية"} - ${currentUser.division === "international" ? "أعمال دولية (IB)" : "نظم معلومات (BIS)"}</p>
                                     </div>
-                                    <!-- ✅ تم حذف "نوع الجهاز" -->
+                                    <div>
+                                        <p class="student-card-label">نوع الجهاز</p>
+                                        <p class="student-card-value">
+                                            ${deviceInfo.name}
+                                            <span class="device-icon">${deviceInfo.icon}</span>
+                                        </p>
+                                    </div>
                                     <div>
                                         <p class="student-card-label">تاريخ الانضمام</p>
                                         <p class="student-card-value">${issueDate}</p>
@@ -2349,7 +2409,7 @@
         }
         function showCountdownModal(title, callback) { openModalWithContent(title, `<div class="text-center p-8"><p class="text-lg">سيتم الإجراء خلال <span id="countdown-span" class="font-bold text-xl text-[var(--primary-glow)]">3</span>...</p></div>`); let count = 3; const countdownSpan = document.getElementById('countdown-span'); const interval = setInterval(() => { count--; if(countdownSpan) countdownSpan.textContent = count > 0 ? count + '...' : 'الآن!'; if (count <= 0) { clearInterval(interval); callback(); } }, 1000); }
         function handleLogout() { showCountdownModal('تسجيل الخروج', () => { updateUserActivity("سجل الخروج"); const userToLogOut = { ...currentUser }; localStorage.removeItem('moraUser'); currentUser = null; document.getElementById('generic-modal').classList.remove('open'); showPage('auth-page'); renderAuthForm(false, false); if (userToLogOut && userToLogOut.name) { document.getElementById('auth-name').value = userToLogOut.name; document.getElementById('auth-password').value = userToLogOut.password || ''; } initVantaBackground(); }); }
-        // ✅ مراقبة حذف الحساب أو حظره من لوحة التحكم
+        // ✅ مراقبة حذف الحساب من لوحة التحكم
         function listenForUserBanOrDeletion() {
             if (!currentUser || currentUser.isAdmin || !currentUser.id) return;
             const userDocRef = doc(db, "users", currentUser.id);
@@ -2360,7 +2420,7 @@
                 }
                 const data = doc.data();
                 if (data.isBanned) {
-                    handleImmediateBan("تم حظر حسابك نهائيًا.");
+                    handleImmediateBan("تم حظر حسابك نهائياً.");
                     return;
                 }
                 currentUser = { id: doc.id, ...data };
@@ -2387,6 +2447,7 @@
                 initVantaBackground();
             }, 3000);
         }
+
         // ======================= TIMER =======================
         let timerInterval; let timerState = { running: false, duration: 25 * 60 };
         function formatTime(seconds) { const m = Math.floor(seconds / 60); const s = seconds % 60; return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`; }
@@ -2417,6 +2478,7 @@
                 timerState.duration = 25*60; 
             } 
         }
+
         // ======================= THEMES =======================
         const themes = { "default":{n:"افتراضي",p:"#00f5c3",s:"#a78bfa"},"gold":{n:"ذهبي",p:"#f59e0b",s:"#fbbf24"},"emerald":{n:"زمردي",p:"#10b981",s:"#34d399"},"crimson":{n:"قرمزي",p:"#dc2626",s:"#f87171"},"violet":{n:"بنفسجي",p:"#8b5cf6",s:"#c084fc"},"rose":{n:"وردي",p:"#f43f5e",s:"#fb7185"},"sky":{n:"سماوي",p:"#0ea5e9",s:"#38bdf8"},"forest":{n:"غابي",p:"#22c55e",s:"#4ade80"},"ocean":{n:"محيط",p:"#0891b2",s:"#22d3ee"},"sunset":{n:"غروب",p:"#f97316",s:"#f59e0b"},"galaxy":{n:"مجرة",p:"#9333ea",s:"#d946ef"},"candy":{n:"حلوى",p:"#ec4899",s:"#f87171"},"lime":{n:"ليموني",p:"#84cc16",s:"#a3e635"},"fire":{n:"ناري",p:"#f59e0b",s:"#ef4444"},"ice":{n:"جليدي",p:"#22d3ee",s:"#67e8f9"},"royal":{n:"ملكي",p:"#d97706",s:"#f59e0b"},"hacker":{n:"هاكر",p:"#16a34a",s:"#4ade80"},"retro":{n:"ريترو",p:"#ca8a04",s:"#eab308"},"sakura":{n:"ساكورا",p:"#f472b6",s:"#fb7185"},"mint":{n:"نعناع",p:"#2dd4bf",s:"#5eead4"},"copper":{n:"نحاسي",p:"#b45309",s:"#d97706"},"lavender":{n:"خزامي",p:"#a78bfa",s:"#c4b5fd"},"cyber":{n:"سايبر",p:"#ea580c",s:"#f59e0b"},"sand":{n:"رملي",p:"#ca8a04",s:"#eab308"},"grape":{n:"عنبي",p:"#9333ea",s:"#a855f7"},"cherry":{n:"كرزي",p:"#be123c",s:"#e11d48"},"peach":{n:"خوخي",p:"#f97316",s:"#fb923c"},"teal":{n:"بطيخي",p:"#0d9488",s:"#14b8a6"},"indigo":{n:"نيلي",p:"#4f46e5",s:"#6366f1"},"amber":{n:"عنبري",p:"#d97706",s:"#f59e0b"},"fuchsia":{n:"فوشيا",p:"#c026d3",s:"#d946ef"} };
         function applyTheme(themeKey) {
@@ -2436,6 +2498,7 @@
             ` + style.innerHTML.split('}').slice(1).join('}');
             localStorage.setItem('moraTheme', themeKey);
         }
+
         // ======================= TEXTS =======================
         function applySiteTexts() {
             document.querySelectorAll('[data-text-key]').forEach(el => {
@@ -2460,6 +2523,7 @@
                 applySiteTexts();
             });
         }
+
         // ======================= ADMIN DASHBOARD =======================
         function initAdminDashboard() { 
             showPage('admin-dashboard'); 
@@ -2867,6 +2931,7 @@
             await deleteDoc(replyRef);
             showToast('تم حذف الرد.');
         }
+
         // ======================= INITIALIZATION =======================
         window.addEventListener('load', async () => {
             await listenToSiteContent();
