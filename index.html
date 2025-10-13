@@ -600,6 +600,31 @@
             color: #94a3b8;
             font-style: italic;
         }
+        /* جداول المحاسبة */
+        .lecture-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .lecture-content th,
+        .lecture-content td {
+            border: 1px solid rgba(0, 245, 195, 0.3);
+            padding: 0.75rem;
+            text-align: center;
+            color: #e2e8f0;
+        }
+        .lecture-content th {
+            background: rgba(0, 245, 195, 0.15);
+            color: var(--primary-glow);
+            font-weight: bold;
+        }
+        .lecture-content img {
+            max-width: 100%;
+            height: auto;
+        }
         #explanation-content {
             text-align: center;
             padding: 1.5rem;
@@ -753,6 +778,10 @@
             font-weight: bold;
             font-size: 1.1rem;
             color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
         }
         .student-card-id-box {
             margin-top: 1.2rem;
@@ -781,17 +810,12 @@
             justify-content: center;
             margin-top: 1.2rem;
         }
-        .qr-readable-text {
-            position: absolute;
-            bottom: 8px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 0.65rem;
-            color: transparent;
-            user-select: none;
-            pointer-events: none;
-            opacity: 0;
+        /* أيقونة احترافية بدل علامة الصح */
+        .futuristic-badge {
+            font-size: 0.55rem !important;
+            color: gold;
+            text-shadow: 0 0 6px gold, 0 0 10px gold;
+            animation: gentle-float 3s infinite ease-in-out;
         }
     </style>
 </head>
@@ -1117,7 +1141,6 @@
             }
             return { icon: '💻', name: 'جهاز آخر' };
         }
-
         // ======================= HELPER FUNCTIONS =======================
         function containsPhoneNumber(text) {
             const phonePattern = /(?:\+?20)?\s*1[0-9]{9}|01[0-9]{8}/;
@@ -1242,7 +1265,6 @@
                 }
             }, 1000);
         };
-
         // ======================= CORRECTION SYSTEM =======================
         window.openCorrectionForm = async (lectureId, lectureTitle, subject) => {
             await updateUserActivity(`يفتح نموذج تصحيح للمحاضرة: ${lectureTitle}`);
@@ -1289,7 +1311,6 @@
             showToast('تم إرسال طلب التصحيح بنجاح! شكرًا لك.');
             document.getElementById('generic-modal').classList.remove('open');
         };
-
         // ======================= EXPLANATION SECTION =======================
         document.getElementById('explanation-nav-btn').addEventListener('click', () => {
             updateUserActivity("يفتح قسم الشرح");
@@ -1326,7 +1347,6 @@
                 }
             }, 1000);
         };
-
         // ======================= ONBOARDING =======================
         let currentOnboardingStep = 0;
         let onboardingSteps = [];
@@ -1390,7 +1410,6 @@
                 localStorage.setItem('onboardingCompleted', 'true');
             }
         });
-
         // ======================= AUTHENTICATION =======================
         function renderAuthForm(isInitial = true, showRegister = false) {
             const authFormContainer = document.getElementById('auth-form-container'); 
@@ -1534,7 +1553,6 @@
                 submitBtn.textContent = 'دخــــول'; 
             } 
         }
-
         // ======================= STUDENT DASHBOARD =======================
         function initStudentDashboard() { 
             showPage('student-dashboard'); 
@@ -1577,12 +1595,28 @@
             const q = query(collection(db, 'lectures'), where("year", "==", currentUser.year), where("division", "==", currentUser.division), where("subject", "==", subject), where("isHidden", "==", false), orderBy('createdAt', 'desc')); 
             currentContentUnsubscribe = onSnapshot(q, (snapshot) => { if (snapshot.empty) { lecturesContainer.innerHTML = `<p class="text-slate-400 py-4">لا توجد محاضرات منشورة لهذه المادة حالياً.</p>`; } else { let contentHTML = '<div class="space-y-3">'; snapshot.forEach(doc => { const item = doc.data(); contentHTML += `<div class="glass-effect p-3 rounded-lg cursor-pointer hover:bg-slate-500/10 transition-colors" onclick="viewContentDetail('${doc.id}', '${item.title}', '${btoa(encodeURIComponent(item.body))}', '${subject}')"><h4 class="font-bold text-white">${item.title}</h4><div class="mt-2 flex justify-end"><button class="correction-btn" onclick="event.stopPropagation(); openCorrectionForm('${doc.id}', '${item.title}', '${subject}')">تصحيح</button></div></div>`; }); contentHTML += '</div>'; lecturesContainer.innerHTML = contentHTML; } }, (error) => { console.error("Error:", error); lecturesContainer.innerHTML = `<p class="text-red-400 py-4">حدث خطأ أثناء تحميل المحاضرات.</p>`; }); 
         };
-
-        // ======================= CONTENT VIEW WITH STYLING =======================
+        // ======================= CONTENT VIEW WITH STYLING & TABLES =======================
         window.viewContentDetail = async (id, title, body, subject) => { 
             await updateUserActivity(`يشاهد محاضرة: ${title}`);
             const decodedBody = decodeURIComponent(atob(body));
-            let formattedBody = decodedBody
+            let formattedBody = decodedBody;
+
+            // دعم الجداول لمواد المحاسبة الثلاث
+            const accountingSubjects = ['محاسبه التكاليف', 'محاسبه الشركات', 'مبادئ المحاسبة الماليه'];
+            if (accountingSubjects.some(s => subject.includes(s))) {
+                // تحويل جداول Markdown إلى HTML
+                formattedBody = formattedBody.replace(/^\|(.+)\|\s*$/gm, (match, row) => {
+                    const cells = row.split('|').map(c => c.trim());
+                    const tag = cells[0].startsWith('---') ? 'th' : 'td';
+                    return `<tr>${cells.map(cell => `<${tag}>${cell}</${tag}>`).join('')}</tr>`;
+                });
+                formattedBody = formattedBody.replace(/(?:^|\n)(\|.*\|)(\n\|[-| ]+\|)?/g, (match, tableRows) => {
+                    return `<table>${tableRows}</table>`;
+                });
+            }
+
+            // التنسيق العام
+            formattedBody = formattedBody
                 .replace(/^(#+\s*.*)$/gm, '<h2>$1</h2>')
                 .replace(/^(##+\s*.*)$/gm, '<h3>$1</h3>')
                 .replace(/^\*\s+(.*)$/gm, '<li>$1</li>')
@@ -1594,11 +1628,12 @@
                 .replace(/_(.*?)_/g, '<em>$1</em>')
                 .replace(/`(.*?)`/g, '<code>$1</code>')
                 .replace(/^>\s+(.*)$/gm, '<blockquote>$1</blockquote>');
+
             formattedBody = formattedBody.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
             formattedBody = formattedBody.replace(/<\/ul>\s*<ul>/g, '');
+
             openModalWithContent(title, `<div class="lecture-content p-2">${formattedBody}</div>`); 
         };
-
         // ======================= BOOKS WITH WATCH & DOWNLOAD =======================
         window.showSubjectSelectionModal = (type) => { 
             updateUserActivity(`يتصفح قسم ${type === 'books' ? 'الكتب' : 'السكاشن'}`);
@@ -1713,7 +1748,6 @@
         document.getElementById('courses-btn').addEventListener('click', async () => {
             showCoursesList();
         });
-
         // ======================= MEETING BUTTON HANDLER =======================
         document.getElementById('meeting-btn').addEventListener('click', async () => {
             if (!currentUser || currentUser.isAdmin) return;
@@ -1758,7 +1792,6 @@
                 showToast("حدث خطأ أثناء تسجيل الحضور.", true);
             }
         });
-
         // ======================= LIVE ATTENDANCE BANNER CLICK =======================
         window.handleLiveAttendanceBannerClick = async () => {
             if (!currentUser || currentUser.isAdmin) return;
@@ -1798,7 +1831,6 @@
                 showToast("حدث خطأ أثناء تسجيل الحضور.", true);
             }
         };
-
         // ======================= SUMMARY SECTION =======================
         document.getElementById('summary-nav-btn').addEventListener('click', () => {
             updateUserActivity("يفتح قسم التلخيص");
@@ -1816,7 +1848,6 @@
             `;
             openModalWithContent('تلخيص', summaryHTML);
         });
-
         // ======================= POLLS/DISCUSSION FEATURE - GLOBAL =======================
         const emojis = [
             '👍', '👎', '❤️', '🔥', '👏', '😂', '😮', '😢', '😡', '🎉', '💯', '🙏', '👌', '👀', '🤔', '😎', '🤩', '🥳', '😜', '🤪',
@@ -1928,7 +1959,6 @@
                 });
             });
         }
-
         // ======================= OPINIONS VIEW =======================
         async function openOpinionsView() {
             updateUserActivity("يتصفح قسم الآراء");
@@ -1975,7 +2005,6 @@
                 });
             });
         }
-
         // ======================= REACTIONS SYSTEM =======================
         function addLongPressReaction(element, collectionName) {
             let pressTimer;
@@ -2100,7 +2129,6 @@
             });
             input.value = '';
         }
-
         // =========================================================================
         function activateNavButtons() {
             document.getElementById('platform-btn').addEventListener('click', () => {
@@ -2228,7 +2256,7 @@
                                 <div class="student-card-info">
                                     <div>
                                         <p class="student-card-label">الاســـــم</p>
-                                        <p class="student-card-value">${currentUser.name}</p>
+                                        <p class="student-card-value">${currentUser.name} <span class="futuristic-badge">⭐</span></p>
                                     </div>
                                     <div>
                                         <p class="student-card-label">التخصص</p>
@@ -2447,7 +2475,6 @@
                 initVantaBackground();
             }, 3000);
         }
-
         // ======================= TIMER =======================
         let timerInterval; let timerState = { running: false, duration: 25 * 60 };
         function formatTime(seconds) { const m = Math.floor(seconds / 60); const s = seconds % 60; return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`; }
@@ -2478,7 +2505,6 @@
                 timerState.duration = 25*60; 
             } 
         }
-
         // ======================= THEMES =======================
         const themes = { "default":{n:"افتراضي",p:"#00f5c3",s:"#a78bfa"},"gold":{n:"ذهبي",p:"#f59e0b",s:"#fbbf24"},"emerald":{n:"زمردي",p:"#10b981",s:"#34d399"},"crimson":{n:"قرمزي",p:"#dc2626",s:"#f87171"},"violet":{n:"بنفسجي",p:"#8b5cf6",s:"#c084fc"},"rose":{n:"وردي",p:"#f43f5e",s:"#fb7185"},"sky":{n:"سماوي",p:"#0ea5e9",s:"#38bdf8"},"forest":{n:"غابي",p:"#22c55e",s:"#4ade80"},"ocean":{n:"محيط",p:"#0891b2",s:"#22d3ee"},"sunset":{n:"غروب",p:"#f97316",s:"#f59e0b"},"galaxy":{n:"مجرة",p:"#9333ea",s:"#d946ef"},"candy":{n:"حلوى",p:"#ec4899",s:"#f87171"},"lime":{n:"ليموني",p:"#84cc16",s:"#a3e635"},"fire":{n:"ناري",p:"#f59e0b",s:"#ef4444"},"ice":{n:"جليدي",p:"#22d3ee",s:"#67e8f9"},"royal":{n:"ملكي",p:"#d97706",s:"#f59e0b"},"hacker":{n:"هاكر",p:"#16a34a",s:"#4ade80"},"retro":{n:"ريترو",p:"#ca8a04",s:"#eab308"},"sakura":{n:"ساكورا",p:"#f472b6",s:"#fb7185"},"mint":{n:"نعناع",p:"#2dd4bf",s:"#5eead4"},"copper":{n:"نحاسي",p:"#b45309",s:"#d97706"},"lavender":{n:"خزامي",p:"#a78bfa",s:"#c4b5fd"},"cyber":{n:"سايبر",p:"#ea580c",s:"#f59e0b"},"sand":{n:"رملي",p:"#ca8a04",s:"#eab308"},"grape":{n:"عنبي",p:"#9333ea",s:"#a855f7"},"cherry":{n:"كرزي",p:"#be123c",s:"#e11d48"},"peach":{n:"خوخي",p:"#f97316",s:"#fb923c"},"teal":{n:"بطيخي",p:"#0d9488",s:"#14b8a6"},"indigo":{n:"نيلي",p:"#4f46e5",s:"#6366f1"},"amber":{n:"عنبري",p:"#d97706",s:"#f59e0b"},"fuchsia":{n:"فوشيا",p:"#c026d3",s:"#d946ef"} };
         function applyTheme(themeKey) {
@@ -2498,7 +2524,6 @@
             ` + style.innerHTML.split('}').slice(1).join('}');
             localStorage.setItem('moraTheme', themeKey);
         }
-
         // ======================= TEXTS =======================
         function applySiteTexts() {
             document.querySelectorAll('[data-text-key]').forEach(el => {
@@ -2523,7 +2548,6 @@
                 applySiteTexts();
             });
         }
-
         // ======================= ADMIN DASHBOARD =======================
         function initAdminDashboard() { 
             showPage('admin-dashboard'); 
@@ -2931,7 +2955,6 @@
             await deleteDoc(replyRef);
             showToast('تم حذف الرد.');
         }
-
         // ======================= INITIALIZATION =======================
         window.addEventListener('load', async () => {
             await listenToSiteContent();
