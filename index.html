@@ -52,6 +52,116 @@
             from { transform: scale(1) rotate(0deg); }
             to { transform: scale(1.2) rotate(45deg); }
         }
+        /* ========== NEW SIDEBAR MENU ========== */
+        #floating-menu-btn {
+            position: fixed;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 60;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-glow);
+            color: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 12px var(--primary-glow);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        #floating-menu-btn:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 0 16px var(--primary-glow);
+        }
+        /* ✅ إخفاء الزر في صفحات المصادقة */
+        #auth-page #floating-menu-btn,
+        #splash-screen #floating-menu-btn {
+            display: none !important;
+        }
+        #full-screen-menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            max-height: 30vh;
+            background: transparent;
+            z-index: 55;
+            display: none;
+            padding: 0 16px 16px;
+            overflow: hidden;
+        }
+        #full-screen-menu.active {
+            display: block;
+        }
+        #menu-content {
+            width: 100%;
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            background: var(--glass-bg);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 var(--shadow-color);
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        #menu-content::-webkit-scrollbar {
+            display: none;
+        }
+        .menu-item {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 8px;
+            min-width: 70px;
+            text-align: center;
+            color: var(--text-primary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 10px;
+        }
+        .menu-item i {
+            font-size: 1.4rem;
+            filter: drop-shadow(0 0 5px var(--primary-glow));
+        }
+        .menu-item:hover {
+            background: rgba(var(--primary-glow-rgb), 0.15);
+            transform: translateY(-2px);
+        }
+        .menu-item:hover i {
+            filter: drop-shadow(0 0 10px var(--primary-glow));
+            color: var(--primary-glow);
+        }
+        /* Hide original bottom nav */
+        .bottom-nav {
+            display: none !important;
+        }
+        #student-dashboard main {
+            padding-bottom: 20px;
+        }
+        /* ✅ رمز 3D صغير بدل علامة الصح */
+        .correction-btn i {
+            display: none;
+        }
+        .correction-btn::before {
+            content: "✓";
+            font-weight: bold;
+            font-size: 0.65rem;
+            display: inline-block;
+            transform: scale(1.2) rotateY(180deg);
+            animation: unlocked-3d-float 4s infinite ease-in-out;
+            margin-left: 0.2rem;
+        }
+        /* باقي الأنماط كما هي */
         @keyframes cinematic-enter {
             from { opacity: 0; transform: scale(1.1); filter: blur(8px); }
             to { opacity: 1; transform: scale(1); filter: blur(0); }
@@ -600,31 +710,6 @@
             color: #94a3b8;
             font-style: italic;
         }
-        /* جداول المحاسبة */
-        .lecture-content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.2rem 0;
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 0.5rem;
-            overflow: hidden;
-        }
-        .lecture-content th,
-        .lecture-content td {
-            border: 1px solid rgba(0, 245, 195, 0.3);
-            padding: 0.75rem;
-            text-align: center;
-            color: #e2e8f0;
-        }
-        .lecture-content th {
-            background: rgba(0, 245, 195, 0.15);
-            color: var(--primary-glow);
-            font-weight: bold;
-        }
-        .lecture-content img {
-            max-width: 100%;
-            height: auto;
-        }
         #explanation-content {
             text-align: center;
             padding: 1.5rem;
@@ -690,7 +775,6 @@
         .qr-readable-text::selection {
             background: transparent;
         }
-        /* Correction Button - Mobile Optimized */
         .correction-btn {
             background: #f97316;
             color: white;
@@ -705,7 +789,6 @@
         .correction-btn:hover {
             background: #ea580c;
         }
-        /* Correction Form Modal */
         #correction-form {
             text-align: center;
         }
@@ -731,7 +814,6 @@
             color: var(--text-secondary);
             margin-bottom: 1rem;
         }
-        /* ========== STUDENT CARD STYLES ========== */
         .student-card-container {
             width: 100%;
             max-width: 380px;
@@ -739,7 +821,6 @@
             padding: 1.5rem;
         }
         .student-card {
-            /* شفاف تمامًا - بدون خلفية أو إطار */
             background: transparent !important;
             border: none !important;
             box-shadow: none !important;
@@ -778,10 +859,6 @@
             font-weight: bold;
             font-size: 1.1rem;
             color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.3rem;
         }
         .student-card-id-box {
             margin-top: 1.2rem;
@@ -810,13 +887,6 @@
             justify-content: center;
             margin-top: 1.2rem;
         }
-        /* أيقونة احترافية بدل علامة الصح */
-        .futuristic-badge {
-            font-size: 0.55rem !important;
-            color: gold;
-            text-shadow: 0 0 6px gold, 0 0 10px gold;
-            animation: gentle-float 3s infinite ease-in-out;
-        }
     </style>
 </head>
 <body class="w-full h-screen">
@@ -825,6 +895,16 @@
         🎓 اضغط هنا للدخول وحضور المحاضرة مباشرة!
     </div>
     <div id="app-container" class="w-full h-full relative">
+        <!-- Floating Menu Button -->
+        <div id="floating-menu-btn">
+            <i class="ph-list"></i>
+        </div>
+        <!-- Full-Screen Horizontal Menu -->
+        <div id="full-screen-menu">
+            <div id="menu-content">
+                <!-- Items will be cloned from original nav -->
+            </div>
+        </div>
         <!-- Auth Page -->
         <div id="auth-page" class="page justify-center items-end p-4">
             <div id="auth-form-container" class="w-full h-full flex justify-center items-end p-4"></div>
@@ -893,12 +973,11 @@
             <footer class="fixed bottom-[64px] sm:bottom-[60px] left-0 w-full p-2 text-center text-xs pointer-events-none z-40">
                 <p class="footer-text" data-text-key="footerText"></p>
             </footer>
+            <!-- Original Bottom Nav (Hidden) -->
             <nav class="bottom-nav fixed bottom-0 right-0 left-0 glass-effect flex text-xs z-50 p-1">
-                <!-- Removed Books button -->
                 <button onclick="showSubjectSelectionModal('sections')" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-stack-simple text-xl"></i><span>سكاشن</span></button>
                 <button id="courses-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-cube unlocked-icon-3d text-xl"></i><span>كورسات</span></button>
                 <button data-modal="ai-tools-modal" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-robot text-xl"></i><span>أدوات AI</span></button>
-                <!-- CALCULATOR REMOVED -->
                 <button data-modal="opinions-modal" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-chats-teardrop text-xl"></i><span>آراء</span></button>
                 <button data-modal="polls-modal" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2"><i class="ph-megaphone-simple text-xl"></i><span>استطلاعات</span></button>
                 <button id="meeting-btn" class="bottom-nav-btn flex flex-col items-center space-y-1 p-2 relative">
@@ -933,7 +1012,6 @@
                         <button data-panel="students-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة الطلاب</button>
                         <button data-panel="tickets-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة الشكاوى</button>
                         <button data-panel="live-stream-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة البث المباشر</button>
-                        <!-- Removed books from content panel -->
                         <button data-panel="content-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة المحتوى</button>
                         <button data-panel="text-management-panel" class="admin-nav-btn text-right p-3 rounded-lg">إدارة النصوص</button>
                         <button data-panel="notifications-panel" class="admin-nav-btn text-right p-3 rounded-lg">الإشعارات</button>
@@ -1003,7 +1081,6 @@
                     </div>
                     <div id="students-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة الطلاب</h2><div id="admin-students-list" class="space-y-4"></div></div>
                     <div id="content-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة المحتوى</h2><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div><div class="glass-effect p-6 rounded-lg"><h3 id="content-form-title" class="text-xl font-bold mb-4">إضافة محتوى جديد</h3>
-                    <!-- Removed books option -->
                     <select id="content-type-select" class="w-full rounded-lg select-field appearance-none mb-4">
                         <option value="lectures">محاضرة</option>
                         <option value="sections">سكشن</option>
@@ -1036,7 +1113,6 @@
                     <div id="ai-tools-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة أدوات AI</h2><div class="glass-effect p-6 rounded-lg mb-6"><h3 class="font-bold mb-4">إضافة أداة جديدة</h3><input id="ai-name-input" type="text" placeholder="اسم الأداة" class="w-full rounded-lg input-field mb-4"><input id="ai-desc-input" type="text" placeholder="وصف الأداة" class="w-full rounded-lg input-field mb-4"><input id="ai-url-input" type="text" placeholder="رابط الأداة" class="w-full rounded-lg input-field mb-4"><button id="add-ai-tool-btn" class="w-full py-2 rounded-lg font-bold btn-celestial">إضافة الأداة</button></div><div id="admin-ai-tools-list" class="space-y-4"></div></div>
                     <div id="opinions-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">آراء الطلاب</h2><div id="admin-opinions-list" class="space-y-4"></div></div>
                     <div id="polls-panel" class="admin-panel hidden"><h2 class="text-3xl font-bold mb-6">إدارة الاستطلاعات</h2><div id="admin-polls-list" class="space-y-4"></div></div>
-                    <!-- NEW: Corrections Panel -->
                     <div id="corrections-panel" class="admin-panel hidden">
                         <h2 class="text-3xl font-bold mb-6">تصحيحات المحاضرات</h2>
                         <div id="admin-corrections-list" class="space-y-4">
@@ -1081,6 +1157,73 @@
         <audio id="admin-notification-sound" src="https://code-gemini.github.io/Mora-For-Studying/notification.mp3" preload="auto"></audio>
     </div>
     <script type="module">
+        // ✅ منطق القائمة الجديدة (بدون إغلاق تلقائي)
+        document.addEventListener('DOMContentLoaded', () => {
+            const floatingBtn = document.getElementById('floating-menu-btn');
+            const fullScreenMenu = document.getElementById('full-screen-menu');
+            const menuContent = document.getElementById('menu-content');
+            const originalNav = document.querySelector('.bottom-nav');
+            const originalItems = originalNav.querySelectorAll('.bottom-nav-btn');
+            menuContent.innerHTML = '';
+            originalItems.forEach(item => {
+                const clone = item.cloneNode(true);
+                clone.classList.remove('bottom-nav-btn', 'p-2');
+                clone.classList.add('menu-item');
+                menuContent.appendChild(clone);
+            });
+            floatingBtn.addEventListener('click', () => {
+                fullScreenMenu.classList.toggle('active');
+                const icon = floatingBtn.querySelector('i');
+                if (fullScreenMenu.classList.contains('active')) {
+                    icon.className = 'ph-x';
+                } else {
+                    icon.className = 'ph-list';
+                }
+            });
+            menuContent.addEventListener('click', (e) => {
+                const btn = e.target.closest('.menu-item');
+                if (!btn) return;
+                const span = btn.querySelector('span');
+                if (!span) return;
+                const text = span.textContent.trim();
+                if (text === 'سكاشن') {
+                    showSubjectSelectionModal('sections');
+                } else if (text === 'كورسات') {
+                    document.getElementById('courses-btn').click();
+                } else if (text === 'أدوات AI') {
+                    document.querySelector('[data-modal="ai-tools-modal"]').click();
+                } else if (text === 'آراء') {
+                    document.querySelector('[data-modal="opinions-modal"]').click();
+                } else if (text === 'استطلاعات') {
+                    document.querySelector('[data-modal="polls-modal"]').click();
+                } else if (text === 'ميتنج') {
+                    document.getElementById('meeting-btn').click();
+                } else if (text === 'بطاقتي') {
+                    document.getElementById('digital-card-nav-btn').click();
+                } else if (text === 'تلخيص') {
+                    document.getElementById('summary-nav-btn').click();
+                } else if (text === 'شرح') {
+                    document.getElementById('explanation-nav-btn').click();
+                } else if (text === 'الخصوصية') {
+                    document.getElementById('privacy-policy-nav-btn').click();
+                } else if (text === 'الدعم') {
+                    document.querySelector('[data-modal="support-modal"]').click();
+                } else if (text === 'عنا') {
+                    document.querySelector('[data-modal="about-modal"]').click();
+                } else if (text === 'المنصة') {
+                    document.getElementById('platform-btn').click();
+                } else if (text === 'تايمر') {
+                    document.getElementById('study-timer-nav-btn').click();
+                } else if (text === 'الإعدادات') {
+                    document.querySelector('[data-modal="settings-modal"]').click();
+                } else if (text === 'حسابي') {
+                    document.getElementById('account-options-btn').click();
+                }
+                // ✅ القائمة تبقى مفتوحة حتى يضغط المستخدم على الزر مرة أخرى
+            });
+        });
+
+        // ⬇️ باقي الكود كما هو في الملف الأصلي ⬇️
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, doc, addDoc, getDocs, query, where, onSnapshot, deleteDoc, updateDoc, orderBy, serverTimestamp, getDoc, setDoc, limit, writeBatch, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         const firebaseConfig = { apiKey: "AIzaSyB92ooyA5_tTx1BLDp2EWmqxHuJQ3zqah4", authDomain: "mora-for-studying.firebaseapp.com", projectId: "mora-for-studying", storageBucket: "mora-for-studying.appspot.com", messagingSenderId: "213416531900", appId: "1:213416531900:web:2e4d8bd2a9e1a4e814bdb9" };
@@ -1118,7 +1261,6 @@
         const materials = {
             ar: { '1_international': [ 'مبادئ المحاسبة الماليه', 'مبادئ الاقتصاد', 'مبادئ القانون', 'لغه اجنبيه (1)', 'مبادئ اداره الاعمال' ], '1_systems': ['طرق ومهارات الاتصال', 'رياضيات الاعمال', 'حقوق الانسان', 'التفكير الابتكاري', 'السلوك التنظيمي', 'اساسيات الحاسب وتكتولوچيا المعلومات'], '2_international': ['اداره اللوچيستيات وسلاسل الامداد', 'مبادئ التسويق', 'مبادئ الاقتصاد الجزئي', 'محاسبه التكاليف', 'قانون الاعمال'], '2_systems': ['قانون الاعمال', 'قواعد البيانات (1)', 'اداره الانتاج', 'محاسبه الشركات', 'تصميم برامج الحاسب'] },
         };
-        // ======================= DEVICE ICON HELPER =======================
         function getDeviceIcon(userAgent) {
             if (!userAgent) return { icon: '💻', name: 'جهاز غير معروف' };
             if (userAgent.includes('iPhone')) {
@@ -1141,7 +1283,6 @@
             }
             return { icon: '💻', name: 'جهاز آخر' };
         }
-        // ======================= HELPER FUNCTIONS =======================
         function containsPhoneNumber(text) {
             const phonePattern = /(?:\+?20)?\s*1[0-9]{9}|01[0-9]{8}/;
             return phonePattern.test(text.replace(/\s/g, ''));
@@ -1265,7 +1406,6 @@
                 }
             }, 1000);
         };
-        // ======================= CORRECTION SYSTEM =======================
         window.openCorrectionForm = async (lectureId, lectureTitle, subject) => {
             await updateUserActivity(`يفتح نموذج تصحيح للمحاضرة: ${lectureTitle}`);
             const correctionHTML = `
@@ -1311,7 +1451,6 @@
             showToast('تم إرسال طلب التصحيح بنجاح! شكرًا لك.');
             document.getElementById('generic-modal').classList.remove('open');
         };
-        // ======================= EXPLANATION SECTION =======================
         document.getElementById('explanation-nav-btn').addEventListener('click', () => {
             updateUserActivity("يفتح قسم الشرح");
             const explanationHTML = `
@@ -1347,7 +1486,6 @@
                 }
             }, 1000);
         };
-        // ======================= ONBOARDING =======================
         let currentOnboardingStep = 0;
         let onboardingSteps = [];
         function generateOnboardingStepsFromNav() {
@@ -1410,7 +1548,6 @@
                 localStorage.setItem('onboardingCompleted', 'true');
             }
         });
-        // ======================= AUTHENTICATION =======================
         function renderAuthForm(isInitial = true, showRegister = false) {
             const authFormContainer = document.getElementById('auth-form-container'); 
             authFormContainer.innerHTML = `<div class="relative text-center w-full max-w-sm z-20 pb-12" style="animation: fade-in-up 0.5s 0.1s ease-out backwards;"><img src="https://i.postimg.cc/mgdFZ313/IMG-20250414-WA0047-1.jpg" alt="" class="w-28 h-28 rounded-full mb-4 glowing-logo mx-auto" style="animation: fade-in-up 0.5s 0.2s ease-out backwards;" loading="lazy" decoding="async"><h1 class="text-2xl font-bold mb-1 tracking-wider text-shadow" style="color:var(--primary-glow); animation: fade-in-up 0.5s 0.3s ease-out backwards;">Welcome to Mora</h1><p class="text-xs text-slate-300 mb-6" style="animation: fade-in-up 0.5s 0.4s ease-out backwards;">For Studying</p><div id="auth-content"></div></div>`; 
@@ -1553,7 +1690,6 @@
                 submitBtn.textContent = 'دخــــول'; 
             } 
         }
-        // ======================= STUDENT DASHBOARD =======================
         function initStudentDashboard() { 
             showPage('student-dashboard'); 
             studentDashboardEl.welcomeName.textContent = `مرحبا يـ ${currentUser.name}`; 
@@ -1595,28 +1731,10 @@
             const q = query(collection(db, 'lectures'), where("year", "==", currentUser.year), where("division", "==", currentUser.division), where("subject", "==", subject), where("isHidden", "==", false), orderBy('createdAt', 'desc')); 
             currentContentUnsubscribe = onSnapshot(q, (snapshot) => { if (snapshot.empty) { lecturesContainer.innerHTML = `<p class="text-slate-400 py-4">لا توجد محاضرات منشورة لهذه المادة حالياً.</p>`; } else { let contentHTML = '<div class="space-y-3">'; snapshot.forEach(doc => { const item = doc.data(); contentHTML += `<div class="glass-effect p-3 rounded-lg cursor-pointer hover:bg-slate-500/10 transition-colors" onclick="viewContentDetail('${doc.id}', '${item.title}', '${btoa(encodeURIComponent(item.body))}', '${subject}')"><h4 class="font-bold text-white">${item.title}</h4><div class="mt-2 flex justify-end"><button class="correction-btn" onclick="event.stopPropagation(); openCorrectionForm('${doc.id}', '${item.title}', '${subject}')">تصحيح</button></div></div>`; }); contentHTML += '</div>'; lecturesContainer.innerHTML = contentHTML; } }, (error) => { console.error("Error:", error); lecturesContainer.innerHTML = `<p class="text-red-400 py-4">حدث خطأ أثناء تحميل المحاضرات.</p>`; }); 
         };
-        // ======================= CONTENT VIEW WITH STYLING & TABLES =======================
         window.viewContentDetail = async (id, title, body, subject) => { 
             await updateUserActivity(`يشاهد محاضرة: ${title}`);
             const decodedBody = decodeURIComponent(atob(body));
-            let formattedBody = decodedBody;
-
-            // دعم الجداول لمواد المحاسبة الثلاث
-            const accountingSubjects = ['محاسبه التكاليف', 'محاسبه الشركات', 'مبادئ المحاسبة الماليه'];
-            if (accountingSubjects.some(s => subject.includes(s))) {
-                // تحويل جداول Markdown إلى HTML
-                formattedBody = formattedBody.replace(/^\|(.+)\|\s*$/gm, (match, row) => {
-                    const cells = row.split('|').map(c => c.trim());
-                    const tag = cells[0].startsWith('---') ? 'th' : 'td';
-                    return `<tr>${cells.map(cell => `<${tag}>${cell}</${tag}>`).join('')}</tr>`;
-                });
-                formattedBody = formattedBody.replace(/(?:^|\n)(\|.*\|)(\n\|[-| ]+\|)?/g, (match, tableRows) => {
-                    return `<table>${tableRows}</table>`;
-                });
-            }
-
-            // التنسيق العام
-            formattedBody = formattedBody
+            let formattedBody = decodedBody
                 .replace(/^(#+\s*.*)$/gm, '<h2>$1</h2>')
                 .replace(/^(##+\s*.*)$/gm, '<h3>$1</h3>')
                 .replace(/^\*\s+(.*)$/gm, '<li>$1</li>')
@@ -1628,13 +1746,10 @@
                 .replace(/_(.*?)_/g, '<em>$1</em>')
                 .replace(/`(.*?)`/g, '<code>$1</code>')
                 .replace(/^>\s+(.*)$/gm, '<blockquote>$1</blockquote>');
-
             formattedBody = formattedBody.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
             formattedBody = formattedBody.replace(/<\/ul>\s*<ul>/g, '');
-
             openModalWithContent(title, `<div class="lecture-content p-2">${formattedBody}</div>`); 
         };
-        // ======================= BOOKS WITH WATCH & DOWNLOAD =======================
         window.showSubjectSelectionModal = (type) => { 
             updateUserActivity(`يتصفح قسم ${type === 'books' ? 'الكتب' : 'السكاشن'}`);
             const userMaterials = materials['ar'][`${currentUser.year}_${currentUser.division}`] || []; 
@@ -1748,7 +1863,6 @@
         document.getElementById('courses-btn').addEventListener('click', async () => {
             showCoursesList();
         });
-        // ======================= MEETING BUTTON HANDLER =======================
         document.getElementById('meeting-btn').addEventListener('click', async () => {
             if (!currentUser || currentUser.isAdmin) return;
             if (!siteSettings.isLive) {
@@ -1792,7 +1906,6 @@
                 showToast("حدث خطأ أثناء تسجيل الحضور.", true);
             }
         });
-        // ======================= LIVE ATTENDANCE BANNER CLICK =======================
         window.handleLiveAttendanceBannerClick = async () => {
             if (!currentUser || currentUser.isAdmin) return;
             if (!siteSettings.isLive) return;
@@ -1831,7 +1944,6 @@
                 showToast("حدث خطأ أثناء تسجيل الحضور.", true);
             }
         };
-        // ======================= SUMMARY SECTION =======================
         document.getElementById('summary-nav-btn').addEventListener('click', () => {
             updateUserActivity("يفتح قسم التلخيص");
             const summaryHTML = `
@@ -1848,7 +1960,6 @@
             `;
             openModalWithContent('تلخيص', summaryHTML);
         });
-        // ======================= POLLS/DISCUSSION FEATURE - GLOBAL =======================
         const emojis = [
             '👍', '👎', '❤️', '🔥', '👏', '😂', '😮', '😢', '😡', '🎉', '💯', '🙏', '👌', '👀', '🤔', '😎', '🤩', '🥳', '😜', '🤪',
             '😇', '🤗', '😏', '😋', '😛', '😴', '🥱', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', '🥶', '🥴', '😵', '🤯', '🤠', '🥳',
@@ -1918,7 +2029,6 @@
             `;
             openModalWithContent('الاستطلاعات والمناقشات', pollsHTML);
             document.getElementById('submit-poll-btn').addEventListener('click', submitNewPoll);
-            // ✅ بدون فلترة حسب الفرقة أو الشعبة → عام للجميع
             const q = query(collection(db, "polls"), orderBy("createdAt", "desc"));
             onSnapshot(q, (snapshot) => {
                 const container = document.getElementById('polls-list-container');
@@ -1959,7 +2069,6 @@
                 });
             });
         }
-        // ======================= OPINIONS VIEW =======================
         async function openOpinionsView() {
             updateUserActivity("يتصفح قسم الآراء");
             const opinionsHTML = `
@@ -2005,7 +2114,6 @@
                 });
             });
         }
-        // ======================= REACTIONS SYSTEM =======================
         function addLongPressReaction(element, collectionName) {
             let pressTimer;
             element.addEventListener('touchstart', () => {
@@ -2129,7 +2237,6 @@
             });
             input.value = '';
         }
-        // =========================================================================
         function activateNavButtons() {
             document.getElementById('platform-btn').addEventListener('click', () => {
                 handleRedirectWithCountdown('https://tanta-services.online/TantaPortal/studentindex.php?t=first', 'المنصة الرسمية');
@@ -2239,7 +2346,6 @@
                 updateUserActivity("يفتح بطاقته الرقمية");
                 const issueDate = currentUser.createdAt && currentUser.createdAt.seconds ? new Date(currentUser.createdAt.seconds * 1000).toLocaleDateString('ar-EG') : new Date().toLocaleDateString('ar-EG');
                 const deviceInfo = getDeviceIcon(currentUser.userAgent);
-                // ✅ نص مخفي لقارئ QR حقيقي
                 const qrText = `اسم الطالب: ${currentUser.name}
 الرقم التعريفي: ${currentUser.studentId || 'غير متوفر'}`;
                 const cardHTML = `
@@ -2256,7 +2362,7 @@
                                 <div class="student-card-info">
                                     <div>
                                         <p class="student-card-label">الاســـــم</p>
-                                        <p class="student-card-value">${currentUser.name} <span class="futuristic-badge">⭐</span></p>
+                                        <p class="student-card-value">${currentUser.name}</p>
                                     </div>
                                     <div>
                                         <p class="student-card-label">التخصص</p>
@@ -2281,7 +2387,6 @@
                                 <div class="student-card-qr">
                                     <div id="qrcode-container"></div>
                                 </div>
-                                <!-- نص مخفي يُقرأ عند مسح الـ QR -->
                                 <div class="qr-readable-text">${qrText}</div>
                             </div>
                         </div>
@@ -2291,13 +2396,12 @@
                 const qrContainer = document.getElementById('qrcode-container');
                 if(qrContainer && currentUser.studentId) {
                     qrContainer.innerHTML = '';
-                    // ✅ QR Code حقيقي بدون خلفية بيضاء
                     new QRCode(qrContainer, {
                         text: qrText,
                         width: 100,
                         height: 100,
                         colorDark : "#000000",
-                        colorLight : "transparent", // ✅ خلفية شفافة
+                        colorLight : "transparent",
                         correctLevel : QRCode.CorrectLevel.H
                     });
                 } else if (qrContainer) {
@@ -2386,10 +2490,8 @@
                 }
             });
         }
-        // ======================= CORRECTIONS LISTENER =======================
         function listenForCorrections() {
             const correctionsNavBtn = document.querySelector('[data-modal="corrections-modal"]');
-            // Not needed for student, only for admin
         }
         async function markAdminItemsAsRead(collectionName) {
             const q = query(collection(db, collectionName), where("isReadByAdmin", "==", false));
@@ -2437,7 +2539,6 @@
         }
         function showCountdownModal(title, callback) { openModalWithContent(title, `<div class="text-center p-8"><p class="text-lg">سيتم الإجراء خلال <span id="countdown-span" class="font-bold text-xl text-[var(--primary-glow)]">3</span>...</p></div>`); let count = 3; const countdownSpan = document.getElementById('countdown-span'); const interval = setInterval(() => { count--; if(countdownSpan) countdownSpan.textContent = count > 0 ? count + '...' : 'الآن!'; if (count <= 0) { clearInterval(interval); callback(); } }, 1000); }
         function handleLogout() { showCountdownModal('تسجيل الخروج', () => { updateUserActivity("سجل الخروج"); const userToLogOut = { ...currentUser }; localStorage.removeItem('moraUser'); currentUser = null; document.getElementById('generic-modal').classList.remove('open'); showPage('auth-page'); renderAuthForm(false, false); if (userToLogOut && userToLogOut.name) { document.getElementById('auth-name').value = userToLogOut.name; document.getElementById('auth-password').value = userToLogOut.password || ''; } initVantaBackground(); }); }
-        // ✅ مراقبة حذف الحساب من لوحة التحكم
         function listenForUserBanOrDeletion() {
             if (!currentUser || currentUser.isAdmin || !currentUser.id) return;
             const userDocRef = doc(db, "users", currentUser.id);
@@ -2475,7 +2576,6 @@
                 initVantaBackground();
             }, 3000);
         }
-        // ======================= TIMER =======================
         let timerInterval; let timerState = { running: false, duration: 25 * 60 };
         function formatTime(seconds) { const m = Math.floor(seconds / 60); const s = seconds % 60; return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`; }
         function updateTimerDisplay() { const display = document.getElementById('timer-display'); if(display) display.textContent = formatTime(timerState.duration); }
@@ -2505,7 +2605,6 @@
                 timerState.duration = 25*60; 
             } 
         }
-        // ======================= THEMES =======================
         const themes = { "default":{n:"افتراضي",p:"#00f5c3",s:"#a78bfa"},"gold":{n:"ذهبي",p:"#f59e0b",s:"#fbbf24"},"emerald":{n:"زمردي",p:"#10b981",s:"#34d399"},"crimson":{n:"قرمزي",p:"#dc2626",s:"#f87171"},"violet":{n:"بنفسجي",p:"#8b5cf6",s:"#c084fc"},"rose":{n:"وردي",p:"#f43f5e",s:"#fb7185"},"sky":{n:"سماوي",p:"#0ea5e9",s:"#38bdf8"},"forest":{n:"غابي",p:"#22c55e",s:"#4ade80"},"ocean":{n:"محيط",p:"#0891b2",s:"#22d3ee"},"sunset":{n:"غروب",p:"#f97316",s:"#f59e0b"},"galaxy":{n:"مجرة",p:"#9333ea",s:"#d946ef"},"candy":{n:"حلوى",p:"#ec4899",s:"#f87171"},"lime":{n:"ليموني",p:"#84cc16",s:"#a3e635"},"fire":{n:"ناري",p:"#f59e0b",s:"#ef4444"},"ice":{n:"جليدي",p:"#22d3ee",s:"#67e8f9"},"royal":{n:"ملكي",p:"#d97706",s:"#f59e0b"},"hacker":{n:"هاكر",p:"#16a34a",s:"#4ade80"},"retro":{n:"ريترو",p:"#ca8a04",s:"#eab308"},"sakura":{n:"ساكورا",p:"#f472b6",s:"#fb7185"},"mint":{n:"نعناع",p:"#2dd4bf",s:"#5eead4"},"copper":{n:"نحاسي",p:"#b45309",s:"#d97706"},"lavender":{n:"خزامي",p:"#a78bfa",s:"#c4b5fd"},"cyber":{n:"سايبر",p:"#ea580c",s:"#f59e0b"},"sand":{n:"رملي",p:"#ca8a04",s:"#eab308"},"grape":{n:"عنبي",p:"#9333ea",s:"#a855f7"},"cherry":{n:"كرزي",p:"#be123c",s:"#e11d48"},"peach":{n:"خوخي",p:"#f97316",s:"#fb923c"},"teal":{n:"بطيخي",p:"#0d9488",s:"#14b8a6"},"indigo":{n:"نيلي",p:"#4f46e5",s:"#6366f1"},"amber":{n:"عنبري",p:"#d97706",s:"#f59e0b"},"fuchsia":{n:"فوشيا",p:"#c026d3",s:"#d946ef"} };
         function applyTheme(themeKey) {
             const theme = themes[themeKey];
@@ -2524,7 +2623,6 @@
             ` + style.innerHTML.split('}').slice(1).join('}');
             localStorage.setItem('moraTheme', themeKey);
         }
-        // ======================= TEXTS =======================
         function applySiteTexts() {
             document.querySelectorAll('[data-text-key]').forEach(el => {
                 const key = el.dataset.textKey;
@@ -2548,7 +2646,6 @@
                 applySiteTexts();
             });
         }
-        // ======================= ADMIN DASHBOARD =======================
         function initAdminDashboard() { 
             showPage('admin-dashboard'); 
             const navBtns = document.querySelectorAll('.admin-nav-btn'), panels = document.querySelectorAll('.admin-panel'); 
@@ -2651,7 +2748,6 @@
                 });
                 if(container) container.innerHTML = h;
             });
-            // ✅ Attendance Panel with Delete Button (only from attendance, not users)
             const attendanceRef = collection(db, "attendance");
             onSnapshot(query(attendanceRef, orderBy("timestamp", "desc")), (snapshot) => {
                 const container = document.getElementById('attendance-list');
@@ -2680,7 +2776,6 @@
                 html += '</div>';
                 container.innerHTML = html;
             });
-            // ✅ NEW: Corrections Panel
             const correctionsRef = collection(db, "lecture_corrections");
             onSnapshot(query(correctionsRef, orderBy("createdAt", "desc")), (snapshot) => {
                 const container = document.getElementById('admin-corrections-list');
@@ -2751,7 +2846,6 @@
             });
             document.getElementById('start-stream-btn').addEventListener('click', () => setDoc(siteSettingsRef, { isLive: true }, { merge: true }));
             document.getElementById('end-stream-btn').addEventListener('click', () => setDoc(siteSettingsRef, { isLive: false }, { merge: true }));
-            // ✅ قسم تحميل التطبيق
             const appDownloadsRef = collection(db, "app_downloads");
             onSnapshot(appDownloadsRef, (snapshot) => {
                 document.getElementById('app-downloads-count').textContent = snapshot.size;
@@ -2778,7 +2872,6 @@
                 html += '</div>';
                 openModalWithContent('سجل تنزيلات التطبيق', html);
             });
-            // ✅ COURSES CATEGORIES
             const coursesRef = collection(db, "courses");
             const categoriesRef = collection(db, "course_categories");
             onSnapshot(categoriesRef, (snapshot) => {
@@ -2809,7 +2902,6 @@
                 showToast('تمت إضافة الفئة!');
             });
         }
-        // ✅ Delete ONLY attendance record (not user)
         window.deleteAttendanceRecord = async (recordId) => {
             if (!confirm('هل أنت متأكد من حذف سجل الحضور لهذا الطالب؟ لن يتمكن من الدخول إلى البث المباشر مستقبلاً، لكن حسابه سيظل نشطًا في الموقع.')) return;
             try {
@@ -2868,7 +2960,6 @@
             });
             showToast("تم إرسال الرد بنجاح.");
         };
-        // ✅ NEW: Correction Functions
         window.replyToCorrection = async (correctionId) => {
             const replyText = document.getElementById(`correction-reply-${correctionId}`).value.trim();
             if (!replyText) { showToast("لا يمكن إرسال رد فارغ.", true); return; }
@@ -2899,7 +2990,6 @@
         });
         document.getElementById('add-ai-tool-btn').addEventListener('click', async () => { const name = document.getElementById('ai-name-input').value.trim(), desc = document.getElementById('ai-desc-input').value.trim(), url = document.getElementById('ai-url-input').value.trim(); if (!name || !desc || !url) { showToast('يرجى ملء جميع الحقول', true); return; } await addDoc(collection(db, 'ai_tools'), { name, desc, url }); showToast('تمت إضافة الأداة!'); document.getElementById('ai-name-input').value = ''; document.getElementById('ai-desc-input').value = ''; document.getElementById('ai-url-input').value = ''; });
         adminContentPanelEl.saveBtn.addEventListener('click', async () => { try { const { year, division, subject, title, body, type } = adminContentPanelEl; const data = { year: year.value, division: division.value, subject: subject.value, title: title.value.trim(), body: body.value.trim() }; if (!data.year || !data.division || !data.subject || !data.title || !data.body) { showToast('يرجى ملء جميع الحقول', true); return; } if (currentEditState.id) { await updateDoc(doc(db, currentEditState.collection, currentEditState.id), data); showToast('تم تحديث المحتوى!'); } else { data.createdAt = serverTimestamp(); data.isHidden = false; await addDoc(collection(db, type.value), data); showToast('تم حفظ المحتوى!'); } resetContentForm(); } catch(e) { showToast('حدث خطأ: ' + e.message, true); }});
-        // Admin: Toggle replies view
         window.toggleAdminRepliesView = (containerId) => {
             const container = document.getElementById(containerId);
             if (!container) return;
@@ -2934,7 +3024,6 @@
                 container.innerHTML = '<p class="text-center text-slate-400">جاري تحميل الردود...</p>';
             }
         }
-        // Admin: Delete poll with replies
         window.deletePollWithReplies = async (pollId) => {
             if (!confirm('هل أنت متأكد من حذف هذا الموضوع وكل الردود المتعلقة به؟ لا يمكن التراجع عن هذا الإجراء.')) return;
             const pollRef = doc(db, 'polls', pollId);
@@ -2948,14 +3037,12 @@
             await deleteDoc(pollRef);
             showToast('تم حذف الاستطلاع وكل الردود.');
         }
-        // Admin: Delete single reply
         window.deleteReply = async (pollId, replyId) => {
             if (!confirm('هل أنت متأكد من حذف هذا الرد؟')) return;
             const replyRef = doc(db, 'polls', pollId, 'replies', replyId);
             await deleteDoc(replyRef);
             showToast('تم حذف الرد.');
         }
-        // ======================= INITIALIZATION =======================
         window.addEventListener('load', async () => {
             await listenToSiteContent();
             const savedTheme = localStorage.getItem('moraTheme') || 'default';
