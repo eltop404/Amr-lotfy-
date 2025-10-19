@@ -10,10 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet"/>
     <link rel="preconnect" href="https://www.youtube.com">
     <link rel="preconnect" href="https://img.youtube.com">
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.net.min.js"></script>
-    
+
     <style>
         :root {
             --primary-color: #007BFF;
@@ -278,480 +278,11 @@
         .calculator-results-container { display: none; padding-top: 1.25rem; } .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; } .result-card { background-color: var(--light-bg); border-radius: 15px; padding: 1.5rem; text-align: center; border-left: 5px solid var(--secondary-color); box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: all 0.3s ease; } [dir="ltr"] .result-card { border-left: none; border-right: 5px solid var(--secondary-color); } .result-card:hover { transform: translateY(-5px); } .result-card .result-item-label { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 0.75rem; display: block; } .result-card .result-item-value { font-size: 2rem; font-weight: bold; display: block; word-wrap: break-word; } .result-card.profit { border-color: var(--success-color); } .result-card.loss { border-color: var(--danger-color); } .result-card.profit .result-item-value { color: var(--success-color); text-shadow: 0 0 10px rgba(56, 161, 105, 0.5); } .result-card.loss .result-item-value { color: var(--danger-color); text-shadow: 0 0 10px rgba(229, 62, 62, 0.5); }
         .app-info-logo { width: 120px; height: 120px; border-radius: 50%; margin-bottom: 1.5rem; border: 4px solid var(--primary-color); box-shadow: 0 8px 30px rgba(0, 123, 255, 0.5); transition: transform 0.5s ease, box-shadow 0.5s ease; } .app-info-logo:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 12px 40px rgba(0, 123, 255, 0.7); } .app-info-details { margin-top: 3rem; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 2rem; } .cinematic-info-item { text-align: center; width: 100%; border-bottom: 1px solid var(--border-color); padding-bottom: 1.25rem; } .cinematic-info-item:last-child { border-bottom: none; } .info-label { font-size: 1rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.5rem; display: block; } .info-value { font-size: 1.8rem; font-weight: 700; color: var(--text-color); text-shadow: 0 0 8px rgba(255, 255, 255, 0.1); word-wrap: break-word; } .info-value.developer { color: var(--secondary-color); text-shadow: 0 0 15px rgba(245, 158, 11, 0.5); }
         footer { text-align: center; margin-top: auto; padding: 0.75rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border-color); width: 100%; background-color: var(--dark-bg); box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); } footer p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.5px; }
-        
-        /* --- LOGIN/SIGNUP STYLES (TRANSPARENT/GLOWING) --- */
-        #login-overlay {
-            display: none; 
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--dark-bg);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        #vanta-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-        .auth-form-container {
-            position: relative;
-            z-index: 2;
-            width: 90%;
-            max-width: 400px;
-            background: transparent; 
-            backdrop-filter: none; 
-            border-radius: 0; 
-            padding: 0; 
-            border: none; 
-            box-shadow: none; 
-            animation: fadeInUp 0.5s ease;
-            text-align: center; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-        }
-        .auth-form-container h2 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 2.5rem; 
-            font-size: 2.2rem; 
-            font-weight: 700;
-            text-shadow: 0 0 10px var(--primary-color), 0 0 20px rgba(0, 123, 255, 0.7);
-        }
-        #auth-initial-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem; /* Reduced gap */
-            width: 100%;
-            max-width: 250px; /* Reduced max-width */
-            margin-bottom: 2rem;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        .auth-fields-container {
-            display: none; 
-            width: 100%;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            opacity: 0; 
-            transform: translateY(20px); 
-        }
-        .auth-fields-container.visible {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .auth-form-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-        .auth-form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-color); 
-            font-weight: 600;
-            text-shadow: 0 0 5px var(--text-color);
-            text-align: right; 
-        }
-        [dir="ltr"] .auth-form-group label {
-            text-align: left; 
-        }
-        .auth-form-group input,
-        .auth-form-group select {
-            width: 100%;
-            padding: 0.875rem 0.5rem;
-            background-color: rgba(0, 0, 0, 0.2); 
-            border: none;
-            border-bottom: 2px solid var(--primary-color); 
-            border-radius: 0;
-            color: var(--text-color);
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 5px var(--text-color);
-            box-shadow: 0 5px 15px -5px rgba(0, 123, 255, 0.3); 
-        }
-        .auth-form-group input::placeholder {
-            color: var(--text-muted);
-            opacity: 0.7;
-            text-shadow: none; 
-        }
-        .auth-form-group input:focus,
-        .auth-form-group select:focus {
-            box-shadow: 0 8px 20px -5px rgba(245, 158, 11, 0.6); 
-            outline: none;
-            border-bottom-color: var(--secondary-color); 
-        }
-        .auth-form-group select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A0AEC0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: left 0.5rem center;
-            padding-left: 2.5rem;
-        }
-        [dir="rtl"] .auth-form-group select {
-            background-position: right 0.5rem center;
-            padding-left: 0.5rem;
-            padding-right: 2.5rem;
-        }
-        .auth-fields-container .auth-btn {
-             margin-top: 1.5rem; 
-        }
-        .auth-switch-link {
-            text-align: center;
-            margin-top: 1.5rem;
-            color: var(--text-muted);
-        }
-        .auth-switch-link a {
-            color: var(--secondary-color);
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .auth-switch-link a:hover {
-            text-decoration: underline;
-        }
-        
-        /* MODIFIED: Initial Buttons Styling */
-        .auth-btn-initial {
-            padding: 0.6rem 1rem; /* Smaller padding */
-            font-size: 1.0rem; /* Smaller font size */
-            font-weight: 600; /* Adjusted font weight */
-            border: none;
-            border-radius: 8px; /* Slightly smaller radius */
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            width: 100%; 
-            background-color: rgba(0, 123, 255, 0.5); /* Transparent Blue */
-            box-shadow: 0 0 8px var(--primary-color), 0 0 15px rgba(0, 123, 255, 0.6); /* Glowing effect */
-        }
-        .auth-btn-initial:hover {
-            background-color: rgba(0, 123, 255, 0.7); /* Slightly less transparent on hover */
-            box-shadow: 0 0 12px var(--primary-color), 0 0 25px rgba(0, 123, 255, 0.8); /* Stronger glow on hover */
-            transform: translateY(-2px);
-        }
-
-        /* --- END LOGIN STYLE MODS --- */
-        
-        /* --- ADMIN PANEL STYLES (Blue Theme) --- */
-        .admin-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .admin-stat-card {
-            background-color: var(--light-bg);
-            padding: 1.5rem;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            border-left: 5px solid var(--primary-color); /* Blue border */
-        }
-        [dir="ltr"] .admin-stat-card {
-            border-left: none;
-            border-right: 5px solid var(--primary-color); /* Blue border */
-        }
-        .admin-stat-card h3 {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            margin: 0 0 0.75rem 0;
-            border: none;
-            padding: 0;
-        }
-        .admin-stat-card p {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--text-color);
-            margin: 0;
-        }
-        .admin-section {
-            background-color: var(--light-bg);
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            border: 1px solid var(--border-color); /* Subtle blue border */
-        }
-        .admin-section h3 {
-            color: var(--primary-color); /* Blue heading */
-            font-size: 1.5rem;
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border-color); /* Blue border */
-        }
-        .admin-user-table {
-            width: 100%;
-            border-collapse: collapse;
-            overflow-x: auto;
-            display: block;
-        }
-        .admin-user-table th,
-        .admin-user-table td {
-            padding: 0.875rem 1rem;
-            text-align: right;
-            border-bottom: 1px solid var(--border-color); /* Blue border */
-            color: var(--text-muted);
-            white-space: nowrap;
-        }
-        [dir="ltr"] .admin-user-table th,
-        [dir="ltr"] .admin-user-table td {
-            text-align: left;
-        }
-        .admin-user-table th {
-            color: var(--primary-color); /* Blue header text */
-            font-size: 1rem;
-        }
-        .admin-user-table td {
-            font-size: 0.95rem;
-        }
-        .admin-user-table tr:last-child td {
-            border-bottom: none;
-        }
-        .admin-user-table tr:hover {
-            background-color: rgba(0, 123, 255, 0.1); /* Light blue hover */
-        }
-        .admin-btn {
-            padding: 0.5rem 0.875rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            margin: 0 4px;
-        }
-        .admin-btn.btn-delete {
-            background-color: var(--danger-color);
-        }
-        /* Blue admin buttons */
-        .admin-btn.btn-ban, 
-        .admin-btn.btn-login { 
-            background-color: var(--primary-color); 
-            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
-        }
-        .admin-btn:hover {
-            filter: brightness(1.2);
-        }
-        .admin-form-group {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        .admin-form-group label {
-            font-weight: 600;
-            color: var(--text-muted);
-            flex-shrink: 0;
-        }
-        .admin-form-group input {
-            width: 100%;
-            max-width: 150px;
-            padding: 0.5rem 0.75rem;
-            background-color: var(--dark-bg);
-            border: 2px solid var(--border-color); /* Blue border */
-            border-radius: 8px;
-            color: var(--text-color);
-        }
-        .admin-form-group input:focus {
-             border-color: var(--primary-color);
-             box-shadow: 0 0 5px var(--primary-color);
-        }
-        .password-manager-item {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px dashed var(--border-color); /* Blue border */
-        }
-        .password-manager-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        .password-manager-item h4 {
-            color: var(--text-color);
-            font-size: 1.2rem;
-            margin-bottom: 0.75rem;
-        }
-        .password-manager-item textarea {
-            width: 100%;
-            min-height: 150px;
-            background-color: var(--dark-bg);
-            border: 2px solid var(--border-color); /* Blue border */
-            border-radius: 8px;
-            color: var(--text-color);
-            padding: 0.75rem;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        .password-manager-item textarea:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 5px var(--primary-color);
-        }
-
-        /* --- END ADMIN BLUE THEME --- */
-        
-        /* --- RATING MODAL --- */
-        #rating-modal-overlay {
-            display: none; 
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-            animation: fadeInUp 0.3s;
-        }
-        .rating-modal-content {
-            background-color: var(--light-bg);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            position: relative;
-            border: 1px solid var(--primary-color);
-        }
-        .rating-modal-content h2 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-        .rating-modal-content p {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-        .star-rating {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            direction: ltr; /* Always LTR for stars */
-        }
-        .star-rating .star {
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .star-rating .star:hover,
-        .star-rating .star.selected {
-            color: var(--secondary-color);
-            transform: scale(1.2);
-        }
-
-
-        @media (max-width: 768px) { 
-            .sidebar { width: 100%; right: -100%; border-radius: 0; } 
-            .sidebar.open { right: 0; } 
-            .main-content { padding: 1rem; } 
-            .welcome-message { padding: 1.25rem; } 
-            .article-title { font-size: 1.15rem; } 
-            .top-bar h1 { font-size: 1.4rem; } 
-            .video-list, .results-grid, .admin-stats-grid { grid-template-columns: 1fr; } 
-            .profit-calculator-container { padding: 1.25rem; } 
-            .calculator-header h2 { font-size: 1.8rem; } 
-            .page-content-wrapper h2 { font-size: 1.5rem; } 
-            .page-content-wrapper h3 { font-size: 1.2rem; } 
-            .page-content-wrapper p, .page-content-wrapper li { font-size: 1rem; } 
-            .app-info-logo { width: 100px; height: 100px; } 
-            .section-title { font-size: 1.3rem; } 
-        }
-        @media (max-width: 480px) { 
-            html { --font-size-base: 15px; } 
-            .font-small { --font-size-base: 13px; } 
-            .font-medium { --font-size-base: 15px; } 
-            .font-large { --font-size-base: 17px; } 
-            .category-card h2 { font-size: 1.2rem; } 
-            .welcome-message h2 { font-size: 1.4rem; } 
-            .welcome-message p { font-size: 0.95rem; } 
-            .calculate-btn { padding: 0.875rem 2.5rem; font-size: 1.1rem; } 
-            .result-card .result-item-value { font-size: 1.8rem; } 
-            .info-value { font-size: 1.5rem; } 
-            .payment-modal-content { padding: 2rem 1rem; } 
-            .top-bar h1 { font-size: 1.2rem;} 
-            .menu-icon { width: 35px; height: 35px; font-size: 1.3rem; } 
-            .logo-container img { width: 35px; height: 35px; } 
-            .back-button { padding: 0.4rem 0.75rem; font-size: 0.85rem;} 
-            .auth-form-container { padding: 0 1.5rem; } 
-            .auth-form-container h2 { font-size: 1.8rem; }
-            .star-rating { font-size: 2rem; }
-        }
     </style>
 </head>
 <body class="dark-theme font-medium">
-
-    <div id="login-overlay">
-        <div id="vanta-bg"></div>
-        
-        <div class="auth-form-container">
-            <h2 data-lang-key="app_name">Mora Learning</h2> 
-
-            <div id="auth-initial-buttons">
-                 <button id="show-signup-btn" class="auth-btn-initial btn-signup" onclick="showSignupFields()" data-lang-key="signup_title">إنشاء حساب</button>
-                 <button id="show-login-btn" class="auth-btn-initial btn-login" onclick="showLoginFields()" data-lang-key="login_title">تسجيل الدخول</button>
-            </div>
-
-            <div id="login-fields" class="auth-fields-container">
-                <div class="auth-form-group">
-                    <label for="login-name" data-lang-key="login_name">الاسم</label>
-                    <input type="text" id="login-name" autocomplete="username" placeholder="...اكتب اسمك">
-                </div>
-                <div class="auth-form-group">
-                    <label for="login-pass" data-lang-key="login_pass">كلمة المرور</label>
-                    <input type="password" id="login-pass" autocomplete="current-password" placeholder="...اكتب كلمة المرور">
-                </div>
-                <button class="auth-btn btn-login" onclick="handleLogin()" data-lang-key="login_btn">دخول</button>
-                <p class="auth-switch-link" data-lang-key="login_switch">
-                    ليس لديك حساب؟ <a onclick="showSignupFields()">إنشاء حساب</a>
-                </p>
-            </div>
-
-            <div id="signup-fields" class="auth-fields-container">
-                <div class="auth-form-group">
-                    <label for="signup-name" data-lang-key="signup_name">الاسم</label>
-                    <input type="text" id="signup-name" autocomplete="name" placeholder="...اختر اسم فريد">
-                </div>
-                <div class="auth-form-group">
-                    <label for="signup-age" data-lang-key="signup_age">السن</label>
-                    <input type="number" id="signup-age" placeholder="...اكتب سنك">
-                </div>
-                <div class="auth-form-group">
-                    <label for="signup-gender" data-lang-key="signup_gender">النوع</label>
-                    <select id="signup-gender">
-                        <option value="male" data-lang-key="gender_male">ذكر</option>
-                        <option value="female" data-lang-key="gender_female">أنثى</option>
-                    </select>
-                </div>
-                <div class="auth-form-group">
-                    <label for="signup-pass" data-lang-key="signup_pass">كلمة المرور</label>
-                    <input type="password" id="signup-pass" autocomplete="new-password" placeholder="8+ حروف وأرقام">
-                </div>
-                <button class="auth-btn btn-signup" onclick="handleSignup()" data-lang-key="signup_btn">إنشاء</button>
-                <p class="auth-switch-link" data-lang-key="signup_switch">
-                    لديك حساب بالفعل؟ <a onclick="showLoginFields()">تسجيل الدخول</a>
-                </p>
-            </div>
-        </div>
-    </div>
     <aside class="sidebar" id="sidebar">
-          <h2 data-lang-key="app_name">Mora Learning</h2>
+        <h2 data-lang-key="app_name">Mora Learning</h2>
         <ul class="sidebar-menu" id="sidebar-menu">
             <li><a href="#" onclick="showSection('home')" data-lang-key="home">الرئيسية</a></li>
             <li><a href="#" onclick="showSection('articles')" data-lang-key="articles">المقالات</a></li>
@@ -762,8 +293,6 @@
             <li><a href="#" onclick="showSection('support')" data-lang-key="support">الدعم الفني</a></li>
             <li><a href="#" onclick="showSection('privacy_policy')" data-lang-key="privacy_policy">سياسة الخصوصية</a></li>
             <li><a href="#" onclick="showSection('app_info')" data-lang-key="app_info">معلومات التطبيق</a></li>
-            <li id="admin-panel-link" style="display: none;"><a href="#" onclick="showSection('admin_panel')" data-lang-key="admin_panel">لوحة التحكم</a></li>
-            <li id="logout-link" style="display: none;"><a href="#" onclick="handleLogout()" data-lang-key="logout">تسجيل الخروج</a></li>
         </ul>
         <div class="sidebar-footer">
             <p class="footer-text" data-lang-key="developed_by">تم التطوير بواسطة</p>
@@ -813,34 +342,33 @@
     <div id="password-modal" class="payment-modal-overlay" onclick="closePasswordModal()">
         <div class="payment-modal-content" onclick="event.stopPropagation();">
             <span class="close-modal-btn" onclick="closePasswordModal()" title="إغلاق">×</span>
-            <h2 id="password-modal-title" data-lang-key="enter_password_prompt_title"></h2>
-            <p id="password-modal-subtitle" data-lang-key="enter_password_prompt_subtitle"></p>
+            <h2 id="password-modal-title" data-lang-key="enter_password_prompt_title">إدخال كلمة السر</h2>
+            <p id="password-modal-subtitle" data-lang-key="enter_password_prompt_subtitle">الرجاء إدخال كلمة السر لفتح الكورس</p>
             <div class="password-input-container">
                 <input type="password" id="password-input-field" placeholder="••••••••" autocomplete="off">
-                <label for="password-input-field" data-lang-key="password_label"></label>
+                <label for="password-input-field" data-lang-key="password_label">كلمة السر</label>
             </div>
             <button id="password-submit-btn" class="calculate-btn" onclick="submitPassword()">
-                <span data-lang-key="submit_password"></span>
+                <span data-lang-key="submit_password">تأكيد</span>
             </button>
         </div>
     </div>
 
-    <div id="rating-modal-overlay" onclick="closeRatingModal()">
-        <div class="rating-modal-content" onclick="event.stopPropagation();">
-            <span class="close-modal-btn" onclick="closeRatingModal()" title="إغلاق">×</span>
-            <h2 data-lang-key="rating_title">ما رأيك في المنصة؟</h2>
-            <p data-lang-key="rating_subtitle">تقييمك يساعدنا على التحسين المستمر</p>
-            <div class="star-rating" id="star-rating-container">
-                <span class="star" data-value="1">★</span>
-                <span class="star" data-value="2">★</span>
-                <span class="star" data-value="3">★</span>
-                <span class="star" data-value="4">★</span>
-                <span class="star" data-value="5">★</span>
-            </div>
-            <button id="rating-submit-btn" class="calculate-btn" onclick="submitRating()" data-lang-key="rating_submit">إرسال التقييم</button>
-        </div>
-    </div>
     <script>
+        // --- Generate 80 random 8-char passwords (lowercase + digits) ---
+        function generateRandomPasswords(count = 80) {
+            const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+            const passwords = [];
+            for (let i = 0; i < count; i++) {
+                let pwd = '';
+                for (let j = 0; j < 8; j++) {
+                    pwd += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                passwords.push(pwd);
+            }
+            return passwords;
+        }
+
         let currentCourseUnlockData = { id: null, passwords: [], element: null };
         const contentData = {
             videos: {
@@ -868,49 +396,49 @@
                     id: '07AC2Syf4Yg',
                     title: 'كورس كامل ++C',
                     price: '$6.00',
-                    passwords: Array.from({length: 75}, (_, i) => `cpp_pass_${i.toString().padStart(3, '0')}`)
+                    passwords: generateRandomPasswords(80)
                 },
                 {
                     id: 'aLv2oD0q5XA',
                     title: 'كورس كامل تعلم فلاتر من الصفر',
                     price: '$5.50',
-                    passwords: Array.from({length: 75}, (_, i) => `flutter_pass_${i.toString().padStart(3, '0')}`)
+                    passwords: generateRandomPasswords(80)
                 },
                 {
                     id: 'Z-5QVutAEW4',
                     title: 'كورس كامل تعلم CSS',
                     price: '$4.50',
-                    passwords: Array.from({length: 75}, (_, i) => `css_pass_${i.toString().padStart(3, '0')}`)
+                    passwords: generateRandomPasswords(80)
                 },
                 {
                     id: 'cvNTgKw8VlY',
                     title: 'كورس كامل تعلم html',
                     price: '$5.00',
-                    passwords: Array.from({length: 75}, (_, i) => `html_pass_${i.toString().padStart(3, '0')}`)
+                    passwords: generateRandomPasswords(80)
                 },
                 {
                     id: 'V8WPQSq6KSk',
                     title: 'كورس كامل تعلم التداول',
                     price: '$4.00',
-                    passwords: Array.from({length: 75}, (_, i) => `trading_pass_${i.toString().padStart(3, '0')}`)
+                    passwords: generateRandomPasswords(80)
                 },
                 {
                     id: 'FIiGjKjfjUM',
                     title: 'كورس كامل تعلم المنتجات الرقمية',
                     price: '$6.00',
-                    passwords: Array.from({length: 75}, (_, i) => `digital_pass_${i.toString().padStart(3, '0')}`)
+                    passwords: generateRandomPasswords(80)
                 },
                 {
                     id: 'ebdKbZrIej4',
                     title: 'كورس كامل تعلم التسويق',
                     price: '$3.50',
-                    passwords: Array.from({length: 75}, (_, i) => `marketing_pass_${i.toString().padStart(3, '0')}`)
+                    passwords: generateRandomPasswords(80)
                 },
                 {
                     id: '-v_n8gJm8ps',
                     title: 'كورس تصميمات سوشيال ميديا',
                     price: '$5.50',
-                    passwords: Array.from({length: 75}, (_, i) => `social_pass_${i.toString().padStart(3, '0')}`)
+                    passwords: generateRandomPasswords(80)
                 }
             ],
             categoryImages: {
@@ -926,7 +454,6 @@
                    excerpt: "تعرف على مفهوم العمل الحر، خطوات البدء، المهارات المطلوبة، وأفضل المنصات للعمل الحر.", 
                    content: `<h2>ما هو العمل الحر؟</h2>
 <p>العمل الحر (Freelancing) هو نمط عمل يعتمد على تقديم خدمات مهنية أو فنية لعملاء مختلفين دون التزام بوظيفة دائمة لدى جهة واحدة. يعمل المستقل (Freelancer) بشكل مستقل، ويحدد هو ساعات عمله، أسعاره، ونوع المشاريع التي يرغب في تنفيذها.</p>
-
 <h3>لماذا يتجه الناس للعمل الحر؟</h3>
 <ul>
   <li><strong>المرونة:</strong> تحديد أوقات العمل ومكانه (من المنزل، المقهى، أو حتى أثناء السفر).</li>
@@ -934,7 +461,6 @@
   <li><strong>الاستقلالية:</strong> أنت مدير نفسك، وتختار المشاريع التي تتوافق مع اهتماماتك.</li>
   <li><strong>التنويع:</strong> العمل مع عملاء من مختلف الثقافات والدول يوسع آفاقك المهنية.</li>
 </ul>
-
 <h3>كيف تبدأ رحلتك في العمل الحر؟</h3>
 <ol>
   <li><strong>حدد مهارتك:</strong> اختر مجالًا تتقنه مثل التصميم، البرمجة، الكتابة، الترجمة، التسويق الرقمي، إلخ.</li>
@@ -944,7 +470,6 @@
   <li><strong>ابدأ بمشاريع صغيرة:</strong> لبناء سمعتك وجمع التقييمات الإيجابية.</li>
   <li><strong>تواصل باحترافية:</strong> كن واضحًا، سريع الرد، والتزم بالمواعيد النهائية.</li>
 </ol>
-
 <h3>أفضل المهارات المطلوبة في سوق العمل الحر</h3>
 <ul>
   <li>البرمجة وتطوير المواقع (Web Development)</li>
@@ -954,7 +479,6 @@
   <li>الترجمة (خاصة الإنجليزية والعربية)</li>
   <li>تحليل البيانات وعلم البيانات (Data Analytics)</li>
 </ul>
-
 <h3>نصائح للنجاح في العمل الحر</h3>
 <ul>
   <li>لا تخفض أسعارك أكثر من اللازم في البداية — الجودة أهم من السعر.</li>
@@ -963,10 +487,8 @@
   <li>استخدم أدوات لإدارة الوقت والمشاريع مثل Trello أو Notion.</li>
   <li>افهم القوانين الضريبية المتعلقة بالدخل الحر في بلدك.</li>
 </ul>
-
 <h3>التحديات التي قد تواجهك</h3>
 <p>قد تواجه في البداية صعوبة في العثور على عملاء، أو تأخر في الدفع، أو حتى المنافسة الشديدة. لكن مع الصبر، التطوير المستمر، والاحترافية، ستنجح وتبني مسارًا مهنيًا حرًا مزدهرًا.</p>
-
 <p>العمل الحر ليس مجرد وظيفة، بل أسلوب حياة يمنحك الحرية، المسؤولية، والفرصة لتحقيق ذاتك مهنيًا وشخصيًا.</p>`,
                    img: "https://i.postimg.cc/bv2FYFp6/64f2f0d349b722684ff0271474cb5cfe6dd4fa2b.jpg" 
                  },
@@ -979,31 +501,13 @@
         const uiStrings = {
             ar: {
                 app_name: "Mora Learning", home: "الرئيسية", articles: "المقالات", settings: "الإعدادات", support: "الدعم الفني", blog: "مدونة", profit_calculator: "حاسبة الأرباح", app_info: "معلومات التطبيق", privacy_policy: "سياسة الخصوصية", paid_courses: "كورسات مدفوعه", developed_by: "تم التطوير بواسطة", back_button: "الرجوع", welcome_main_title: "ابدأ رحلتك الرقمية مع Mora Learning", welcome_main_subtitle: "منصة التعلم الشاملة لعام 2025، حيث تبدأ رحلتك نحو التميز.", footer_rights: "جميع الحقوق محفوظة © Mora Learning 2025", 
-                page_titles: {'home':'Mora Learning','articles':'المقالات','settings':'الإعدادات','support':'الدعم الفني','blog':'مدونة','profit_calculator':'حاسبة الأرباح','app_info':'معلومات التطبيق','privacy_policy':'سياسة الخصوصية','paid_courses':'كورسات مدفوعه','e-commerce':'التجارة الإلكترونية','programming':'البرمجة','montage':'المونتاج','data-analytics':'تحليل البيانات','ai':'الذكاء الاصطناعي','podcasting':'البودكاست','content-writing':'كتابة المحتوى','cybersecurity':'الأمن السيبراني','freelancing':'العمل الحر','graphic-design':'الجرافيك ديزاين', 'admin_panel': 'لوحة التحكم'}, 
+                page_titles: {'home':'Mora Learning','articles':'المقالات','settings':'الإعدادات','support':'الدعم الفني','blog':'مدونة','profit_calculator':'حاسبة الأرباح','app_info':'معلومات التطبيق','privacy_policy':'سياسة الخصوصية','paid_courses':'كورسات مدفوعه','e-commerce':'التجارة الإلكترونية','programming':'البرمجة','montage':'المونتاج','data-analytics':'تحليل البيانات','ai':'الذكاء الاصطناعي','podcasting':'البودكاست','content-writing':'كتابة المحتوى','cybersecurity':'الأمن السيبراني','freelancing':'العمل الحر','graphic-design':'الجرافيك ديزاين'}, 
                 category_prefix: "تعلم", videos_title: "فيديوهات", courses_title: "كورسات", articles_title: "مقالات تعليمية متنوعة", settings_theme_title: "تغيير المظهر", settings_lang_title: "تغيير اللغة", settings_font_title: "تغيير حجم الخط", support_contact: "تواصل معانا", font_small: "صغير", font_medium: "متوسط", font_large: "كبير", buy_now: "اشترى الآن", enter_password: "ادخل كلمه السر", enter_password_prompt_title: "إدخال كلمة السر", enter_password_prompt_subtitle: "الرجاء إدخال كلمة السر لفتح الكورس", password_label: "كلمة السر", submit_password: "تأكيد", wrong_password: "كلمة السر غير صحيحة. حاول مرة أخرى.", password_expired: "كلمة السر هذه تم استخدامها من قبل. الرجاء طلب كلمة سر جديدة.", course_unlocked: "تم فتح الكورس! مشاهدة ممتعة.", price: "السعر", download: "تحميل", watch: "شاهد", app_info_title: "مهمتنا في Mora Learning", app_info_subtitle: "تمكين الأفراد من خلال التعلم المبتكر والمتاح للجميع", app_info_p1: "في Mora Learning، نؤمن أن التعليم هو حق للجميع، وليس امتيازًا لفئة مختارة. نسعى لتقديم محتوى عالي الجودة، محدث، وسهل الوصول عبر جميع الأجهزة.", app_info_p2: "نعتمد على فريق من الخبراء والمطورين لضمان تجربة تعلم سلسة، آمنة، ومحفزة للمستخدمين من مختلف الخلفيات والمستويات.", app_info_dev: "مطور التطبيق", app_info_version: "إصدار المنصة", app_info_build: "بناء رقم", app_info_env: "بيئة التعلم", app_info_env_val: "محسّنة للمكتب والجوال", 
                 calculator_header_title: "حاسبة أرباح التجارة الإلكترونية", calculator_header_subtitle: "أدخل بياناتك المالية لحساب صافي الربح وهامش الربح بدقة.", calculator_revenue: "إجمالي الإيرادات", calculator_cogs: "تكلفة المنتجات المباعة (COGS)", calculator_marketing: "مصاريف التسويق والإعلانات", calculator_shipping: "تكاليف الشحن والتوصيل", calculator_other: "مصاريف أخرى (مثل الصيانة، الرواتب، إلخ)", calculator_calculate_btn: "احسب الأرباح", calculator_results_title: "تحليل الأرباح", calculator_total_costs: "إجمالي التكاليف", calculator_net_profit: "صافي الربح", calculator_profit_margin: "هامش الربح (%)", 
-                privacy_title: "سياسة الخصوصية", privacy_intro: "نحن في Mora Learning نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية. تشرح هذه السياسة كيفية جمعنا واستخدامنا ومشاركة معلوماتك عند استخدامك لمنصتنا.", privacy_data_collection: "جمع البيانات", privacy_data_collection_text: "نقوم بجمع معلومات محدودة فقط عند الحاجة، مثل: اسم المستخدم، البريد الإلكتروني (اختياري)، تفضيلات اللغة والمظهر، وسجل تصفحك داخل التطبيق لأغراض تحسين الأداء. لا نقوم بجمع كلمات المرور أو معلومات الدفع — فجميع عمليات الدفع تتم خارج المنصة عبر وسائل اتصال مباشرة مع الداعم.", privacy_data_usage: "استخدام البيانات", privacy_data_usage_text: "تُستخدم البيانات المجمعة لتحسين تجربة المستخدم، تخصيص المحتوى، وتحليل أداء الميزات. لا نبيع بياناتك لأي طرف ثالث، ولا نستخدمها في الإعلانات المستهدفة.", privacy_security: "الأمان", privacy_security_text: "نطبق أفضل ممارسات الأمان لحماية بياناتك، بما في ذلك التشفير أثناء النقل، وتخزين البيانات المحلية فقط على جهازك (مثل الملاحظات في المدونة). لا يتم رفع أي بيانات شخصية إلى خوادمنا.", privacy_third_party: "روابط خارجية", privacy_third_party_text: "قد تحتوي المنصة على روابط لمنصات خارجية (مثل يوتيوب، إنستجرام، واتساب). نحن لسنا مسؤولين عن سياسات الخصوصية أو محتوى هذه المواقع. ننصحك بمراجعة سياسات الخصوصية الخاصة بها.", privacy_changes: "تعديلات على سياسة الخصوصية", privacy_changes_text: "قد نقوم بتحديث هذه السياسة من وقت لآخر. سيتم نشر أي تغييرات على هذه الصفحة مع تاريخ التحديث. نشجعك على مراجعتها دوريًا.", privacy_contact: "للاتصال بنا", privacy_contact_text: "إذا كانت لديك أي أسئلة أو مخاوف بشأن خصوصيتك، يمكنك التواصل معنا عبر البريد الإلكتروني: amrloutfy2006@gmail.com", privacy_dev_note: "تم تطوير هذه المنصة من قبل Amr Lotfy كمشروع تعليمي شخصي، ولا تُستخدم لأغراض تجارية مباشرة.",
-                login_title: "تسجيل الدخول", login_name: "الاسم", login_age: "السن (للتأكيد)", login_pass: "كلمة المرور", login_btn: "دخول", login_switch: "ليس لديك حساب؟ <a>إنشاء حساب</a>",
-                signup_title: "إنشاء حساب", signup_name: "الاسم", signup_age: "السن", signup_gender: "النوع", gender_male: "ذكر", gender_female: "أنثى", signup_pass: "كلمة المرور (8+ حروف وأرقام)", signup_btn: "إنشاء", signup_switch: "لديك حساب بالفعل؟ <a>تسجيل الدخول</a>",
-                logout: "تسجيل الخروج", admin_panel: "لوحة التحكم", admin_visitors: "إجمالي الزوار", admin_users: "عدد المستخدمين", admin_platform: "إدارة المنصة", admin_add_video: "إضافة فيديو", admin_manage_sections: "إدارة الأقسام", admin_users_list: "قائمة المستخدمين",
-                th_name: "الاسم", th_age: "السن", th_gender: "النوع", th_signup_date: "تاريخ/وقت التسجيل", th_status: "الحالة", th_ip: "IP", th_actions: "إجراءات", btn_delete: "حذف", btn_ban: "حظر الحساب", btn_unban: "فك حظر الحساب", status_online: "متصل", status_banned: "محظور",
-                admin_ratings: "إجمالي التقييمات", admin_edit_stats: "تعديل الإحصائيات", admin_edit_visitors: "تعديل الزوار:", admin_edit_ratings: "تعديل التقييمات:", btn_save: "حفظ", admin_passwords: "إدارة كلمات المرور",
-                rating_title: "ما رأيك في المنصة؟", rating_subtitle: "تقييمك يساعدنا على التحسين المستمر", rating_submit: "إرسال التقييم", rating_thanks: "شكراً لتقييمك!", btn_ban_ip: "حظر الجهاز (IP)"
-            },
-            en: { // Kept English for completeness, though UI is primarily Arabic based on context
-                app_name: "Mora Learning", home: "Home", articles: "Articles", settings: "Settings", support: "Support", blog: "Blog", profit_calculator: "Profit Calculator", app_info: "App Information", privacy_policy: "Privacy Policy", paid_courses: "Paid Courses", developed_by: "Developed By", back_button: "Back", welcome_main_title: "Start Your Digital Journey...", welcome_main_subtitle: "The comprehensive learning platform...", footer_rights: "All Rights Reserved © Mora Learning 2025", 
-                page_titles: {'home':'Mora Learning','articles':'Articles','settings':'Settings','support':'Support','blog':'Blog','profit_calculator':'Profit Calculator','app_info':'App Information','privacy_policy':'Privacy Policy','paid_courses':'Paid Courses','e-commerce':'E-commerce','programming':'Programming','montage':'Video Editing','data-analytics':'Data Analytics','ai':'Artificial Intelligence','podcasting':'Podcasting','content-writing':'Content Writing','cybersecurity':'Cybersecurity','freelancing':'Freelancing','graphic-design':'Graphic Design', 'admin_panel': 'Admin Panel'}, 
-                category_prefix: "Learn", videos_title: "Videos", courses_title: "Courses", articles_title: "Diverse Educational Articles", settings_theme_title: "Change Theme", settings_lang_title: "Change Language", settings_font_title: "Change Font Size", support_contact: "Contact Us", font_small: "Small", font_medium: "Medium", font_large: "Large", buy_now: "Buy Now", enter_password: "Enter Password", enter_password_prompt_title: "Enter Password", enter_password_prompt_subtitle: "Please enter the password...", password_label: "Password", submit_password: "Submit", wrong_password: "Incorrect password...", password_expired: "This password has already been used...", course_unlocked: "Course unlocked! Enjoy.", price: "Price", download: "Download", watch: "Watch", app_info_title: "Our Mission...", app_info_subtitle: "Empowering individuals...", app_info_p1: "...", app_info_p2: "...", app_info_dev: "App Developer", app_info_version: "Platform Version", app_info_build: "Build Number", app_info_env: "Learning Environment", app_info_env_val: "Optimized for Desktop & Mobile", 
-                calculator_header_title: "E-commerce Profit Calculator", calculator_header_subtitle: "Enter your financial data...", calculator_revenue: "Total Revenue", calculator_cogs: "COGS", calculator_marketing: "Marketing & Ad Spend", calculator_shipping: "Shipping Costs", calculator_other: "Other Expenses...", calculator_calculate_btn: "Calculate Profit", calculator_results_title: "Profit Analysis", calculator_total_costs: "Total Costs", calculator_net_profit: "Net Profit", calculator_profit_margin: "Profit Margin", 
-                privacy_title: "Privacy Policy", privacy_intro: "...", privacy_data_collection: "Data Collection", privacy_data_collection_text: "...", privacy_data_usage: "Data Usage", privacy_data_usage_text: "...", privacy_security: "Security", privacy_security_text: "...", privacy_third_party: "External Links", privacy_third_party_text: "...", privacy_changes: "Changes to This Policy", privacy_changes_text: "...", privacy_contact: "Contact Us", privacy_contact_text: "...", privacy_dev_note: "...",
-                login_title: "Login", login_name: "Name", login_age: "Age (for confirmation)", login_pass: "Password", login_btn: "Login", login_switch: "Don't have an account? <a>Sign Up</a>",
-                signup_title: "Create Account", signup_name: "Name", signup_age: "Age", signup_gender: "Gender", gender_male: "Male", gender_female: "Female", signup_pass: "Password (8+ chars & numbers)", signup_btn: "Sign Up", signup_switch: "Already have an account? <a>Login</a>",
-                logout: "Logout", admin_panel: "Admin Panel", admin_visitors: "Total Visitors", admin_users: "Total Users", admin_platform: "Platform Management", admin_add_video: "Add Video", admin_manage_sections: "Manage Sections", admin_users_list: "Users List",
-                th_name: "Name", th_age: "Age", th_gender: "Gender", th_signup_date: "Signup Date/Time", th_status: "Status", th_ip: "IP", th_actions: "Actions", btn_delete: "Delete", btn_ban: "Ban Account", btn_unban: "Unban Account", status_online: "Online", status_banned: "Banned",
-                admin_ratings: "Total Ratings", admin_edit_stats: "Edit Stats", admin_edit_visitors: "Edit Visitors:", admin_edit_ratings: "Edit Ratings:", btn_save: "Save", admin_passwords: "Password Management",
-                rating_title: "Rate the Platform", rating_subtitle: "Your feedback helps us improve", rating_submit: "Submit Rating", rating_thanks: "Thank you for your rating!", btn_ban_ip: "Ban Device (IP)"
+                privacy_title: "سياسة الخصوصية", privacy_intro: "نحن في Mora Learning نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية. تشرح هذه السياسة كيفية جمعنا واستخدامنا ومشاركة معلوماتك عند استخدامك لمنصتنا.", privacy_data_collection: "جمع البيانات", privacy_data_collection_text: "نقوم بجمع معلومات محدودة فقط عند الحاجة، مثل: اسم المستخدم، البريد الإلكتروني (اختياري)، تفضيلات اللغة والمظهر، وسجل تصفحك داخل التطبيق لأغراض تحسين الأداء. لا نقوم بجمع كلمات المرور أو معلومات الدفع — فجميع عمليات الدفع تتم خارج المنصة عبر وسائل اتصال مباشرة مع الداعم.", privacy_data_usage: "استخدام البيانات", privacy_data_usage_text: "تُستخدم البيانات المجمعة لتحسين تجربة المستخدم، تخصيص المحتوى، وتحليل أداء الميزات. لا نبيع بياناتك لأي طرف ثالث، ولا نستخدمها في الإعلانات المستهدفة.", privacy_security: "الأمان", privacy_security_text: "نطبق أفضل ممارسات الأمان لحماية بياناتك، بما في ذلك التشفير أثناء النقل، وتخزين البيانات المحلية فقط على جهازك (مثل الملاحظات في المدونة). لا يتم رفع أي بيانات شخصية إلى خوادمنا.", privacy_third_party: "روابط خارجية", privacy_third_party_text: "قد تحتوي المنصة على روابط لمنصات خارجية (مثل يوتيوب، إنستجرام، واتساب). نحن لسنا مسؤولين عن سياسات الخصوصية أو محتوى هذه المواقع. ننصحك بمراجعة سياسات الخصوصية الخاصة بها.", privacy_changes: "تعديلات على سياسة الخصوصية", privacy_changes_text: "قد نقوم بتحديث هذه السياسة من وقت لآخر. سيتم نشر أي تغييرات على هذه الصفحة مع تاريخ التحديث. نشجعك على مراجعتها دوريًا.", privacy_contact: "للاتصال بنا", privacy_contact_text: "إذا كانت لديك أي أسئلة أو مخاوف بشأن خصوصيتك، يمكنك التواصل معنا عبر البريد الإلكتروني: amrloutfy2006@gmail.com", privacy_dev_note: "تم تطوير هذه المنصة من قبل Amr Lotfy كمشروع تعليمي شخصي، ولا تُستخدم لأغراض تجارية مباشرة."
             }
         };
+
         let currentLang = 'ar';
         let historyStack = ['home'];
         const contentArea = document.getElementById("content-area");
@@ -1013,490 +517,6 @@
         const sidebar = document.getElementById("sidebar");
         const sidebarMenu = document.getElementById("sidebar-menu");
         const bodyEl = document.body;
-        const adminPanelLink = document.getElementById("admin-panel-link");
-        const logoutLink = document.getElementById("logout-link");
-        let vantaEffect = null; // To hold the 3D background instance
-        let currentRating = 0; // To hold the selected star rating
-
-        // --- NEW AUTH FUNCTIONS ---
-
-        function checkBannedIP() {
-            const mockIP = '127.0.0.1 (Mock)'; // Mock IP, as we can't get real IP in JS
-            let bannedIPs = [];
-            try {
-                bannedIPs = JSON.parse(localStorage.getItem('bannedIPs')) || [];
-            } catch (e) { console.error("Failed to parse banned IPs:", e); }
-            
-            if (bannedIPs.includes(mockIP)) {
-                alert(currentLang === 'ar' ? 'جهازك محظور من استخدام التطبيق.' : 'Your device is banned from using this app.');
-                return true; // Is banned
-            }
-            return false; // Is not banned
-        }
-
-        // MODIFIED: Show Login/Signup Fields
-        function showLoginFields() {
-            document.getElementById('auth-initial-buttons').style.display = 'none';
-            document.getElementById('signup-fields').classList.remove('visible');
-            document.getElementById('login-fields').classList.add('visible');
-        }
-        
-        function showSignupFields() {
-            document.getElementById('auth-initial-buttons').style.display = 'none';
-            document.getElementById('login-fields').classList.remove('visible');
-            document.getElementById('signup-fields').classList.add('visible');
-        }
-
-        function showInitialAuthButtons() {
-            document.getElementById('login-fields').classList.remove('visible');
-            document.getElementById('signup-fields').classList.remove('visible');
-            document.getElementById('auth-initial-buttons').style.display = 'flex';
-        }
-
-        function getUsers() {
-            try {
-                const users = localStorage.getItem('moraUsers');
-                return users ? JSON.parse(users) : [];
-            } catch (e) {
-                console.error("Failed to parse users:", e);
-                return [];
-            }
-        }
-
-        function saveUsers(users) {
-            localStorage.setItem('moraUsers', JSON.stringify(users));
-        }
-
-        function handleSignup() {
-            if (checkBannedIP()) return;
-
-            const name = document.getElementById('signup-name').value.trim();
-            const age = document.getElementById('signup-age').value;
-            const gender = document.getElementById('signup-gender').value;
-            const pass = document.getElementById('signup-pass').value;
-
-            if (!name || !age || !pass) {
-                alert(currentLang === 'ar' ? 'الرجاء ملء جميع الحقول.' : 'Please fill all fields.');
-                return;
-            }
-            if (pass.length < 8 || !/\d/.test(pass)) {
-                alert(currentLang === 'ar' ? 'كلمة المرور يجب أن تكون 8+ حروف وتحتوي على أرقام.' : 'Password must be 8+ characters and include a number.');
-                return;
-            }
-
-            const users = getUsers();
-            if (users.find(u => u.name.toLowerCase() === name.toLowerCase())) {
-                alert(currentLang === 'ar' ? 'هذا الاسم مستخدم بالفعل. اختر اسم آخر.' : 'This name is already taken. Choose another.');
-                return;
-            }
-
-            const newUser = {
-                name: name,
-                age: age,
-                gender: gender,
-                password: pass, // In a real app, HASH this password
-                isBanned: false,
-                isAdmin: false,
-                signupDate: new Date().toISOString() // Store as ISO string
-            };
-            
-            users.push(newUser);
-            saveUsers(users);
-
-            alert(currentLang === 'ar' ? 'تم إنشاء الحساب بنجاح! قم بتسجيل الدخول.' : 'Account created! Please log in.');
-            
-            // Pre-fill login form
-            document.getElementById('login-name').value = name;
-            // document.getElementById('login-age').value = age; // Age removed from login
-            document.getElementById('login-pass').focus();
-            
-            showLoginFields(); // Show login fields directly
-        }
-
-        function handleLogin() {
-            if (checkBannedIP()) return;
-
-            const name = document.getElementById('login-name').value.trim();
-            const pass = document.getElementById('login-pass').value;
-            // const age = document.getElementById('login-age').value; // Age removed
-
-            if (!name || !pass) {
-                alert(currentLang === 'ar' ? 'الرجاء إدخال الاسم وكلمة المرور.' : 'Please enter name and password.');
-                return;
-            }
-
-            // Admin check
-            if (name === 'admen' && pass === 'Amr1221@gmail.com') {
-                const adminSession = { name: 'admen', isAdmin: true };
-                localStorage.setItem('loggedInUser', JSON.stringify(adminSession));
-                initializeApp();
-                return;
-            }
-
-            // Regular user check
-            const users = getUsers();
-            // Match only name and password
-            const user = users.find(u => u.name.toLowerCase() === name.toLowerCase() && u.password === pass); 
-
-            if (!user) {
-                alert(currentLang === 'ar' ? 'الاسم أو كلمة المرور غير صحيحة.' : 'Incorrect name or password.');
-                return;
-            }
-
-            if (user.isBanned) {
-                alert(currentLang === 'ar' ? 'لقد تم حظرك من الدخول.' : 'You have been banned.');
-                return;
-            }
-
-            // Age check removed
-            // if (user.age != age) {
-            //      alert(currentLang === 'ar' ? 'السن المدخل لا يطابق السن المسجل.' : 'The age entered does not match the registered age.');
-            //     return;
-            // }
-
-            const userSession = { name: user.name, isAdmin: false };
-            localStorage.setItem('loggedInUser', JSON.stringify(userSession));
-            initializeApp();
-        }
-
-        function handleLogout() {
-            localStorage.removeItem('loggedInUser');
-            location.reload(); // Reloads, onload will show the login buttons
-        }
-
-        function initializeApp() {
-            // Hide overlay
-            const loginOverlay = document.getElementById('login-overlay');
-            if (loginOverlay) loginOverlay.style.display = 'none';
-            // Stop Vanta effect to save resources
-            if (vantaEffect) vantaEffect.destroy();
-
-            // Load user-specific UI
-            const userSession = JSON.parse(localStorage.getItem('loggedInUser'));
-            if (userSession) {
-                logoutLink.style.display = 'list-item';
-                if (userSession.isAdmin) {
-                    adminPanelLink.style.display = 'list-item';
-                } else {
-                    // It's a regular user, check if they should be prompted for a rating
-                    const hasRated = localStorage.getItem('userHasRated') === 'true';
-                    if (!hasRated) {
-                        setTimeout(showRatingModal, 20000); // Show after 20 seconds
-                    }
-                }
-            }
-
-            // Load preferences
-            const savedTheme = localStorage.getItem('selectedTheme') || 'dark-theme';
-            const savedFontSize = localStorage.getItem('selectedFontSize') || 'font-medium';
-            bodyEl.className = `${savedTheme} ${savedFontSize}`;
-            let baseSize = '16px';
-            if (savedFontSize === 'font-small') baseSize = '14px';
-            else if (savedFontSize === 'font-large') baseSize = '18px';
-            document.documentElement.style.setProperty('--font-size-base', baseSize);
-
-            currentLang = localStorage.getItem('selectedLanguage') || 'ar';
-            historyStack = ['home'];
-            updateLanguageUI();
-        }
-        
-        // --- RATING MODAL FUNCTIONS ---
-        
-        function showRatingModal() {
-            const modal = document.getElementById('rating-modal-overlay');
-            if (modal) modal.style.display = 'flex';
-            currentRating = 0; // Reset rating
-            
-            const stars = document.querySelectorAll('#star-rating-container .star');
-            stars.forEach(star => {
-                star.classList.remove('selected');
-                star.onclick = () => setRating(star.getAttribute('data-value'));
-                star.onmouseover = () => highlightStars(star.getAttribute('data-value'));
-                star.onmouseleave = () => highlightStars(currentRating);
-            });
-        }
-        
-        function closeRatingModal() {
-            const modal = document.getElementById('rating-modal-overlay');
-            if (modal) modal.style.display = 'none';
-        }
-
-        function highlightStars(rating) {
-            const stars = document.querySelectorAll('#star-rating-container .star');
-            stars.forEach(star => {
-                star.classList.toggle('selected', star.getAttribute('data-value') <= rating);
-            });
-        }
-        
-        function setRating(rating) {
-            currentRating = parseInt(rating);
-            highlightStars(currentRating);
-        }
-        
-        function submitRating() {
-            if (currentRating === 0) {
-                alert(currentLang === 'ar' ? 'الرجاء اختيار تقييم أولاً' : 'Please select a rating first');
-                return;
-            }
-            
-            let ratings = [];
-            try {
-                ratings = JSON.parse(localStorage.getItem('moraRatings')) || [];
-            } catch(e) { console.error("Failed to parse ratings:", e); }
-            
-            ratings.push({ rating: currentRating, date: new Date().toISOString() });
-            localStorage.setItem('moraRatings', JSON.stringify(ratings));
-            localStorage.setItem('userHasRated', 'true');
-            
-            closeRatingModal();
-            alert(uiStrings[currentLang].rating_thanks || 'Thank you for your rating!');
-        }
-
-        // --- ADMIN PANEL FUNCTIONS ---
-
-        function renderAdminPanel() {
-            const langStrings = uiStrings[currentLang];
-            const visitorCount = localStorage.getItem('visitorCount') || 0;
-            const ratingOverride = localStorage.getItem('ratingCountOverride');
-            const ratings = JSON.parse(localStorage.getItem('moraRatings')) || [];
-            const displayRating = ratingOverride !== null ? ratingOverride : ratings.length;
-            const users = getUsers();
-            
-            let html = `<div class="admin-stats-grid">
-                            <div class="admin-stat-card">
-                                <h3 data-lang-key="admin_visitors">${langStrings.admin_visitors}</h3>
-                                <p>${visitorCount}</p>
-                            </div>
-                            <div class="admin-stat-card ratings">
-                                <h3 data-lang-key="admin_ratings">${langStrings.admin_ratings}</h3>
-                                <p>${displayRating}</p>
-                            </div>
-                            <div class="admin-stat-card">
-                                <h3 data-lang-key="admin_users">${langStrings.admin_users}</h3>
-                                <p>${users.length}</p>
-                            </div>
-                        </div>
-                        
-                        <div class="admin-section">
-                            <h3 data-lang-key="admin_platform">${langStrings.admin_platform}</h3>
-                            {/* Blue Admin Buttons */}
-                            <button class="admin-btn btn-login" onclick="alert('Add Video: ${currentLang === 'ar' ? 'الوظيفة قيد التنفيذ' : 'Functionality in progress'}')" data-lang-key="admin_add_video">${langStrings.admin_add_video}</button>
-                            <button class="admin-btn btn-login" onclick="alert('Manage Sections: ${currentLang === 'ar' ? 'الوظيفة قيد التنفيذ' : 'Functionality in progress'}')" data-lang-key="admin_manage_sections">${langStrings.admin_manage_sections}</button>
-                        </div>
-                        
-                        <div class="admin-section">
-                            <h3 data-lang-key="admin_edit_stats">${langStrings.admin_edit_stats}</h3>
-                            <div class="admin-form-group">
-                                <label for="admin-visitors-input" data-lang-key="admin_edit_visitors">${langStrings.admin_edit_visitors}</label>
-                                <input type="number" id="admin-visitors-input" value="${visitorCount}">
-                            </div>
-                            <div class="admin-form-group">
-                                <label for="admin-ratings-input" data-lang-key="admin_edit_ratings">${langStrings.admin_edit_ratings}</label>
-                                <input type="number" id="admin-ratings-input" value="${displayRating}">
-                            </div>
-                             {/* Blue Save Button */}
-                            <button class="admin-btn btn-login" onclick="saveAdminStats()" data-lang-key="btn_save">${langStrings.btn_save}</button>
-                        </div>
-                        
-                        <div class="admin-section">
-                            <h3 data-lang-key="admin_users_list">${langStrings.admin_users_list}</h3>
-                            <table class="admin-user-table" id="user-list-table">
-                                <thead>
-                                    <tr>
-                                        <th data-lang-key="th_name">${langStrings.th_name}</th>
-                                        <th data-lang-key="th_age">${langStrings.th_age}</th>
-                                        <th data-lang-key="th_gender">${langStrings.th_gender}</th>
-                                        <th data-lang-key="th_signup_date">${langStrings.th_signup_date}</th>
-                                        <th data-lang-key="th_status">${langStrings.th_status}</th>
-                                        <th data-lang-key="th_ip">${langStrings.th_ip}</th>
-                                        <th data-lang-key="th_actions">${langStrings.th_actions}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {/* User rows injected */}
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="admin-section">
-                            <h3 data-lang-key="admin_passwords">${langStrings.admin_passwords}</h3>
-                            <div id="password-manager-container">
-                                {/* Passwords injected */}
-                            </div>
-                        </div>`;
-            return html;
-        }
-        
-        function saveAdminStats() {
-            const visitors = document.getElementById('admin-visitors-input').value;
-            const ratings = document.getElementById('admin-ratings-input').value;
-            
-            localStorage.setItem('visitorCount', visitors);
-            localStorage.setItem('ratingCountOverride', ratings);
-            
-            alert(currentLang === 'ar' ? 'تم حفظ الإحصائيات!' : 'Stats saved!');
-            _renderSection('admin_panel', true); // Re-render admin panel
-        }
-
-        function renderUserTable() {
-            const tableBody = document.querySelector("#user-list-table tbody");
-            if (!tableBody) return;
-
-            const users = getUsers();
-            const langStrings = uiStrings[currentLang];
-            tableBody.innerHTML = ''; // Clear existing rows
-
-            users.forEach(user => {
-                // MODIFIED: Format date and time
-                const signupDateTime = new Date(user.signupDate).toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US', { 
-                    day: '2-digit', month: '2-digit', year: 'numeric', 
-                    hour: '2-digit', minute: '2-digit', hour12: true 
-                });
-                const gender = user.gender === 'male' ? langStrings.gender_male : langStrings.gender_female;
-                const status = user.isBanned ? `<span style="color: var(--danger-color);">${langStrings.status_banned}</span>` : `<span style="color: var(--success-color);">${langStrings.status_online}</span>`;
-                const banButton = user.isBanned 
-                    ? `<button class="admin-btn btn-login" onclick="toggleBanUser('${user.name}', false)" data-lang-key="btn_unban">${langStrings.btn_unban}</button>`
-                    : `<button class="admin-btn btn-ban" onclick="toggleBanUser('${user.name}', true)" data-lang-key="btn_ban">${langStrings.btn_ban}</button>`;
-
-                const row = `<tr>
-                                <td>${user.name}</td>
-                                <td>${user.age}</td>
-                                <td>${gender}</td>
-                                <td>${signupDateTime}</td> {/* Display date and time */}
-                                <td>${status}</td>
-                                <td>127.0.0.1 (Mock)</td>
-                                <td>
-                                    ${banButton}
-                                    <button class="admin-btn btn-ban" onclick="banUserIP('${user.name}')" data-lang-key="btn_ban_ip">${langStrings.btn_ban_ip}</button>
-                                    <button class="admin-btn btn-delete" onclick="deleteUser('${user.name}')" data-lang-key="btn_delete">${langStrings.btn_delete}</button>
-                                </td>
-                            </tr>`;
-                tableBody.innerHTML += row;
-            });
-        }
-        
-        function toggleBanUser(name, shouldBan) {
-            const users = getUsers();
-            const userIndex = users.findIndex(u => u.name === name);
-            if (userIndex > -1) {
-                users[userIndex].isBanned = shouldBan;
-                saveUsers(users);
-                renderUserTable();
-            }
-        }
-        
-        function banUserIP(name) {
-            const mockIP = '127.0.0.1 (Mock)'; // This is all we have
-            const confirmMsg = currentLang === 'ar' ? `هل أنت متأكد من حظر جهاز (IP: ${mockIP}) الخاص بالمستخدم ${name}؟` : `Are you sure you want to ban the device (IP: ${mockIP}) for user ${name}?`;
-            if (!confirm(confirmMsg)) return;
-            
-            let bannedIPs = [];
-            try {
-                bannedIPs = JSON.parse(localStorage.getItem('bannedIPs')) || [];
-            } catch(e) { console.error("Failed to parse banned IPs:", e); }
-            
-            if (!bannedIPs.includes(mockIP)) {
-                bannedIPs.push(mockIP);
-                localStorage.setItem('bannedIPs', JSON.stringify(bannedIPs));
-            }
-            alert(currentLang === 'ar' ? 'تم حظر الجهاز (IP)!' : 'Device (IP) banned!');
-        }
-        
-        function deleteUser(name) {
-            const confirmMsg = currentLang === 'ar' ? `هل أنت متأكد من حذف ${name}؟ لا يمكن التراجع عن هذا.` : `Are you sure you want to delete ${name}? This cannot be undone.`;
-            if (confirm(confirmMsg)) {
-                let users = getUsers();
-                users = users.filter(u => u.name !== name);
-                saveUsers(users);
-                renderUserTable();
-            }
-        }
-        
-        function renderPasswordManager() {
-            const container = document.getElementById('password-manager-container');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            const langStrings = uiStrings[currentLang];
-            
-            contentData.paidCourses.forEach(course => {
-                const courseId = course.id;
-                let activePasswords = course.passwords;
-                
-                try {
-                    const storedPasswords = localStorage.getItem('course_passwords_' + courseId);
-                    if (storedPasswords) {
-                        activePasswords = JSON.parse(storedPasswords);
-                    }
-                } catch(e) { console.error("Failed to parse stored passwords:", e); }
-                
-                const itemHTML = `
-                    <div class="password-manager-item">
-                        <h4>${course.title}</h4>
-                        <textarea id="pass-edit-${courseId}" rows="5">${activePasswords.join('\n')}</textarea>
-                        {/* Blue Save Button */}
-                        <button class="admin-btn btn-login" style="margin-top: 0.75rem;" onclick="saveCoursePasswords('${courseId}')" data-lang-key="btn_save">
-                            ${langStrings.btn_save}
-                        </button>
-                    </div>
-                `;
-                container.innerHTML += itemHTML;
-            });
-        }
-        
-        function saveCoursePasswords(courseId) {
-            const textarea = document.getElementById('pass-edit-' + courseId);
-            if (!textarea) return;
-            
-            const newPasswords = textarea.value.split('\n').map(p => p.trim()).filter(p => p !== '');
-            localStorage.setItem('course_passwords_' + courseId, JSON.stringify(newPasswords));
-            
-            alert(currentLang === 'ar' ? 'تم حفظ كلمات المرور!' : 'Passwords saved!');
-        }
-
-
-        // --- EXISTING FUNCTIONS (MODIFIED) ---
-
-        function updateLanguageUI() {
-            const langStrings = uiStrings[currentLang];
-            document.documentElement.lang = currentLang;
-            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            document.querySelectorAll('[data-lang-key]').forEach(el => {
-                const key = el.getAttribute('data-lang-key');
-                if (langStrings[key]) {
-                    // Handle links with nested <a> tags like the auth switch
-                    if (el.children.length > 0 && el.children[0].tagName === 'A') {
-                        const linkText = el.children[0].innerHTML;
-                        const onclickAction = el.children[0].getAttribute('onclick'); // Get the action
-                        el.innerHTML = langStrings[key].replace('<a>', `<a onclick="${onclickAction}">`).replace('</a>', `${linkText}</a>`); // Re-apply action
-                    } else {
-                        el.textContent = langStrings[key];
-                    }
-                }
-            });
-            const passInput = document.getElementById('password-input-field');
-            if (passInput) passInput.placeholder = "••••••••";
-            const blogTextarea = document.getElementById('blogTextarea');
-            if (blogTextarea) blogTextarea.placeholder = currentLang === 'ar' ? 'اكتب ملاحظاتك وأفكارك هنا...' : 'Write your notes and ideas here...';
-            
-            // Update auth form placeholders
-            const loginName = document.getElementById('login-name');
-            if (loginName) loginName.placeholder = currentLang === 'ar' ? '...اكتب اسمك' : '...Enter your name';
-            // const loginAge = document.getElementById('login-age'); // Removed
-            // if (loginAge) loginAge.placeholder = currentLang === 'ar' ? '...اكتب سنك' : '...Enter your age';
-            const loginPass = document.getElementById('login-pass');
-            if (loginPass) loginPass.placeholder = currentLang === 'ar' ? '...اكتب كلمة المرور' : '...Enter your password';
-            const signupName = document.getElementById('signup-name');
-            if (signupName) signupName.placeholder = currentLang === 'ar' ? '...اختر اسم فريد' : '...Choose a unique name';
-            const signupAge = document.getElementById('signup-age');
-            if (signupAge) signupAge.placeholder = currentLang === 'ar' ? '...اكتب سنك' : '...Enter your age';
-            const signupPass = document.getElementById('signup-pass');
-            if (signupPass) signupPass.placeholder = currentLang === 'ar' ? '8+ حروف وأرقام' : '8+ chars & numbers';
-
-
-            // Re-render current section to update any dynamic text
-            _renderSection(historyStack[historyStack.length - 1], true);
-        }
 
         function _getPageTitle(section) {
             const langStrings = uiStrings[currentLang];
@@ -1518,14 +538,11 @@
                 const match = onclickAttr.match(/'([^']+)'/);
                 let linkSection = match ? match[1] : null;
                 let isActive = linkSection === section;
-                
                 if (!isActive && section.startsWith('article-') && linkSection === 'articles') isActive = true;
                 if (linkSection === 'home' && section !== 'home' && !section.startsWith('article-')) {
                      isActive = false; 
                 }
                 if(linkSection === section) isActive = true;
-
-
                 link.classList.toggle('active', isActive);
             });
         }
@@ -1630,20 +647,6 @@
                         case 'profit_calculator':
                             contentHTML = `<div class="profit-calculator-container"><div class="calculator-header"><h2 data-lang-key="calculator_header_title">${langStrings.calculator_header_title}</h2><p data-lang-key="calculator_header_subtitle">${langStrings.calculator_header_subtitle}</p></div><div class="calculator-form-grid"><div class="form-group"><input type="number" id="revenue" placeholder=" " autocomplete="off"><label for="revenue" data-lang-key="calculator_revenue">${langStrings.calculator_revenue}</label></div><div class="form-group"><input type="number" id="cogs" placeholder=" " autocomplete="off"><label for="cogs" data-lang-key="calculator_cogs">${langStrings.calculator_cogs}</label></div><div class="form-group"><input type="number" id="marketing" placeholder=" " autocomplete="off"><label for="marketing" data-lang-key="calculator_marketing">${langStrings.calculator_marketing}</label></div><div class="form-group"><input type="number" id="shipping" placeholder=" " autocomplete="off"><label for="shipping" data-lang-key="calculator_shipping">${langStrings.calculator_shipping}</label></div><div class="form-group"><input type="number" id="otherCosts" placeholder=" " autocomplete="off"><label for="otherCosts" data-lang-key="calculator_other">${langStrings.calculator_other}</label></div></div><div class="calculator-actions"><button class="calculate-btn" onclick="calculateProfit()" data-lang-key="calculator_calculate_btn">${langStrings.calculator_calculate_btn}</button></div><div class="calculator-results-container" id="results-container"><h3 style="text-align:center;margin-bottom:1.5rem;color:var(--primary-color);">${langStrings.calculator_results_title}</h3><div class="results-grid" id="results-content"></div></div></div>`;
                             break;
-                        case 'admin_panel':
-                            const userSession = JSON.parse(localStorage.getItem('loggedInUser'));
-                            if (userSession && userSession.isAdmin) {
-                                contentHTML = renderAdminPanel();
-                                queueMicrotask(() => {
-                                    renderUserTable();
-                                    renderPasswordManager();
-                                });
-                            } else {
-                                contentHTML = `<div class="page-content-wrapper"><p>Access Denied.</p></div>`;
-                                historyStack.pop(); // Remove admin panel from history
-                                queueMicrotask(() => showSection('home')); // Redirect
-                            }
-                            break;
                         default:
                             contentHTML = `<div class="page-content-wrapper"><p>Content loading or section not found.</p></div>`;
                     }
@@ -1658,8 +661,6 @@
                 });
             }, isLanguageUpdate ? 0 : fadeOutDuration);
         }
-
-        // --- ORIGINAL FUNCTIONS (UNMODIFIED or MINOR TWEAKS) ---
 
         function calculateProfit() {
             const langStrings = uiStrings[currentLang];
@@ -1688,6 +689,7 @@
             resultsContainer.style.display = 'block';
             resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
+
         function saveBlog() {
             const blogTextarea = document.getElementById('blogTextarea');
             if (!blogTextarea) return;
@@ -1700,6 +702,7 @@
                 alert('Error saving.');
             }
         }
+
         function playVideo(element, videoId) {
             const existingIframe = element.querySelector('iframe');
             if (existingIframe && existingIframe.src.includes(videoId)) return;
@@ -1712,6 +715,7 @@
             element.style.animationDelay = '';
             element.style.transform = '';
         }
+
         function showPurchaseModal(buttonElement, courseId, encodedCourseTitle) {
             const courseTitle = unescape(encodedCourseTitle);
             const modal = document.getElementById('purchase-modal');
@@ -1734,12 +738,14 @@
             };
             modal.style.display = 'flex';
         }
+
         function closePurchaseModal() {
             const modal = document.getElementById('purchase-modal');
             if (modal) modal.style.display = 'none';
             const enterPassBtn = document.getElementById('purchase-modal-enter-pass-btn');
             if(enterPassBtn) enterPassBtn.onclick = null;
         }
+
         function showPasswordPrompt(cardElement, videoId) {
             const langStrings = uiStrings[currentLang];
             const course = contentData.paidCourses.find(c => c.id === videoId);
@@ -1767,6 +773,7 @@
             modal.style.display = 'flex';
             setTimeout(() => inputField.focus(), 50);
         }
+
         function closePasswordModal() {
             const modal = document.getElementById('password-modal');
             if (modal) modal.style.display = 'none';
@@ -1774,6 +781,7 @@
             const inputField = document.getElementById('password-input-field');
             if (inputField) inputField.value = '';
         }
+
         function submitPassword() {
             const langStrings = uiStrings[currentLang];
             const inputField = document.getElementById('password-input-field');
@@ -1787,18 +795,9 @@
                 closePasswordModal();
                 return;
             }
-            
-            // --- MODIFIED PASSWORD CHECK ---
-            // Check for admin-overridden passwords first
-            let activePasswords = passwords;
-            try {
-                const storedPasswords = localStorage.getItem('course_passwords_' + id);
-                if (storedPasswords) {
-                    activePasswords = JSON.parse(storedPasswords);
-                }
-            } catch(e) { console.error("Failed to parse stored passwords:", e); }
-            // --- END MODIFICATION ---
 
+            // Use the original passwords (no admin override needed)
+            const activePasswords = passwords;
             const storageKey = `usedPasswords_${id}`;
             let usedPasswords = [];
             try {
@@ -1806,14 +805,14 @@
                 usedPasswords = stored ? JSON.parse(stored) : [];
                 if (!Array.isArray(usedPasswords)) usedPasswords = [];
             } catch (e) { console.error(`Error read ${storageKey}:`, e); }
-            
-            const isValid = activePasswords.includes(inputPassword); // Use activePasswords
+
+            const isValid = activePasswords.includes(inputPassword);
             const isUsed = usedPasswords.includes(inputPassword);
             const modalContent = document.querySelector('#password-modal .payment-modal-content');
-            
+
             if (modalContent) modalContent.style.animation = 'none';
             void modalContent?.offsetWidth;
-            
+
             if (isValid && !isUsed) {
                 alert(langStrings.course_unlocked);
                 usedPasswords.push(inputPassword);
@@ -1829,6 +828,7 @@
                 inputField.focus();
             }
         }
+
         function unlockCourse(itemElement, videoId) {
             if (!itemElement) {
                 console.error('Cannot unlock, element null for ID:', videoId);
@@ -1852,6 +852,7 @@
             itemElement.classList.remove('animated', 'fadeInUp');
             itemElement.style.animationDelay = '';
         }
+
         function selectLanguage(element) {
             const lang = element.getAttribute('data-lang');
             if (lang && lang !== currentLang) {
@@ -1862,6 +863,7 @@
             document.querySelectorAll('.language-option').forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
         }
+
         function selectTheme(element) {
             const theme = element.getAttribute('data-theme');
             if (theme) {
@@ -1872,6 +874,7 @@
                 element.classList.add('selected');
             }
         }
+
         function selectFontSize(element) {
             const fontSize = element.getAttribute('data-font-size');
             if (fontSize) {
@@ -1886,6 +889,7 @@
                 element.classList.add('selected');
             }
         }
+
         function loadSettingsUI() {
             const savedTheme = localStorage.getItem('selectedTheme') || 'dark-theme';
             document.querySelectorAll('.theme-option').forEach(el => el.classList.toggle('selected', el.getAttribute('data-theme') === savedTheme));
@@ -1898,83 +902,61 @@
             else if (savedFontSize === 'font-large') baseSize = '18px';
             document.documentElement.style.setProperty('--font-size-base', baseSize);
         }
+
         function goBack() {
-             // MODIFIED: If going back from login/signup fields, show initial buttons
-            const loginFields = document.getElementById('login-fields');
-            const signupFields = document.getElementById('signup-fields');
-            if (loginFields.classList.contains('visible') || signupFields.classList.contains('visible')) {
-                showInitialAuthButtons();
-                return; // Don't pop history stack
-            }
-            
             if (historyStack.length > 1) {
                 historyStack.pop();
                 _renderSection(historyStack[historyStack.length - 1]);
             }
         }
+
         function toggleSidebar() {
             sidebar.classList.toggle("open");
         }
 
-        // --- NEW ONLOAD LOGIC ---
-        window.onload = function() {
-            const loggedInUser = localStorage.getItem('loggedInUser');
-
-            if (loggedInUser) {
-                // User is logged in, initialize the main app
-                initializeApp();
-            } else {
-                // No user logged in, show login screen
-                const loginOverlay = document.getElementById('login-overlay');
-                loginOverlay.style.display = 'flex'; // Show the overlay
-                
-                // Track visitor count for new sessions
-                let count = localStorage.getItem('visitorCount') || 0;
-                count = parseInt(count) + 1;
-                localStorage.setItem('visitorCount', count);
-                
-                // Initialize Vanta.js 3D background
-                try {
-                    vantaEffect = VANTA.NET({
-                        el: "#vanta-bg",
-                        mouseControls: true,
-                        touchControls: true,
-                        gyroControls: false,
-                        minHeight: 200.00,
-                        minWidth: 200.00,
-                        scale: 1.00,
-                        scaleMobile: 1.00,
-                        color: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
-                        backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--dark-bg').trim(),
-                        points: 10.00,
-                        maxDistance: 25.00,
-                        spacing: 18.00
-                    });
-                } catch (e) {
-                    console.error("Vanta.js failed to load:", e);
-                    document.getElementById('vanta-bg').style.backgroundColor = 'var(--dark-bg)'; // Fallback
+        function updateLanguageUI() {
+            const langStrings = uiStrings[currentLang];
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                if (langStrings[key]) {
+                    el.textContent = langStrings[key];
                 }
-                
-                // Load language for login screen
-                currentLang = localStorage.getItem('selectedLanguage') || 'ar';
-                updateLanguageUI(); // Apply language to login screen
-                
-                // Show initial buttons, hide fields
-                showInitialAuthButtons();
-            }
+            });
+            const passInput = document.getElementById('password-input-field');
+            if (passInput) passInput.placeholder = "••••••••";
+            const blogTextarea = document.getElementById('blogTextarea');
+            if (blogTextarea) blogTextarea.placeholder = currentLang === 'ar' ? 'اكتب ملاحظاتك وأفكارك هنا...' : 'Write your notes and ideas here...';
+            _renderSection(historyStack[historyStack.length - 1], true);
+        }
+
+        // Initialize app directly (no login)
+        window.onload = function() {
+            // Load preferences
+            const savedTheme = localStorage.getItem('selectedTheme') || 'dark-theme';
+            const savedFontSize = localStorage.getItem('selectedFontSize') || 'font-medium';
+            bodyEl.className = `${savedTheme} ${savedFontSize}`;
+            let baseSize = '16px';
+            if (savedFontSize === 'font-small') baseSize = '14px';
+            else if (savedFontSize === 'font-large') baseSize = '18px';
+            document.documentElement.style.setProperty('--font-size-base', baseSize);
+            currentLang = localStorage.getItem('selectedLanguage') || 'ar';
+            historyStack = ['home'];
+            updateLanguageUI();
         };
 
-        // --- ORIGINAL EVENT LISTENERS ---
-        ['purchase-modal', 'password-modal', 'rating-modal-overlay'].forEach(id => {
+        // Event listeners
+        ['purchase-modal', 'password-modal'].forEach(id => {
             const m = document.getElementById(id);
             if(m) m.addEventListener('click', function(e){
                 if(e.target === this) {
                     if (id === 'purchase-modal') closePurchaseModal();
                     else if (id === 'password-modal') closePasswordModal();
-                    else if (id === 'rating-modal-overlay') closeRatingModal();
                 }
             });
         });
+
         const pwInput = document.getElementById('password-input-field');
         if(pwInput) pwInput.addEventListener('keypress', function(e){
             if(e.key === 'Enter') {
@@ -1982,12 +964,14 @@
                 submitPassword();
             }
         });
+
         document.addEventListener('click', function(e) {
             const menuIcon = document.querySelector('.menu-icon');
             if (sidebar && menuIcon && sidebar.classList.contains('open') && !sidebar.contains(e.target) && !menuIcon.contains(e.target) && window.innerWidth <= 768) {
                 sidebar.classList.remove('open');
             }
         });
+
         document.addEventListener('DOMContentLoaded', () => {
             const logo = document.querySelector('.logo-container img');
             if(logo){
@@ -2000,16 +984,6 @@
                     logo.style.boxShadow = '0 0 15px rgba(0, 123, 255, 0.5)';
                 });
             }
-            
-            // Add transition to auth forms for smooth switching
-            const loginFields = document.getElementById('login-fields');
-            const signupFields = document.getElementById('signup-fields');
-            const initialButtons = document.getElementById('auth-initial-buttons');
-            
-            if(loginFields) loginFields.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            if(signupFields) signupFields.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            if(initialButtons) initialButtons.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            
         });
     </script>
 </body>
