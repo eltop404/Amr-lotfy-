@@ -120,8 +120,6 @@
         .download-btn:hover { filter: brightness(1.2); }
         .video-item iframe, .video-player-unlocked iframe { width: 100%; height: auto; aspect-ratio: 16/9; display: block; border: none; }
         .video-player-unlocked { width: 100%; aspect-ratio: 16/9; background-color: #000; }
-        
-        /* --- START: NEW PAID COURSE STYLES --- */
         .paid-course-card-new {
             background-color: var(--light-bg);
             border-radius: 14px;
@@ -197,8 +195,6 @@
             filter: brightness(1.2);
             transform: scale(1.03);
         }
-        /* --- END: NEW PAID COURSE STYLES --- */
-
         .payment-modal-overlay { 
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
             background-color: rgba(0,0,0,0.7); z-index: 2000; 
@@ -219,15 +215,12 @@
         [dir="rtl"] .close-modal-btn { left: auto; right: 15px; }
         .payment-modal-content h2 { color: var(--primary-color); margin-bottom: 1rem; }
         .payment-modal-content p { font-size: 1.1rem; line-height: 1.7; color: var(--text-color); margin-bottom: 1rem; }
-        
         .payment-phone-number { 
             color: var(--success-color); font-weight: 700; text-decoration: none; 
             display: inline-block; transition: all 0.3s ease; 
             font-size: 1.25rem; letter-spacing: 1px;
         }
         .payment-phone-number:hover { transform: scale(1.05); text-shadow: 0 0 10px var(--success-color); filter: brightness(1.2); }
-
-        /* --- START: NEW PURCHASE MODAL STYLES --- */
         .purchase-modal-actions {
             display: flex;
             flex-direction: column;
@@ -252,20 +245,17 @@
             transform: translateY(-2px);
         }
         .btn-call {
-            background-color: var(--primary-color); /* Blue */
+            background-color: var(--primary-color);
             box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
         }
         .btn-enter-pass {
-            background-color: var(--success-color); /* Green */
+            background-color: var(--success-color);
              box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
         }
         .btn-close {
-            background-color: var(--danger-color); /* Red */
+            background-color: var(--danger-color);
              box-shadow: 0 4px 15px rgba(229, 62, 62, 0.3);
         }
-        /* --- END: NEW PURCHASE MODAL STYLES --- */
-
-
         .password-input-container { position: relative; margin-top: 2rem; margin-bottom: 1rem; }
         #password-input-field { width: 100%; background-color: var(--dark-bg); border: 2px solid var(--border-color); color: var(--text-color); padding: 14px; border-radius: 12px; font-size: 1.1rem; outline: none; transition: all 0.3s ease; letter-spacing: 3px; }
         #password-input-field:focus { border-color: var(--primary-color); box-shadow: 0 0 15px rgba(0, 123, 255, 0.4); }
@@ -284,48 +274,6 @@
         .calculator-results-container { display: none; padding-top: 1.25rem; } .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; } .result-card { background-color: var(--light-bg); border-radius: 15px; padding: 1.5rem; text-align: center; border-left: 5px solid var(--secondary-color); box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: all 0.3s ease; } [dir="ltr"] .result-card { border-left: none; border-right: 5px solid var(--secondary-color); } .result-card:hover { transform: translateY(-5px); } .result-card .result-item-label { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 0.75rem; display: block; } .result-card .result-item-value { font-size: 2rem; font-weight: bold; display: block; word-wrap: break-word; } .result-card.profit { border-color: var(--success-color); } .result-card.loss { border-color: var(--danger-color); } .result-card.profit .result-item-value { color: var(--success-color); text-shadow: 0 0 10px rgba(56, 161, 105, 0.5); } .result-card.loss .result-item-value { color: var(--danger-color); text-shadow: 0 0 10px rgba(229, 62, 62, 0.5); }
         .app-info-logo { width: 120px; height: 120px; border-radius: 50%; margin-bottom: 1.5rem; border: 4px solid var(--primary-color); box-shadow: 0 8px 30px rgba(0, 123, 255, 0.5); transition: transform 0.5s ease, box-shadow 0.5s ease; } .app-info-logo:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 12px 40px rgba(0, 123, 255, 0.7); } .app-info-details { margin-top: 3rem; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 2rem; } .cinematic-info-item { text-align: center; width: 100%; border-bottom: 1px solid var(--border-color); padding-bottom: 1.25rem; } .cinematic-info-item:last-child { border-bottom: none; } .info-label { font-size: 1rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.5rem; display: block; } .info-value { font-size: 1.8rem; font-weight: 700; color: var(--text-color); text-shadow: 0 0 8px rgba(255, 255, 255, 0.1); word-wrap: break-word; } .info-value.developer { color: var(--secondary-color); text-shadow: 0 0 15px rgba(245, 158, 11, 0.5); }
         footer { text-align: center; margin-top: auto; padding: 0.75rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border-color); width: 100%; background-color: var(--dark-bg); box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); } footer p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.5px; }
-        
-        /* --- ANDROID BLOCKER STYLES --- */
-        #android-blocker {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: var(--dark-bg);
-            color: var(--text-color);
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            z-index: 10001;
-            padding: 1rem;
-        }
-        .blocker-content-3d {
-            transform: perspective(600px) rotateX(10deg);
-            background: var(--light-bg);
-            padding: 2.5rem 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 0 5px var(--border-color);
-            border: 1px solid var(--primary-color);
-        }
-        .banner-3d-text {
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            font-weight: 700;
-            color: var(--primary-color);
-            text-shadow: 1px 1px 0px rgba(255,255,255,0.1), 
-                         -1px -1px 0px rgba(0,0,0,0.4), 
-                         0 0 15px var(--primary-color);
-            margin-bottom: 1.5rem;
-        }
-        .developer-credit-text {
-            font-size: clamp(1rem, 4vw, 1.3rem);
-            color: var(--secondary-color);
-            font-weight: 600;
-            text-shadow: 0 0 8px var(--secondary-color);
-        }
-        /* --- END ANDROID BLOCKER STYLES --- */
-
         @media (max-width: 768px) { 
             .sidebar { width: 100%; right: -100%; border-radius: 0; } 
             .sidebar.open { right: 0; } 
@@ -362,13 +310,6 @@
     </style>
 </head>
 <body class="dark-theme font-medium">
-
-    <div id="android-blocker">
-        <div class="blocker-content-3d">
-            <h1 class="banner-3d-text">مخصص لهواتف ios فقط</h1>
-            <p class="developer-credit-text">تطوير Amr lotfy</p>
-        </div>
-    </div>
     <aside class="sidebar" id="sidebar">
          <h2 data-lang-key="app_name">Mora Learning</h2>
         <ul class="sidebar-menu" id="sidebar-menu">
@@ -389,7 +330,6 @@
             </div>
         </div>
     </aside>
-
     <div class="main-content" id="main-content">
         <header class="top-bar">
             <div class="logo-container" style="display: flex; align-items: center; gap: 10px;">
@@ -408,13 +348,10 @@
             <p data-lang-key="footer_rights">جميع الحقوق محفوظة © Mora Learning 2025</p>
         </footer>
     </div>
-
     <div id="purchase-modal" class="payment-modal-overlay" onclick="closePurchaseModal()">
         <div class="payment-modal-content" onclick="event.stopPropagation();">
             <span class="close-modal-btn" onclick="closePurchaseModal()" title="إغلاق">×</span>
-            
             <h2 id="purchase-modal-title" style="color: var(--primary-color); margin-bottom: 1rem; line-height: 1.4;"></h2>
-            
             <p style="font-size: 1.1rem; line-height: 1.7; color: var(--text-color); margin-bottom: 0.5rem;">
                 للحصول على كلمة سر الكورس، قم بدفع <strong style="color: var(--secondary-color);">فودافون كاش</strong> على الرقم التالي:
             </p>
@@ -424,7 +361,6 @@
             <p style="font-size: 1.1rem; line-height: 1.7; color: var(--text-color); margin-bottom: 1.5rem;">
                 بعد الدفع، يجب عليك إرسال سكرين شوت لإثبات عملية الدفع على نفس الرقم عبر واتساب.
             </p>
-            
             <div class="purchase-modal-actions">
                 <a href="tel:01067941806" class="btn-purchase-modal btn-call">اتصل الآن للدفع</a>
                 <button class="btn-purchase-modal btn-enter-pass" id="purchase-modal-enter-pass-btn">أدخل كلمة السر</button>
@@ -446,14 +382,10 @@
             </button>
         </div>
     </div>
-
     <script>
-        // --- GLOBAL STATE ---
         let currentCourseUnlockData = { id: null, passwords: [], element: null };
-
-        // --- DATA ---
         const contentData = {
-            videos: { // Free videos
+            videos: {
                 'e-commerce': [{id: 'hPLS6iZ8w2g'}, {id: '9d_EykIDid4'}, {id: '0fvYICr7m0M'}, {id: 'GFifm_fvkRk'}, {id: 't4qMMM3VuYM'}, {id: 'q2f_BVSVeHQ'}],
                 'programming': [ {id: 'qaNZKH5NohQ'}, {id: 'eeRw__TlgmQ'}, {id: 'sRLK-0W0K2Y'}, {id: 'ow5hlYceRNI'}, {id: 'FMSOoWQR92I'}, {id: 'syIMz6BI1iQ'}, {id: 'j1-HJhZRzYo'} ],
                 'montage': [{id: 'sm51PAGPPPM'}, {id: 'pC8n15SQPgs'}, {id: 'R3FrjHqAGoc'}, {id: 'Gy46eYYI5KA'}],
@@ -465,7 +397,7 @@
                 'freelancing': [{id: '8ijsxKzgROM'}, {id: 'EtNiaeWr-B0'}, {id: 'PSYKSbpoDOo'}],
                 'graphic-design': [{id: 'GWPq_DHpSW8'}, {id: 'D5TONJQVwu0'}, {id: 'TI23HUhO5OY'}]
             },
-            courses: { // Free courses
+            courses: {
                 'e-commerce': [{id: 'h0unhODkj40'}, {id: 'ICFXS5WIS3Y'}],
                 'montage': [{id: 'qKtUjfolUOM'}, {id: '4XdTTX32Adg'}, {id: '8iGvUZKeLeU'}],
                 'data-analytics': [{id: 'nXdkuxAj7tg'}, {id: 'z7nN0hZ_PtQ'}],
@@ -473,40 +405,63 @@
                 'content-writing': [{id: '-PRi5kJ-JGM'}, {id: 'zs3PiS1t13g'}],
                 'graphic-design': [{id: 'va-MZOPrJ0s'}, {id: '4IJPI0d7STI'}, {id: 'WlTsKiVwZAM'}]
             },
-            // --- UPDATED: Paid Courses Titles & Houriat Passwords (8 Courses) ---
             paidCourses: [
-                { id: '07AC2Syf4Yg', title: 'كورس كامل ++C', price: '$6.00',
-                    passwords: ['huriya-c1p3', 'jannah-c4p7', 'firdaus-c8p2', 'naeem-c5p9', 'paradise-c0p6', 'eden-c3p1', 'celestial-c7p4', 'divine-c2p8', 'hoor-c6p5', 'nymph-c9p0','houri-c1v4', 'jannah-c7v2', 'firdaus-c5v8', 'naeem-c9v6', 'paradise-c3v0', 'eden-c2v7', 'celestial-c8v1', 'divine-c4v5', 'hoor-c0v9', 'nymph-c6v3','huriya-c7s1', 'jannah-c4s2', 'firdaus-c8s5', 'naeem-c2s9', 'paradise-c6s0', 'eden-c3s4', 'celestial-c0s7', 'divine-c5s8', 'hoor-c9s6', 'nymph-c1s3','houri-c5m4', 'jannah-c1m7', 'firdaus-c9m2', 'naeem-c3m8', 'paradise-c0m5', 'eden-c7m6', 'celestial-c2m1', 'divine-c8m9', 'hoor-c4m0', 'nymph-c6m3','huriya-c9k1', 'jannah-c2k4', 'firdaus-c6k8', 'naeem-c0k5', 'paradise-c3k9', 'eden-c7k0', 'celestial-c1k6', 'divine-c5k3', 'hoor-c8k7', 'nymph-c4k2','houri-c3z4', 'jannah-c8z7', 'firdaus-c1z2', 'naeem-c5z9', 'paradise-c9z6', 'eden-c0z1', 'celestial-c4z3', 'divine-c7z8', 'hoor-c2z5', 'nymph-c6z0','huriya-c7x1', 'jannah-c0x4', 'firdaus-c5x8', 'naeem-c9x2', 'paradise-c3x5', 'eden-c6x9', 'celestial-c2x0', 'divine-c8x3', 'hoor-c1x7', 'nymph-c4x6']
+                {
+                    id: '07AC2Syf4Yg',
+                    title: 'كورس كامل ++C',
+                    price: '$6.00',
+                    passwords: Array.from({length: 75}, (_, i) => `cpp_pass_${i.toString().padStart(3, '0')}`)
                 },
-                { id: 'aLv2oD0q5XA', title: 'كورس كامل تعلم فلاتر من الصفر', price: '$5.50',
-                    passwords: ['react-x1y4', 'react-z7a2', 'react-b5c8', 'react-d9e6', 'react-f0g3', 'react-h2k1', 'react-m7n4', 'react-p8q5', 'react-r6s0', 'react-t9u3','react-v1w7', 'react-y4z2', 'react-a8b5', 'react-c0d9', 'react-e3f6', 'react-g7h1', 'react-k2l8', 'react-n5m0', 'react-q9p4', 'react-s3t6','react-u0v1', 'react-w2x7', 'react-z8y5', 'react-a6b9', 'react-c3d0', 'react-e7f2', 'react-g1h8', 'react-k4l5', 'react-n0m9', 'react-q6p3','react-s1t7', 'react-u4v2', 'react-w8x5', 'react-z0y9', 'react-a3b6', 'react-c7d1', 'react-e5f8', 'react-g2h4', 'react-i9j0', 'react-k6l3','react-m1n7', 'react-o4p2', 'react-q8r6', 'react-s3t9', 'react-u5v0', 'react-w1x4', 'react-y7z2', 'react-b8a5', 'react-d0c3', 'react-f6e9','react-h1g7', 'react-j2k8', 'react-l5m0', 'react-n9p4', 'react-r3s6', 'react-t0u1', 'react-v2w8', 'react-x4y7', 'react-z9a5', 'react-b3c1','react-d7e4', 'react-f0g8', 'react-h6j2', 'react-k9l5', 'react-m3n0', 'react-o1p7', 'react-q4r9', 'react-s8t2', 'react-u6v3', 'react-w0x5']
+                {
+                    id: 'aLv2oD0q5XA',
+                    title: 'كورس كامل تعلم فلاتر من الصفر',
+                    price: '$5.50',
+                    passwords: Array.from({length: 75}, (_, i) => `flutter_pass_${i.toString().padStart(3, '0')}`)
                 },
-                { id: 'Z-5QVutAEW4', title: 'كورس كامل تعلم CSS', price: '$4.50',
-                    passwords: ['mont-p1r0', 'mont-e3m9', 'mont-i7e2', 'mont-r0x5', 'mont-p9r3', 'mont-o4t1', 'mont-f8g6', 'mont-s2k7', 'mont-a5z0', 'mont-l1j9','mont-b4c8', 'mont-d6v2', 'mont-h0n3', 'mont-q7w5', 'mont-y9u1', 'mont-z3x4', 'mont-c8b0', 'mont-v2d6', 'mont-n3h0', 'mont-w5q7','mont-u1y9', 'mont-x4z3', 'mont-b0c8', 'mont-d6v2', 'mont-h3n0', 'mont-q7w5', 'mont-y1u9', 'mont-z4x3', 'mont-k5l6', 'mont-p7o8','mont-i9u0', 'mont-e2r3', 'mont-t5y6', 'mont-u8i9', 'mont-o1p0', 'mont-a4s7', 'mont-d2f5', 'mont-g6h9', 'mont-j3k1', 'mont-l8z4','mont-c7v0', 'mont-b6n2', 'mont-m1x5', 'mont-q9w8', 'mont-e4r3', 'mont-t7y2', 'mont-u0i6', 'mont-o5p1', 'mont-a8s4', 'mont-d9f2','mont-g3h5', 'mont-j7k0', 'mont-l1z8', 'mont-c4v6', 'mont-b9n3', 'mont-m2x0', 'mont-q5w7', 'mont-e8r1', 'mont-t2y4', 'mont-u6i9','mont-o0p5', 'mont-a3s7', 'mont-d1f9', 'mont-g8h2', 'mont-j4k6', 'mont-l5z0', 'mont-c9v3', 'mont-b7n1', 'mont-m6x4', 'mont-q0w2']
+                {
+                    id: 'Z-5QVutAEW4',
+                    title: 'كورس كامل تعلم CSS',
+                    price: '$4.50',
+                    passwords: Array.from({length: 75}, (_, i) => `css_pass_${i.toString().padStart(3, '0')}`)
                 },
-                 { id: 'cvNTgKw8VlY', title: 'كورس كامل تعلم html', price: '$5.00',
-                    passwords: ['des-g1h7', 'des-j2k8', 'des-l5m0', 'des-n9p4', 'des-r3s6', 'des-t0u1', 'des-v2w8', 'des-x4y7', 'des-z9a5', 'des-b3c1','des-d7e4', 'des-f0g8', 'des-h6j2', 'des-k9l5', 'des-m3n0', 'des-o1p7', 'des-q4r9', 'des-s8t2', 'des-u6v3', 'des-w0x5','des-y2z8', 'des-a4b6', 'des-c9d1', 'des-e3f7', 'des-g0h4', 'des-i5j8', 'des-k2l6', 'des-m8n9', 'des-o7p1', 'des-q5r3','des-s1t9', 'des-u7v2', 'des-w4x6', 'des-y8z0', 'des-a2b5', 'des-c6d8', 'des-e0f3', 'des-g9h1', 'des-i4j7', 'des-k8l2','des-m5n6', 'des-o3p0', 'des-q7r4', 'des-s2t8', 'des-u9v1', 'des-w5x3', 'des-y0z7', 'des-a6b9', 'des-c1d4', 'des-e8f0','des-g5h3', 'des-i7j9', 'des-k0l4', 'des-m2n8', 'des-o6p5', 'des-q1r7', 'des-s4t0', 'des-u3v6', 'des-w9x2', 'des-y7z1','des-a0b8', 'des-c5d2', 'des-e6f9', 'des-g3h4', 'des-i1j5', 'des-k7l0', 'des-m4n1', 'des-o8p9', 'des-q2r6', 'des-s0t3']
+                {
+                    id: 'cvNTgKw8VlY',
+                    title: 'كورس كامل تعلم html',
+                    price: '$5.00',
+                    passwords: Array.from({length: 75}, (_, i) => `html_pass_${i.toString().padStart(3, '0')}`)
                 },
-                { id: 'V8WPQSq6KSk', title: 'كورس كامل تعلم التداول', price: '$4.00',
-                    passwords: ['aff-k1l7', 'aff-m4n8', 'aff-o2p5', 'aff-q6r9', 'aff-s3t0', 'aff-u1v2', 'aff-w7x4', 'aff-y8z5', 'aff-a6b9', 'aff-c0d3','aff-e1f7', 'aff-g4h8', 'aff-i5j2', 'aff-k9l0', 'aff-m6n3', 'aff-o8p1', 'aff-q4r7', 'aff-s9t5', 'aff-u2v0', 'aff-w3x6','aff-y7z1', 'aff-a8b4', 'aff-c5d9', 'aff-e0f2', 'aff-g3h6', 'aff-i1j8', 'aff-k7l4', 'aff-m9n0', 'aff-o5p3', 'aff-q1r8','aff-s6t2', 'aff-u4v9', 'aff-w0x7', 'aff-y5z1', 'aff-a2b8', 'aff-c3d5', 'aff-e6f0', 'aff-g9h4', 'aff-i7j1', 'aff-k2l3','aff-m8n5', 'aff-o4p6', 'aff-q0r9', 'aff-s7t3', 'aff-u5v1', 'aff-w8x2', 'aff-y4z7', 'aff-a9b0', 'aff-c1d6', 'aff-e3f8','aff-g7h2', 'aff-i0j4', 'aff-k5l9', 'aff-m1n7', 'aff-o6p4', 'aff-q2r5', 'aff-s8t1', 'aff-u0v6', 'aff-w9x3', 'aff-y2z8','aff-a4b5', 'aff-c7d0', 'aff-e9f1', 'aff-g6h3', 'aff-i2j9', 'aff-k3l8', 'aff-m0n4', 'aff-o9p2', 'aff-q5r6', 'aff-s1t8']
+                {
+                    id: 'V8WPQSq6KSk',
+                    title: 'كورس كامل تعلم التداول',
+                    price: '$4.00',
+                    passwords: Array.from({length: 75}, (_, i) => `trading_pass_${i.toString().padStart(3, '0')}`)
                 },
-                { id: 'FIiGjKjfjUM', title: 'كورس كامل تعلم المنتجات الرقمية', price: '$6.00',
-                    passwords: ['ai-b1c7', 'ai-d4e8', 'ai-f2g5', 'ai-h6j9', 'ai-k3l0', 'ai-m1n2', 'ai-o7p4', 'ai-q8r5', 'ai-s9t0', 'ai-u6v3','ai-w1x4', 'ai-y7z2', 'ai-a8b5', 'ai-c0d9', 'ai-e3f6', 'ai-g7h1', 'ai-k2l8', 'ai-n5m0', 'ai-q9p4', 'ai-s3t6','ai-u0v1', 'ai-w2x7', 'ai-z8y5', 'ai-a6b9', 'ai-c3d0', 'ai-e7f2', 'ai-g1h8', 'ai-k4l5', 'ai-n0m9', 'ai-q6p3','ai-s1t7', 'ai-u4v2', 'ai-w8x5', 'ai-z0y9', 'ai-a3b6', 'ai-c7d1', 'ai-e5f8', 'ai-g2h4', 'ai-i9j0', 'ai-k6l3','ai-m1n7', 'ai-o4p2', 'ai-q8r6', 'ai-s3t9', 'ai-u5v0', 'ai-w1x4', 'ai-y7z2', 'ai-b8a5', 'ai-d0c3', 'ai-f6e9','ai-h1g7', 'ai-j2k8', 'ai-l5m0', 'ai-n9p4', 'ai-r3s6', 'ai-t0u1', 'ai-v2w8', 'ai-x4y7', 'ai-z9a5', 'ai-b3c1','ai-d7e4', 'ai-f0g8', 'ai-h6j2', 'ai-k9l5', 'ai-m3n0', 'ai-o1p7', 'ai-q4r9', 'ai-s8t2', 'ai-u6v3', 'ai-w0x5']
+                {
+                    id: 'FIiGjKjfjUM',
+                    title: 'كورس كامل تعلم المنتجات الرقمية',
+                    price: '$6.00',
+                    passwords: Array.from({length: 75}, (_, i) => `digital_pass_${i.toString().padStart(3, '0')}`)
                 },
-                { id: 'ebdKbZrIej4', title: 'كورس كامل تعلم التسويق', price: '$3.50',
-                    passwords: ['seo-p1q7', 'seo-r4s8', 'seo-t2u5', 'seo-v6w9', 'seo-x3y0', 'seo-z1a2', 'seo-b7c4', 'seo-d8e5', 'seo-f9g0', 'seo-h6j3','seo-k1l4', 'seo-m7n2', 'seo-o8p5', 'seo-q0r9', 'seo-s3t6', 'seo-u7v1', 'seo-w2x8', 'seo-y5z0', 'seo-a6b9', 'seo-c3d0','seo-e7f2', 'seo-g1h8', 'seo-k4l5', 'seo-n0m9', 'seo-q6p3', 'seo-s1t7', 'seo-u4v2', 'seo-w8x5', 'seo-z0y9', 'seo-a3b6','seo-c7d1', 'seo-e5f8', 'seo-g2h4', 'seo-i9j0', 'seo-k6l3', 'seo-m1n7', 'seo-o4p2', 'seo-q8r6', 'seo-s3t9', 'seo-u5v0','seo-w1x4', 'seo-y7z2', 'seo-b8a5', 'seo-d0c3', 'seo-f6e9', 'seo-h1g7', 'seo-j2k8', 'seo-l5m0', 'seo-n9p4', 'seo-r3s6','seo-t0u1', 'seo-v2w8', 'seo-x4y7', 'seo-z9a5', 'seo-b3c1', 'seo-d7e4', 'seo-f0g8', 'seo-h6j2', 'seo-k9l5', 'seo-m3n0','seo-o1p7', 'seo-q4r9', 'seo-s8t2', 'seo-u6v3', 'seo-w0x5', 'seo-y2z8', 'seo-a4b6', 'seo-c9d1', 'seo-e3f7', 'seo-g0h4']
+                {
+                    id: 'ebdKbZrIej4',
+                    title: 'كورس كامل تعلم التسويق',
+                    price: '$3.50',
+                    passwords: Array.from({length: 75}, (_, i) => `marketing_pass_${i.toString().padStart(3, '0')}`)
                 },
-                { id: '-v_n8gJm8ps', title: 'كورس تصميمات سوشيال ميديا', price: '$5.50',
-                    passwords: ['py-z1x7', 'py-c4v8', 'py-b2n5', 'py-m6a9', 'py-s3d0', 'py-f1g2', 'py-h7j4', 'py-k8l5', 'py-p0o9', 'py-i3u6','py-e7r1', 'py-t4y8', 'py-u2i5', 'py-o6p9', 'py-a0s3', 'py-d1f7', 'py-g4h8', 'py-j5k2', 'py-l9z6', 'py-v3b0','py-n8m1', 'py-q7w4', 'py-x2c9', 'py-y5e0', 'py-z6t3', 'py-r8v1', 'py-p4s7', 'py-k0j5', 'py-h2g9', 'py-f6d3','py-b9n7', 'py-m1a4', 'py-c5v8', 'py-l2z0', 'py-x7q3', 'py-u9i6', 'py-t1y5', 'py-e3r8', 'py-o0p4', 'py-a6s9','py-d2f1', 'py-g8h5', 'py-j0k7', 'py-v7b3', 'py-n4m9', 'py-q1w6', 'py-z8t2', 'py-r5v0', 'py-p9s3', 'py-k4j1','py-h6g7', 'py-f0d5', 'py-b3n9', 'py-m7a2', 'py-c1v4', 'py-l8z6', 'py-x2q0', 'py-u5i7', 'py-t9y3', 'py-e6r1','py-o4p8', 'py-a0s5', 'py-d7f9', 'py-g3h2', 'py-j1k4', 'py-v0b7', 'py-n8m3', 'py-q5w6', 'py-z2t0', 'py-r9v4']
+                {
+                    id: '-v_n8gJm8ps',
+                    title: 'كورس تصميمات سوشيال ميديا',
+                    price: '$5.50',
+                    passwords: Array.from({length: 75}, (_, i) => `social_pass_${i.toString().padStart(3, '0')}`)
                 }
             ],
-            categoryImages: { /* (unchanged) */
+            categoryImages: {
                  'e-commerce': 'https://i.postimg.cc/tCDy383Y/afb04de7b01f843c45abbc9ee08dc58e.jpg','programming': 'https://i.postimg.cc/k5rQJvzk/pngtree-website-programming-language-technology-digital-display-data-photo-image-13914360.jpg','montage': 'https://i.postimg.cc/sgQf4s3w/Da-Vinci-Resolve.jpg','data-analytics': 'https://i.postimg.cc/PJ7Jdxtv/Data-analytics.jpg','ai': 'https://i.postimg.cc/ZYsXJ3hD/d47ded45213710012f9af45e100599b4.jpg','podcasting': 'https://i.postimg.cc/GpNbBfW6/3ee0013e2c893850c0f26032678b8714.jpg','content-writing': 'https://i.postimg.cc/Mp9QLWBR/image.jpg','cybersecurity': 'https://i.postimg.cc/j2Rf9CMH/1316.jpg','freelancing': 'https://i.postimg.cc/bv2FYFp6/64f2f0d349b722684ff0271474cb5cfe6dd4fa2b.jpg','graphic-design': 'https://i.postimg.cc/5tYN41XZ/bd19730469cd909972bf71d5ffaf7c74.jpg'
             },
-            categoryIcons: { /* (unchanged) */
+            categoryIcons: {
                  'e-commerce': '🛍️', 'programming': '💻', 'montage': '🎬', 'data-analytics': '📊', 'ai': '🤖','podcasting': '🎙️', 'content-writing': '✍️', 'cybersecurity': '🛡️', 'freelancing': '💼', 'graphic-design': '🎨'
             },
-            articles: [ /* (unchanged - content shortened) */
+            articles: [
                  { id: "article-0", title: "ما هو العمل الحر؟ وكيف تبدأ رحلتك؟", excerpt: "تعرف على مفهوم العمل الحر...", content: `<h2>ما هو العمل الحر...?</h2><p>...</p><h3>لماذا...?</h3><ul><li>...</li></ul><h3>كيف تبدأ...?</h3><ol><li>...</li></ol>`, img: "https://i.postimg.cc/bv2FYFp6/64f2f0d349b722684ff0271474cb5cfe6dd4fa2b.jpg" },
                  { id: "article-1", title: "دليل تحليل البيانات للمبتدئين", excerpt: "خطوة بخطوة لفهم تحليل البيانات...", content: `<h2>ما هو تحليل البيانات؟</h2><p>...</p><h3>أهمية...?</h3><ul><li>...</li></ul><h3>خطوات...?</h3><ol><li>...</li></ol><h3>أشهر الأدوات...?</h3><ul><li>...</li></ul>`, img: "https://i.postimg.cc/PJ7Jdxtv/Data-analytics.jpg" },
                  { id: "article-2", title: "التجارة الإلكترونية: كيف تبدأ متجرك؟", excerpt: "من اختيار المنتج إلى التسويق...", content: `<h2>مقدمة...?</h2><p>...</p><h3>خطوات...?</h3><ol><li>...</li></ol>`, img: "https://i.postimg.cc/tCDy383Y/afb04de7b01f843c45abbc9ee08dc58e.jpg" },
@@ -514,46 +469,16 @@
                  { id: "article-4", title: "الذكاء الاصطناعي: من الألف إلى الياء", excerpt: "فهم أساسيات الذكاء الاصطناعي...", content: `<h2>ما هو الذكاء الاصطناعي?</h2><p>...</p><h3>فروع...?</h3><ul><li>...</li></ul><h3>تطبيقات...?</h3><p>...</p><h3>المستقبل...?</h3><p>...</p>`, img: "https://i.postimg.cc/ZYsXJ3hD/d47ded45213710012f9af45e100599b4.jpg" }
             ]
         };
-
-        // --- UI Strings --- (unchanged)
         const uiStrings = {
-            ar: { app_name: "Mora Learning", home: "الرئيسية", articles: "المقالات", settings: "الإعدادات", support: "الدعم الفني", blog: "مدونة", profit_calculator: "حاسبة الأرباح", app_info: "معلومات التطبيق", privacy_policy: "سياسة الخصوصية", paid_courses: "كورسات مدفوعه", developed_by: "تم التطوير بواسطة", back_button: "الرجوع", welcome_main_title: "ابدأ رحلتك الرقمية مع Mora Learning", welcome_main_subtitle: "منصة التعلم الشاملة لعام 2025، حيث تبدأ رحلتك نحو التميز.", footer_rights: "جميع الحقوق محفوظة © Mora Learning 2025", page_titles: {'home':'Mora Learning','articles':'المقالات','settings':'الإعدادات','support':'الدعم الفني','blog':'مدونة','profit_calculator':'حاسبة الأرباح','app_info':'معلومات التطبيق','privacy_policy':'سياسة الخصوصية','paid_courses':'كورسات مدفوعه','e-commerce':'التجارة الإلكترونية','programming':'البرمجة','montage':'المونتاج','data-analytics':'تحليل البيانات','ai':'الذكاء الاصطناعي','podcasting':'البودكاست','content-writing':'كتابة المحتوى','cybersecurity':'الأمن السيبراني','freelancing':'العمل الحر','graphic-design':'الجرافيك ديزاين'}, category_prefix: "تعلم", videos_title: "فيديوهات", courses_title: "كورسات", articles_title: "مقالات تعليمية متنوعة", settings_theme_title: "تغيير المظهر", settings_lang_title: "تغيير اللغة", settings_font_title: "تغيير حجم الخط", support_contact: "تواصل معانا", font_small: "صغير", font_medium: "متوسط", font_large: "كبير", 
-                
-                /* MODIFIED: Removed old payment keys, added 'buy_now' */
-                buy_now: "اشترى الآن",
-                enter_password: "ادخل كلمه السر", 
-                payment_info_title: "معلومات الدفع", // This key is not used by new modal, but kept for safety
-                enter_password_prompt_title: "إدخال كلمة السر", 
-                enter_password_prompt_subtitle: "الرجاء إدخال كلمة السر لفتح الكورس", 
-                password_label: "كلمة السر", 
-                submit_password: "تأكيد", 
-                wrong_password: "كلمة السر غير صحيحة. حاول مرة أخرى.", 
-                password_expired: "كلمة السر هذه تم استخدامها من قبل. الرجاء طلب كلمة سر جديدة.", 
-                course_unlocked: "تم فتح الكورس! مشاهدة ممتعة.", 
-                
-                price: "السعر", download: "تحميل", watch: "شاهد", app_info_title: "مهمتنا في Mora Learning", app_info_subtitle: "تمكين الأفراد من خلال التعلم المبتكر والمتاح للجميع", app_info_p1: "...", app_info_p2: "...", app_info_dev: "مطور التطبيق", app_info_version: "إصدار المنصة", app_info_build: "بناء رقم", app_info_env: "بيئة التعلم", app_info_env_val: "محسّنة للمكتب والجوال", calculator_header_title: "حاسبة أرباح التجارة الإلكترونية", calculator_header_subtitle: "أدخل بياناتك المالية...", calculator_revenue: "إجمالي الإيرادات", calculator_cogs: "تكلفة المنتجات المباعة (COGS)", calculator_marketing: "مصاريف التسويق والإعلانات", calculator_shipping: "تكاليف الشحن والتوصيل", calculator_other: "مصاريف أخرى...", calculator_calculate_btn: "احسب الأرباح", calculator_results_title: "تحليل الأرباح", calculator_total_costs: "إجمالي التكاليف", calculator_net_profit: "صافي الربح", calculator_profit_margin: "هامش الربح", privacy_title: "سياسة الخصوصية", privacy_intro: "...", privacy_data_collection: "جمع البيانات", privacy_data_collection_text: "...", privacy_data_usage: "استخدام البيانات", privacy_data_usage_text: "...", privacy_security: "الأمان", privacy_security_text: "...", privacy_third_party: "روابط خارجية", privacy_third_party_text: "...", privacy_changes: "تعديلات على سياسة الخصوصية", privacy_changes_text: "...", privacy_contact: "للاتصال بنا", privacy_contact_text: "...", privacy_dev_note: "..." },
-            en: { /* English strings (unchanged) */ app_name: "Mora Learning", home: "Home", articles: "Articles", settings: "Settings", support: "Support", blog: "Blog", profit_calculator: "Profit Calculator", app_info: "App Information", privacy_policy: "Privacy Policy", paid_courses: "Paid Courses", developed_by: "Developed By", back_button: "Back", welcome_main_title: "Start Your Digital Journey...", welcome_main_subtitle: "The comprehensive learning platform...", footer_rights: "All Rights Reserved © Mora Learning 2025", page_titles: {'home':'Mora Learning','articles':'Articles','settings':'Settings','support':'Support','blog':'Blog','profit_calculator':'Profit Calculator','app_info':'App Information','privacy_policy':'Privacy Policy','paid_courses':'Paid Courses','e-commerce':'E-commerce','programming':'Programming','montage':'Video Editing','data-analytics':'Data Analytics','ai':'Artificial Intelligence','podcasting':'Podcasting','content-writing':'Content Writing','cybersecurity':'Cybersecurity','freelancing':'Freelancing','graphic-design':'Graphic Design'}, category_prefix: "Learn", videos_title: "Videos", courses_title: "Courses", articles_title: "Diverse Educational Articles", settings_theme_title: "Change Theme", settings_lang_title: "Change Language", settings_font_title: "Change Font Size", support_contact: "Contact Us", font_small: "Small", font_medium: "Medium", font_large: "Large", 
-                
-                /* MODIFIED: Removed old payment keys, added 'buy_now' */
-                buy_now: "Buy Now",
-                enter_password: "Enter Password", 
-                payment_info_title: "Payment Information", 
-                enter_password_prompt_title: "Enter Password", 
-                enter_password_prompt_subtitle: "Please enter the password...", 
-                password_label: "Password", 
-                submit_password: "Submit", 
-                wrong_password: "Incorrect password...", 
-                password_expired: "This password has already been used...", 
-                course_unlocked: "Course unlocked! Enjoy.", 
-                
-                price: "Price", download: "Download", watch: "Watch", app_info_title: "Our Mission...", app_info_subtitle: "Empowering individuals...", app_info_p1: "...", app_info_p2: "...", app_info_dev: "App Developer", app_info_version: "Platform Version", app_info_build: "Build Number", app_info_env: "Learning Environment", app_info_env_val: "Optimized for Desktop & Mobile", calculator_header_title: "E-commerce Profit Calculator", calculator_header_subtitle: "Enter your financial data...", calculator_revenue: "Total Revenue", calculator_cogs: "COGS", calculator_marketing: "Marketing & Ad Spend", calculator_shipping: "Shipping Costs", calculator_other: "Other Expenses...", calculator_calculate_btn: "Calculate Profit", calculator_results_title: "Profit Analysis", calculator_total_costs: "Total Costs", calculator_net_profit: "Net Profit", calculator_profit_margin: "Profit Margin", privacy_title: "Privacy Policy", privacy_intro: "...", privacy_data_collection: "Data Collection", privacy_data_collection_text: "...", privacy_data_usage: "Data Usage", privacy_data_usage_text: "...", privacy_security: "Security", privacy_security_text: "...", privacy_third_party: "External Links", privacy_third_party_text: "...", privacy_changes: "Changes to This Policy", privacy_changes_text: "...", privacy_contact: "Contact Us", privacy_contact_text: "...", privacy_dev_note: "..." }
+            ar: {
+                app_name: "Mora Learning", home: "الرئيسية", articles: "المقالات", settings: "الإعدادات", support: "الدعم الفني", blog: "مدونة", profit_calculator: "حاسبة الأرباح", app_info: "معلومات التطبيق", privacy_policy: "سياسة الخصوصية", paid_courses: "كورسات مدفوعه", developed_by: "تم التطوير بواسطة", back_button: "الرجوع", welcome_main_title: "ابدأ رحلتك الرقمية مع Mora Learning", welcome_main_subtitle: "منصة التعلم الشاملة لعام 2025، حيث تبدأ رحلتك نحو التميز.", footer_rights: "جميع الحقوق محفوظة © Mora Learning 2025", page_titles: {'home':'Mora Learning','articles':'المقالات','settings':'الإعدادات','support':'الدعم الفني','blog':'مدونة','profit_calculator':'حاسبة الأرباح','app_info':'معلومات التطبيق','privacy_policy':'سياسة الخصوصية','paid_courses':'كورسات مدفوعه','e-commerce':'التجارة الإلكترونية','programming':'البرمجة','montage':'المونتاج','data-analytics':'تحليل البيانات','ai':'الذكاء الاصطناعي','podcasting':'البودكاست','content-writing':'كتابة المحتوى','cybersecurity':'الأمن السيبراني','freelancing':'العمل الحر','graphic-design':'الجرافيك ديزاين'}, category_prefix: "تعلم", videos_title: "فيديوهات", courses_title: "كورسات", articles_title: "مقالات تعليمية متنوعة", settings_theme_title: "تغيير المظهر", settings_lang_title: "تغيير اللغة", settings_font_title: "تغيير حجم الخط", support_contact: "تواصل معانا", font_small: "صغير", font_medium: "متوسط", font_large: "كبير", buy_now: "اشترى الآن", enter_password: "ادخل كلمه السر", enter_password_prompt_title: "إدخال كلمة السر", enter_password_prompt_subtitle: "الرجاء إدخال كلمة السر لفتح الكورس", password_label: "كلمة السر", submit_password: "تأكيد", wrong_password: "كلمة السر غير صحيحة. حاول مرة أخرى.", password_expired: "كلمة السر هذه تم استخدامها من قبل. الرجاء طلب كلمة سر جديدة.", course_unlocked: "تم فتح الكورس! مشاهدة ممتعة.", price: "السعر", download: "تحميل", watch: "شاهد", app_info_title: "مهمتنا في Mora Learning", app_info_subtitle: "تمكين الأفراد من خلال التعلم المبتكر والمتاح للجميع", app_info_p1: "...", app_info_p2: "...", app_info_dev: "مطور التطبيق", app_info_version: "إصدار المنصة", app_info_build: "بناء رقم", app_info_env: "بيئة التعلم", app_info_env_val: "محسّنة للمكتب والجوال", calculator_header_title: "حاسبة أرباح التجارة الإلكترونية", calculator_header_subtitle: "أدخل بياناتك المالية...", calculator_revenue: "إجمالي الإيرادات", calculator_cogs: "تكلفة المنتجات المباعة (COGS)", calculator_marketing: "مصاريف التسويق والإعلانات", calculator_shipping: "تكاليف الشحن والتوصيل", calculator_other: "مصاريف أخرى...", calculator_calculate_btn: "احسب الأرباح", calculator_results_title: "تحليل الأرباح", calculator_total_costs: "إجمالي التكاليف", calculator_net_profit: "صافي الربح", calculator_profit_margin: "هامش الربح", privacy_title: "سياسة الخصوصية", privacy_intro: "...", privacy_data_collection: "جمع البيانات", privacy_data_collection_text: "...", privacy_data_usage: "استخدام البيانات", privacy_data_usage_text: "...", privacy_security: "الأمان", privacy_security_text: "...", privacy_third_party: "روابط خارجية", privacy_third_party_text: "...", privacy_changes: "تعديلات على سياسة الخصوصية", privacy_changes_text: "...", privacy_contact: "للاتصال بنا", privacy_contact_text: "...", privacy_dev_note: "..."
+            },
+            en: {
+                app_name: "Mora Learning", home: "Home", articles: "Articles", settings: "Settings", support: "Support", blog: "Blog", profit_calculator: "Profit Calculator", app_info: "App Information", privacy_policy: "Privacy Policy", paid_courses: "Paid Courses", developed_by: "Developed By", back_button: "Back", welcome_main_title: "Start Your Digital Journey...", welcome_main_subtitle: "The comprehensive learning platform...", footer_rights: "All Rights Reserved © Mora Learning 2025", page_titles: {'home':'Mora Learning','articles':'Articles','settings':'Settings','support':'Support','blog':'Blog','profit_calculator':'Profit Calculator','app_info':'App Information','privacy_policy':'Privacy Policy','paid_courses':'Paid Courses','e-commerce':'E-commerce','programming':'Programming','montage':'Video Editing','data-analytics':'Data Analytics','ai':'Artificial Intelligence','podcasting':'Podcasting','content-writing':'Content Writing','cybersecurity':'Cybersecurity','freelancing':'Freelancing','graphic-design':'Graphic Design'}, category_prefix: "Learn", videos_title: "Videos", courses_title: "Courses", articles_title: "Diverse Educational Articles", settings_theme_title: "Change Theme", settings_lang_title: "Change Language", settings_font_title: "Change Font Size", support_contact: "Contact Us", font_small: "Small", font_medium: "Medium", font_large: "Large", buy_now: "Buy Now", enter_password: "Enter Password", enter_password_prompt_title: "Enter Password", enter_password_prompt_subtitle: "Please enter the password...", password_label: "Password", submit_password: "Submit", wrong_password: "Incorrect password...", password_expired: "This password has already been used...", course_unlocked: "Course unlocked! Enjoy.", price: "Price", download: "Download", watch: "Watch", app_info_title: "Our Mission...", app_info_subtitle: "Empowering individuals...", app_info_p1: "...", app_info_p2: "...", app_info_dev: "App Developer", app_info_version: "Platform Version", app_info_build: "Build Number", app_info_env: "Learning Environment", app_info_env_val: "Optimized for Desktop & Mobile", calculator_header_title: "E-commerce Profit Calculator", calculator_header_subtitle: "Enter your financial data...", calculator_revenue: "Total Revenue", calculator_cogs: "COGS", calculator_marketing: "Marketing & Ad Spend", calculator_shipping: "Shipping Costs", calculator_other: "Other Expenses...", calculator_calculate_btn: "Calculate Profit", calculator_results_title: "Profit Analysis", calculator_total_costs: "Total Costs", calculator_net_profit: "Net Profit", calculator_profit_margin: "Profit Margin", privacy_title: "Privacy Policy", privacy_intro: "...", privacy_data_collection: "Data Collection", privacy_data_collection_text: "...", privacy_data_usage: "Data Usage", privacy_data_usage_text: "...", privacy_security: "Security", privacy_security_text: "...", privacy_third_party: "External Links", privacy_third_party_text: "...", privacy_changes: "Changes to This Policy", privacy_changes_text: "...", privacy_contact: "Contact Us", privacy_contact_text: "...", privacy_dev_note: "..."
+            }
         };
-
-        // --- State Management ---
         let currentLang = 'ar';
         let historyStack = ['home'];
-
-        // --- DOM Elements ---
         const contentArea = document.getElementById("content-area");
         const pageTitle = document.getElementById("page-title");
         const backButton = document.getElementById("back-button");
@@ -562,30 +487,85 @@
         const sidebarMenu = document.getElementById("sidebar-menu");
         const bodyEl = document.body;
 
-        // --- Core Functions ---
-        function updateLanguageUI() { /* (unchanged logic) */ const langStrings=uiStrings[currentLang]; document.documentElement.lang=currentLang; document.documentElement.dir=currentLang==='ar'?'rtl':'ltr'; document.querySelectorAll('[data-lang-key]').forEach(el=>{ const key=el.getAttribute('data-lang-key'); if(langStrings[key]) el.textContent=langStrings[key]; }); const passInput=document.getElementById('password-input-field'); if(passInput) passInput.placeholder="••••••••"; const blogTextarea=document.getElementById('blogTextarea'); if(blogTextarea) blogTextarea.placeholder=currentLang==='ar'?'اكتب ملاحظاتك وأفكارك هنا...':'Write your notes and ideas here...'; _renderSection(historyStack[historyStack.length-1], true); }
-        function _getPageTitle(section) { /* (unchanged logic) */ const langStrings=uiStrings[currentLang]; if(langStrings.page_titles[section]) return langStrings.page_titles[section]; if(section.startsWith('article-')){ const article=contentData.articles.find(a=>a.id===section); return article?article.title:'Article'; } return section.replace(/_/g,' ').replace(/\b\w/g,l=>l.toUpperCase()); }
-        function _updateActiveSidebarLink(section) { /* (unchanged logic) */ sidebarMenu.querySelectorAll('a').forEach(link=>{ const onclickAttr=link.getAttribute('onclick'); if(!onclickAttr){ link.classList.remove('active'); return; } const match=onclickAttr.match(/'([^']+)'/); let linkSection=match?match[1]:null; let isActive=linkSection===section; if(!isActive && section.startsWith('article-') && linkSection==='articles') isActive=true; link.classList.toggle('active', isActive); }); }
-        function showSection(section, isLanguageUpdate = false) { /* (unchanged logic) */ const currentSection=historyStack[historyStack.length-1]; if(!isLanguageUpdate && currentSection!==section){ if(historyStack.length > 1 && historyStack[historyStack.length-2]===section){ historyStack.pop(); } else if(currentSection!==section){ historyStack.push(section); } } else if(isLanguageUpdate && !historyStack.includes(section)){ console.warn(`Section "${section}" invalid, defaulting home.`); historyStack=['home']; section='home'; } if(window.innerWidth <= 768) sidebar.classList.remove("open"); _renderSection(section, isLanguageUpdate); }
+        function updateLanguageUI() {
+            const langStrings = uiStrings[currentLang];
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                if (langStrings[key]) el.textContent = langStrings[key];
+            });
+            const passInput = document.getElementById('password-input-field');
+            if (passInput) passInput.placeholder = "••••••••";
+            const blogTextarea = document.getElementById('blogTextarea');
+            if (blogTextarea) blogTextarea.placeholder = currentLang === 'ar' ? 'اكتب ملاحظاتك وأفكارك هنا...' : 'Write your notes and ideas here...';
+            _renderSection(historyStack[historyStack.length - 1], true);
+        }
 
-        function _renderSection(section, isLanguageUpdate = false) { // UPDATED Download Link
+        function _getPageTitle(section) {
+            const langStrings = uiStrings[currentLang];
+            if (langStrings.page_titles[section]) return langStrings.page_titles[section];
+            if (section.startsWith('article-')) {
+                const article = contentData.articles.find(a => a.id === section);
+                return article ? article.title : 'Article';
+            }
+            return section.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        function _updateActiveSidebarLink(section) {
+            sidebarMenu.querySelectorAll('a').forEach(link => {
+                const onclickAttr = link.getAttribute('onclick');
+                if (!onclickAttr) {
+                    link.classList.remove('active');
+                    return;
+                }
+                const match = onclickAttr.match(/'([^']+)'/);
+                let linkSection = match ? match[1] : null;
+                let isActive = linkSection === section;
+                if (!isActive && section.startsWith('article-') && linkSection === 'articles') isActive = true;
+                link.classList.toggle('active', isActive);
+            });
+        }
+
+        function showSection(section, isLanguageUpdate = false) {
+            const currentSection = historyStack[historyStack.length - 1];
+            if (!isLanguageUpdate && currentSection !== section) {
+                if (historyStack.length > 1 && historyStack[historyStack.length - 2] === section) {
+                    historyStack.pop();
+                } else if (currentSection !== section) {
+                    historyStack.push(section);
+                }
+            } else if (isLanguageUpdate && !historyStack.includes(section)) {
+                console.warn(`Section "${section}" invalid, defaulting home.`);
+                historyStack = ['home'];
+                section = 'home';
+            }
+            if (window.innerWidth <= 768) sidebar.classList.remove("open");
+            _renderSection(section, isLanguageUpdate);
+        }
+
+        function _renderSection(section, isLanguageUpdate = false) {
             _updateActiveSidebarLink(section);
             backButton.style.display = (historyStack.length > 1) ? "block" : "none";
             welcomeMessage.style.display = (section === 'home') ? "block" : "none";
             pageTitle.textContent = _getPageTitle(section);
-
             const fadeOutDuration = 300;
-            if (contentArea.innerHTML.trim() !== '' && !isLanguageUpdate) { contentArea.classList.add('fadeOut'); }
-            else { contentArea.innerHTML = ''; contentArea.classList.remove('fadeInUp', 'fadeOut'); }
-
+            if (contentArea.innerHTML.trim() !== '' && !isLanguageUpdate) {
+                contentArea.classList.add('fadeOut');
+            } else {
+                contentArea.innerHTML = '';
+                contentArea.classList.remove('fadeInUp', 'fadeOut');
+            }
             setTimeout(() => {
-                contentArea.innerHTML = ''; contentArea.classList.remove('fadeOut');
-                let contentHTML = ""; const langStrings = uiStrings[currentLang];
-
-                if (section.startsWith('article-')) { const article = contentData.articles.find(a => a.id === section); contentHTML = article ? `<div class="page-content-wrapper">${article.content}</div>` : `<div class="page-content-wrapper"><p>Article not found.</p></div>`; }
-                else if (contentData.videos[section] || contentData.courses[section]) {
-                    // --- FREE VIDEOS/COURSES ---
-                    const youtubeLink = (id) => `https://www.youtube.com/watch?v=${id}`; // Function for YouTube link
+                contentArea.innerHTML = '';
+                contentArea.classList.remove('fadeOut');
+                let contentHTML = "";
+                const langStrings = uiStrings[currentLang];
+                if (section.startsWith('article-')) {
+                    const article = contentData.articles.find(a => a.id === section);
+                    contentHTML = article ? `<div class="page-content-wrapper">${article.content}</div>` : `<div class="page-content-wrapper"><p>Article not found.</p></div>`;
+                } else if (contentData.videos[section] || contentData.courses[section]) {
+                    const youtubeLink = (id) => `https://www.youtube.com/watch?v=${id}`;
                     let vids = contentData.videos[section]?.map((v, i) =>
                         `<div class="video-item"><div class="video-thumbnail" onclick="playVideo(this.closest('.video-item'), '${v.id}')"><img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" loading="lazy" alt="Vid ${i+1}"><div class="play-icon">▶</div></div><div class="video-actions"><button class="video-btn watch-btn" onclick="playVideo(this.closest('.video-item'), '${v.id}')">${langStrings.watch}</button><a href="${youtubeLink(v.id)}" target="_blank" rel="noopener noreferrer" class="video-btn download-btn">${langStrings.download}</a></div></div>`
                     ).join('') || '';
@@ -595,15 +575,19 @@
                     contentHTML = `<div class="page-content-wrapper">${vids ? `<h2 class="section-title">${langStrings.videos_title} ${_getPageTitle(section)}</h2><div class="video-list">${vids}</div>` : ''}${crss ? `<h2 class="section-title">${langStrings.courses_title} ${_getPageTitle(section)}</h2><div class="video-list">${crss}</div>` : ''}</div>`;
                     if (!vids && !crss) contentHTML = `<div class="page-content-wrapper"><p>No content.</p></div>`;
                 } else {
-                    // --- OTHER SECTIONS (Home, Paid Courses, Settings, etc.) ---
                     switch (section) {
-                        case 'home': contentHTML = `<div class="articles-container">` + Object.keys(contentData.categoryImages).map((cat, i) => { const title = langStrings.page_titles[cat] || cat; const free = currentLang === 'ar' ? '(مجاناً)' : '(Free)'; const emoji = contentData.categoryIcons[cat] || ''; return `<div class="category-card" onclick="showSection('${cat}')"><img src="${contentData.categoryImages[cat]}" alt="${title}" loading="lazy"><div class="category-text-overlay"><h2><span class="category-emoji">${emoji}</span><span class="category-title">${langStrings.category_prefix} ${title}</span><span class="category-free">${free}</span></h2></div></div>`; }).join('') + `</div>`; break;
-                        
-                        // --- START: MODIFIED 'paid_courses' SECTION ---
+                        case 'home':
+                            contentHTML = `<div class="articles-container">` + Object.keys(contentData.categoryImages).map((cat, i) => {
+                                const title = langStrings.page_titles[cat] || cat;
+                                const free = currentLang === 'ar' ? '(مجاناً)' : '(Free)';
+                                const emoji = contentData.categoryIcons[cat] || '';
+                                return `<div class="category-card" onclick="showSection('${cat}')"><img src="${contentData.categoryImages[cat]}" alt="${title}" loading="lazy"><div class="category-text-overlay"><h2><span class="category-emoji">${emoji}</span><span class="category-title">${langStrings.category_prefix} ${title}</span><span class="category-free">${free}</span></h2></div></div>`;
+                            }).join('') + `</div>`;
+                            break;
                         case 'paid_courses':
                             const buyNowText = langStrings.buy_now || (currentLang === 'ar' ? 'اشترى الآن' : 'Buy Now');
-                            contentHTML = `<div class="page-content-wrapper"><div class="video-list">` + 
-                            contentData.paidCourses.map((course, i) => 
+                            contentHTML = `<div class="page-content-wrapper"><div class="video-list">` +
+                            contentData.paidCourses.map((course, i) =>
                                 `<div class="paid-course-card-new">
                                     <div class="paid-thumbnail-new">
                                         <span class="lock-icon-new">🔒</span>
@@ -616,263 +600,343 @@
                                         </button>
                                     </div>
                                 </div>`
-                            ).join('') + `</div></div>`; 
+                            ).join('') + `</div></div>`;
                             break;
-                        // --- END: MODIFIED 'paid_courses' SECTION ---
-                            
-                        // Other cases (articles, blog, settings, etc.) remain the same as previous version
-                        case 'articles': contentHTML = `<div class="page-content-wrapper"><h2 class="section-title">${langStrings.articles_title}</h2><div class="articles-container">` + contentData.articles.map((article, i) => `<div class="article-card" onclick="showSection('${article.id}')"><img src="${article.img}" alt="${article.title}" class="article-img" loading="lazy"><div class="article-content"><div><div class="article-title">${article.title}</div><div class="article-excerpt">${article.excerpt}</div></div><div class="read-more">${currentLang === 'ar' ? 'اقرأ المزيد →' : 'Read More →'}</div></div></div>`).join('') + `</div></div>`; break;
-                        case 'blog': const savedNote = localStorage.getItem('userBlogNote') || ''; contentHTML = `<div class="page-content-wrapper"><textarea class="blog-textarea" id="blogTextarea" placeholder="${currentLang === 'ar' ? 'اكتب ملاحظاتك...' : 'Write your notes...'}">${savedNote}</textarea><button class="blog-save-btn" onclick="saveBlog()">${currentLang === 'ar' ? 'حفظ' : 'Save'}</button></div>`; break;
-                        case 'settings': contentHTML = `<div class="page-content-wrapper"><div class="setting-item"><h3 data-lang-key="settings_theme_title">${langStrings.settings_theme_title}</h3><div class="theme-options"><div class="theme-option" data-theme="dark-theme" onclick="selectTheme(this)">${currentLang==='ar'?'داكن':'Dark'}</div><div class="theme-option" data-theme="light-theme" onclick="selectTheme(this)">${currentLang==='ar'?'فاتح':'Light'}</div><div class="theme-option" data-theme="pink-theme" onclick="selectTheme(this)">${currentLang==='ar'?'فوشيا':'Pink'}</div><div class="theme-option" data-theme="green-theme" onclick="selectTheme(this)">${currentLang==='ar'?'أخضر':'Green'}</div></div></div><div class="setting-item"><h3 data-lang-key="settings_lang_title">${langStrings.settings_lang_title}</h3><div class="language-options"><div class="language-option" data-lang="ar" onclick="selectLanguage(this)">العربية</div><div class="language-option" data-lang="en" onclick="selectLanguage(this)">English</div></div></div><div class="setting-item"><h3 data-lang-key="settings_font_title">${langStrings.settings_font_title}</h3><div class="font-size-options"><div class="font-size-option" data-font-size="font-small" onclick="selectFontSize(this)">${langStrings.font_small}</div><div class="font-size-option" data-font-size="font-medium" onclick="selectFontSize(this)">${langStrings.font_medium}</div><div class="font-size-option" data-font-size="font-large" onclick="selectFontSize(this)">${langStrings.font_large}</div></div></div></div>`; queueMicrotask(loadSettingsUI); break;
-                        case 'support': contentHTML = `<div class="page-content-wrapper"><div class="support-intro"><h2>${currentLang === 'ar' ? 'نحن هنا من أجلك!' : 'We Are Here For You!'}</h2><p>${currentLang === 'ar' ? 'في Mora Learning...' : 'At Mora Learning...'}</p></div><div class="contact-methods"><a href="tel:+201067941806" class="contact-link"><div class="contact-item"><svg class="contact-icon" viewBox="0 0 24 24"><path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z" fill="currentColor"></path></svg><div class="contact-text">${langStrings.support_contact} (Phone)</div></div></a><a href="https://www.instagram.com/eltopamr55?igsh=MWJ2MzJqaXBlZzRlaQ==" class="contact-link" target="_blank" rel="noopener noreferrer"><div class="contact-item"><svg class="contact-icon" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.2,5.2 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.2,5.2 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" fill="currentColor"></path></svg><div class="contact-text">${langStrings.support_contact} (Instagram)</div></div></a><a href="mailto:amrloutfy2006@gmail.com" class="contact-link"><div class="contact-item"><svg class="contact-icon" viewBox="0 0 24 24"><path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z" fill="currentColor"></path></svg><div class="contact-text">${langStrings.support_contact} (Email)</div></div></a><a href="https://wa.me/201067941806" class="contact-link" target="_blank" rel="noopener noreferrer"><div class="contact-item"><svg class="contact-icon" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.35 3.45 16.86L2.05 22L7.31 20.6C8.75 21.39 10.36 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 6.45 17.5 2 12.04 2M12.04 3.67C16.56 3.67 20.28 7.39 20.28 11.91C20.28 16.43 16.56 20.15 12.04 20.15C10.49 20.15 9 19.74 7.72 19L7.33 18.78L4.44 19.58L5.26 16.75L5.03 16.36C4.26 15 3.8 13.47 3.8 11.91C3.8 7.39 7.52 3.67 12.04 3.67M9.21 7.63C9.03 7.63 8.85 7.64 8.69 7.67C8.53 7.7 8.24 7.8 7.92 8.12C7.6 8.44 6.96 9.04 6.96 10.2C6.96 11.36 7.95 12.48 8.11 12.67C8.27 12.86 9.53 14.93 11.53 15.73C13.21 16.42 13.79 16.34 14.23 16.29C14.72 16.23 15.78 15.66 15.98 15.06C16.18 14.46 16.18 14.01 16.1 13.9C16.02 13.79 15.86 13.72 15.61 13.6C15.36 13.48 14.1 12.91 13.88 12.83C13.66 12.75 13.5 12.71 13.34 12.93C13.18 12.15 12.72 13.71 12.58 13.87C12.44 14.03 12.3 14.04 12.05 13.92C11.8 13.8 10.79 13.46 9.62 12.44C8.71 11.63 8.12 10.66 7.97 10.42C7.82 10.18 7.95 10.06 8.08 9.93C8.2 9.81 8.35 9.63 8.48 9.49C8.61 9.35 8.66 9.26 8.75 9.09C8.84 8.92 8.79 8.78 8.73 8.66C8.67 8.54 8.16 7.27 7.95 7.05C7.74 6.83 7.54 6.84 7.38 6.84C7.22 6.84 7.06 6.84 6.91 6.84H6.75L6.46 6.86C6.17 6.89 5.92 6.98 5.71 7.23C5.5 7.48 5.04 7.97 5.04 9.1C5.04 10.23 5.73 11.3 5.89 11.49C6.05 11.68 7.27 13.7 9.24 14.5C10.92 15.2 11.5 15.12 11.94 15.07C12.43 15.01 13.49 14.44 13.69 13.84C13.89 13.24 13.89 12.79 13.81 12.68C13.73 12.57 13.57 12.5 13.32 12.38C13.07 12.26 11.81 11.69 11.59 11.61C11.37 11.53 11.21 11.49 11.05 11.71C10.89 11.93 10.43 12.49 10.29 12.65C10.15 12.81 10.01 12.82 9.76 12.7C9.51 12.58 8.5 12.24 7.33 11.22C6.42 10.41 5.83 9.44 5.68 9.2C5.53 8.96 5.66 8.84 5.79 8.71C5.91 8.59 6.06 8.41 6.19 8.27C6.32 8.13 6.37 8.04 6.46 7.87C6.55 7.7 6.5 7.56 6.44 7.44C6.38 7.32 5.87 6.05 5.66 5.83C5.45 5.61 5.25 5.62 5.09 5.62Z" fill="currentColor"></path></svg><div class="contact-text">${langStrings.support_contact} (WhatsApp)</div></div></a></div></div>`; break;
-                        case 'privacy_policy': contentHTML = `<div class="page-content-wrapper"><h2 data-lang-key="privacy_title">${langStrings.privacy_title}</h2><p>${langStrings.privacy_intro}</p><h3>${langStrings.privacy_data_collection}</h3><p>${langStrings.privacy_data_collection_text}</p><h3>${langStrings.privacy_data_usage}</h3><p>${langStrings.privacy_data_usage_text}</p><h3>${langStrings.privacy_security}</h3><p>${langStrings.privacy_security_text}</p><h3>${langStrings.privacy_third_party}</h3><p>${langStrings.privacy_third_party_text}</p><h3>${langStrings.privacy_changes}</h3><p>${langStrings.privacy_changes_text}</p><h3>${langStrings.privacy_contact}</h3><p>${langStrings.privacy_contact_text}</p><p style="color:var(--text-muted);font-style:italic;margin-top:1.5rem;">${langStrings.privacy_dev_note}</p></div>`; break;
-                        case 'app_info': contentHTML = `<div class="page-content-wrapper" style="display:flex;flex-direction:column;align-items:center;"><img src="https://i.postimg.cc/Nf0Sr2zg/file-00000000d52862468b52a49178cf0009.png" alt="Mora Learning Logo" class="app-info-logo"><h2 data-lang-key="app_info_title">${langStrings.app_info_title}</h2><h3 data-lang-key="app_info_subtitle" style="color:var(--text-muted);font-weight:normal;margin-bottom:1.5rem;text-align:center;">${langStrings.app_info_subtitle}</h3><p data-lang-key="app_info_p1">${langStrings.app_info_p1}</p><p data-lang-key="app_info_p2">${langStrings.app_info_p2}</p><div class="app-info-details"><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_dev">${langStrings.app_info_dev}</span><span class="info-value developer">Amr Lotfy</span></div><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_version">${langStrings.app_info_version}</span><span class="info-value">2025.1.1</span></div><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_build">${langStrings.app_info_build}</span><span class="info-value">ML-20251018-2000</span></div><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_env">${langStrings.app_info_env}</span><span class="info-value" style="color:var(--success-color);">${langStrings.app_info_env_val}</span></div></div></div>`; break;
-                        case 'profit_calculator': contentHTML = `<div class="profit-calculator-container"><div class="calculator-header"><h2 data-lang-key="calculator_header_title">${langStrings.calculator_header_title}</h2><p data-lang-key="calculator_header_subtitle">${langStrings.calculator_header_subtitle}</p></div><div class="calculator-form-grid"><div class="form-group"><input type="number" id="revenue" placeholder=" " autocomplete="off"><label for="revenue" data-lang-key="calculator_revenue">${langStrings.calculator_revenue}</label></div><div class="form-group"><input type="number" id="cogs" placeholder=" " autocomplete="off"><label for="cogs" data-lang-key="calculator_cogs">${langStrings.calculator_cogs}</label></div><div class="form-group"><input type="number" id="marketing" placeholder=" " autocomplete="off"><label for="marketing" data-lang-key="calculator_marketing">${langStrings.calculator_marketing}</label></div><div class="form-group"><input type="number" id="shipping" placeholder=" " autocomplete="off"><label for="shipping" data-lang-key="calculator_shipping">${langStrings.calculator_shipping}</label></div><div class="form-group"><input type="number" id="otherCosts" placeholder=" " autocomplete="off"><label for="otherCosts" data-lang-key="calculator_other">${langStrings.calculator_other}</label></div></div><div class="calculator-actions"><button class="calculate-btn" onclick="calculateProfit()" data-lang-key="calculator_calculate_btn">${langStrings.calculator_calculate_btn}</button></div><div class="calculator-results-container" id="results-container"><h3 style="text-align:center;margin-bottom:1.5rem;color:var(--primary-color);">${langStrings.calculator_results_title}</h3><div class="results-grid" id="results-content"></div></div></div>`; break;
-                        default: contentHTML = `<div class="page-content-wrapper"><p>Content loading or section not found.</p></div>`;
+                        case 'articles':
+                            contentHTML = `<div class="page-content-wrapper"><h2 class="section-title">${langStrings.articles_title}</h2><div class="articles-container">` + contentData.articles.map((article, i) =>
+                                `<div class="article-card" onclick="showSection('${article.id}')"><img src="${article.img}" alt="${article.title}" class="article-img" loading="lazy"><div class="article-content"><div><div class="article-title">${article.title}</div><div class="article-excerpt">${article.excerpt}</div></div><div class="read-more">${currentLang === 'ar' ? 'اقرأ المزيد →' : 'Read More →'}</div></div></div>`
+                            ).join('') + `</div></div>`;
+                            break;
+                        case 'blog':
+                            const savedNote = localStorage.getItem('userBlogNote') || '';
+                            contentHTML = `<div class="page-content-wrapper"><textarea class="blog-textarea" id="blogTextarea" placeholder="${currentLang === 'ar' ? 'اكتب ملاحظاتك...' : 'Write your notes...'}">${savedNote}</textarea><button class="blog-save-btn" onclick="saveBlog()">${currentLang === 'ar' ? 'حفظ' : 'Save'}</button></div>`;
+                            break;
+                        case 'settings':
+                            contentHTML = `<div class="page-content-wrapper"><div class="setting-item"><h3 data-lang-key="settings_theme_title">${langStrings.settings_theme_title}</h3><div class="theme-options"><div class="theme-option" data-theme="dark-theme" onclick="selectTheme(this)">${currentLang==='ar'?'داكن':'Dark'}</div><div class="theme-option" data-theme="light-theme" onclick="selectTheme(this)">${currentLang==='ar'?'فاتح':'Light'}</div><div class="theme-option" data-theme="pink-theme" onclick="selectTheme(this)">${currentLang==='ar'?'فوشيا':'Pink'}</div><div class="theme-option" data-theme="green-theme" onclick="selectTheme(this)">${currentLang==='ar'?'أخضر':'Green'}</div></div></div><div class="setting-item"><h3 data-lang-key="settings_lang_title">${langStrings.settings_lang_title}</h3><div class="language-options"><div class="language-option" data-lang="ar" onclick="selectLanguage(this)">العربية</div><div class="language-option" data-lang="en" onclick="selectLanguage(this)">English</div></div></div><div class="setting-item"><h3 data-lang-key="settings_font_title">${langStrings.settings_font_title}</h3><div class="font-size-options"><div class="font-size-option" data-font-size="font-small" onclick="selectFontSize(this)">${langStrings.font_small}</div><div class="font-size-option" data-font-size="font-medium" onclick="selectFontSize(this)">${langStrings.font_medium}</div><div class="font-size-option" data-font-size="font-large" onclick="selectFontSize(this)">${langStrings.font_large}</div></div></div></div>`;
+                            queueMicrotask(loadSettingsUI);
+                            break;
+                        case 'support':
+                            contentHTML = `<div class="page-content-wrapper"><div class="support-intro"><h2>${currentLang === 'ar' ? 'نحن هنا من أجلك!' : 'We Are Here For You!'}</h2><p>${currentLang === 'ar' ? 'في Mora Learning...' : 'At Mora Learning...'}</p></div><div class="contact-methods"><a href="tel:+201067941806" class="contact-link"><div class="contact-item"><svg class="contact-icon" viewBox="0 0 24 24"><path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z" fill="currentColor"></path></svg><div class="contact-text">${langStrings.support_contact} (Phone)</div></div></a><a href="https://www.instagram.com/eltopamr55?igsh=MWJ2MzJqaXBlZzRlaQ==" class="contact-link" target="_blank" rel="noopener noreferrer"><div class="contact-item"><svg class="contact-icon" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.2,5.2 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.2,5.2 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" fill="currentColor"></path></svg><div class="contact-text">${langStrings.support_contact} (Instagram)</div></div></a><a href="mailto:amrloutfy2006@gmail.com" class="contact-link"><div class="contact-item"><svg class="contact-icon" viewBox="0 0 24 24"><path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z" fill="currentColor"></path></svg><div class="contact-text">${langStrings.support_contact} (Email)</div></div></a><a href="https://wa.me/201067941806" class="contact-link" target="_blank" rel="noopener noreferrer"><div class="contact-item"><svg class="contact-icon" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.35 3.45 16.86L2.05 22L7.31 20.6C8.75 21.39 10.36 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 6.45 17.5 2 12.04 2M12.04 3.67C16.56 3.67 20.28 7.39 20.28 11.91C20.28 16.43 16.56 20.15 12.04 20.15C10.49 20.15 9 19.74 7.72 19L7.33 18.78L4.44 19.58L5.26 16.75L5.03 16.36C4.26 15 3.8 13.47 3.8 11.91C3.8 7.39 7.52 3.67 12.04 3.67M9.21 7.63C9.03 7.63 8.85 7.64 8.69 7.67C8.53 7.7 8.24 7.8 7.92 8.12C7.6 8.44 6.96 9.04 6.96 10.2C6.96 11.36 7.95 12.48 8.11 12.67C8.27 12.86 9.53 14.93 11.53 15.73C13.21 16.42 13.79 16.34 14.23 16.29C14.72 16.23 15.78 15.66 15.98 15.06C16.18 14.46 16.18 14.01 16.1 13.9C16.02 13.79 15.86 13.72 15.61 13.6C15.36 13.48 14.1 12.91 13.88 12.83C13.66 12.75 13.5 12.71 13.34 12.93C13.18 12.15 12.72 13.71 12.58 13.87C12.44 14.03 12.3 14.04 12.05 13.92C11.8 13.8 10.79 13.46 9.62 12.44C8.71 11.63 8.12 10.66 7.97 10.42C7.82 10.18 7.95 10.06 8.08 9.93C8.2 9.81 8.35 9.63 8.48 9.49C8.61 9.35 8.66 9.26 8.75 9.09C8.84 8.92 8.79 8.78 8.73 8.66C8.67 8.54 8.16 7.27 7.95 7.05C7.74 6.83 7.54 6.84 7.38 6.84C7.22 6.84 7.06 6.84 6.91 6.84H6.75L6.46 6.86C6.17 6.89 5.92 6.98 5.71 7.23C5.5 7.48 5.04 7.97 5.04 9.1C5.04 10.23 5.73 11.3 5.89 11.49C6.05 11.68 7.27 13.7 9.24 14.5C10.92 15.2 11.5 15.12 11.94 15.07C12.43 15.01 13.49 14.44 13.69 13.84C13.89 13.24 13.89 12.79 13.81 12.68C13.73 12.57 13.57 12.5 13.32 12.38C13.07 12.26 11.81 11.69 11.59 11.61C11.37 11.53 11.21 11.49 11.05 11.71C10.89 11.93 10.43 12.49 10.29 12.65C10.15 12.81 10.01 12.82 9.76 12.7C9.51 12.58 8.5 12.24 7.33 11.22C6.42 10.41 5.83 9.44 5.68 9.2C5.53 8.96 5.66 8.84 5.79 8.71C5.91 8.59 6.06 8.41 6.19 8.27C6.32 8.13 6.37 8.04 6.46 7.87C6.55 7.7 6.5 7.56 6.44 7.44C6.38 7.32 5.87 6.05 5.66 5.83C5.45 5.61 5.25 5.62 5.09 5.62Z" fill="currentColor"></path></svg><div class="contact-text">${langStrings.support_contact} (WhatsApp)</div></div></a></div></div>`;
+                            break;
+                        case 'privacy_policy':
+                            contentHTML = `<div class="page-content-wrapper"><h2 data-lang-key="privacy_title">${langStrings.privacy_title}</h2><p>${langStrings.privacy_intro}</p><h3>${langStrings.privacy_data_collection}</h3><p>${langStrings.privacy_data_collection_text}</p><h3>${langStrings.privacy_data_usage}</h3><p>${langStrings.privacy_data_usage_text}</p><h3>${langStrings.privacy_security}</h3><p>${langStrings.privacy_security_text}</p><h3>${langStrings.privacy_third_party}</h3><p>${langStrings.privacy_third_party_text}</p><h3>${langStrings.privacy_changes}</h3><p>${langStrings.privacy_changes_text}</p><h3>${langStrings.privacy_contact}</h3><p>${langStrings.privacy_contact_text}</p><p style="color:var(--text-muted);font-style:italic;margin-top:1.5rem;">${langStrings.privacy_dev_note}</p></div>`;
+                            break;
+                        case 'app_info':
+                            contentHTML = `<div class="page-content-wrapper" style="display:flex;flex-direction:column;align-items:center;"><img src="https://i.postimg.cc/Nf0Sr2zg/file-00000000d52862468b52a49178cf0009.png" alt="Mora Learning Logo" class="app-info-logo"><h2 data-lang-key="app_info_title">${langStrings.app_info_title}</h2><h3 data-lang-key="app_info_subtitle" style="color:var(--text-muted);font-weight:normal;margin-bottom:1.5rem;text-align:center;">${langStrings.app_info_subtitle}</h3><p data-lang-key="app_info_p1">${langStrings.app_info_p1}</p><p data-lang-key="app_info_p2">${langStrings.app_info_p2}</p><div class="app-info-details"><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_dev">${langStrings.app_info_dev}</span><span class="info-value developer">Amr Lotfy</span></div><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_version">${langStrings.app_info_version}</span><span class="info-value">2025.1.1</span></div><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_build">${langStrings.app_info_build}</span><span class="info-value">ML-20251018-2000</span></div><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_env">${langStrings.app_info_env}</span><span class="info-value" style="color:var(--success-color);">${langStrings.app_info_env_val}</span></div></div></div>`;
+                            break;
+                        case 'profit_calculator':
+                            contentHTML = `<div class="profit-calculator-container"><div class="calculator-header"><h2 data-lang-key="calculator_header_title">${langStrings.calculator_header_title}</h2><p data-lang-key="calculator_header_subtitle">${langStrings.calculator_header_subtitle}</p></div><div class="calculator-form-grid"><div class="form-group"><input type="number" id="revenue" placeholder=" " autocomplete="off"><label for="revenue" data-lang-key="calculator_revenue">${langStrings.calculator_revenue}</label></div><div class="form-group"><input type="number" id="cogs" placeholder=" " autocomplete="off"><label for="cogs" data-lang-key="calculator_cogs">${langStrings.calculator_cogs}</label></div><div class="form-group"><input type="number" id="marketing" placeholder=" " autocomplete="off"><label for="marketing" data-lang-key="calculator_marketing">${langStrings.calculator_marketing}</label></div><div class="form-group"><input type="number" id="shipping" placeholder=" " autocomplete="off"><label for="shipping" data-lang-key="calculator_shipping">${langStrings.calculator_shipping}</label></div><div class="form-group"><input type="number" id="otherCosts" placeholder=" " autocomplete="off"><label for="otherCosts" data-lang-key="calculator_other">${langStrings.calculator_other}</label></div></div><div class="calculator-actions"><button class="calculate-btn" onclick="calculateProfit()" data-lang-key="calculator_calculate_btn">${langStrings.calculator_calculate_btn}</button></div><div class="calculator-results-container" id="results-container"><h3 style="text-align:center;margin-bottom:1.5rem;color:var(--primary-color);">${langStrings.calculator_results_title}</h3><div class="results-grid" id="results-content"></div></div></div>`;
+                            break;
+                        default:
+                            contentHTML = `<div class="page-content-wrapper"><p>Content loading or section not found.</p></div>`;
                     }
                 }
                 contentArea.innerHTML = contentHTML;
-                 const animatedElements = contentArea.querySelectorAll('.page-content-wrapper > *, .articles-container > *, .video-list > *');
-                  animatedElements.forEach((el, index) => { el.classList.remove('animated', 'fadeInUp', 'fadeOut'); void el.offsetWidth; el.classList.add('animated', 'fadeInUp'); el.style.animationDelay = `${0.1 + index * 0.05}s`; });
+                const animatedElements = contentArea.querySelectorAll('.page-content-wrapper > *, .articles-container > *, .video-list > *');
+                animatedElements.forEach((el, index) => {
+                    el.classList.remove('animated', 'fadeInUp', 'fadeOut');
+                    void el.offsetWidth;
+                    el.classList.add('animated', 'fadeInUp');
+                    el.style.animationDelay = `${0.1 + index * 0.05}s`;
+                });
             }, isLanguageUpdate ? 0 : fadeOutDuration);
         }
 
-        // --- Event Handlers & Utility Functions ---
-        function calculateProfit() { const langStrings = uiStrings[currentLang]; const getVal = (id) => parseFloat(document.getElementById(id)?.value) || 0; const revenue = getVal('revenue'), cogs = getVal('cogs'), marketing = getVal('marketing'), shipping = getVal('shipping'), otherCosts = getVal('otherCosts'); const totalCosts = cogs + marketing + shipping + otherCosts; const netProfit = revenue - totalCosts; const profitMargin = revenue !== 0 ? (netProfit / revenue) * 100 : 0; const resultsContainer = document.getElementById('results-container'); const resultsContent = document.getElementById('results-content'); if (!resultsContainer || !resultsContent) return; const profitClass = netProfit >= 0 ? 'profit' : 'loss'; resultsContent.innerHTML = ''; const resultsData = [ { labelKey: 'calculator_total_costs', value: totalCosts.toFixed(2), class: '' }, { labelKey: 'calculator_net_profit', value: netProfit.toFixed(2), class: profitClass }, { labelKey: 'calculator_profit_margin', value: `${profitMargin.toFixed(1)}%`, class: profitClass } ]; resultsData.forEach((result, index) => { const card = document.createElement('div'); card.className = `result-card ${result.class} animated fadeInUp`; card.style.animationDelay = `${0.1 + index * 0.1}s`; card.innerHTML = `<span class="result-item-label" data-lang-key="${result.labelKey}">${langStrings[result.labelKey] || result.labelKey}</span><span class="result-item-value">${result.value}</span>`; resultsContent.appendChild(card); }); resultsContainer.style.display = 'block'; resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
-        function saveBlog() { const blogTextarea = document.getElementById('blogTextarea'); if (!blogTextarea) return; const text = blogTextarea.value; try { localStorage.setItem('userBlogNote', text); alert(currentLang === 'ar' ? 'تم الحفظ!' : 'Saved!'); } catch (e) { console.error("Error saving note:", e); alert('Error saving.'); } }
-        function playVideo(element, videoId) { const existingIframe = element.querySelector('iframe'); if (existingIframe && existingIframe.src.includes(videoId)) return; element.style.padding = '0'; element.style.backgroundColor = '#000'; element.style.boxShadow = 'none'; element.onclick = null; element.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"></iframe>`; element.classList.remove('animated', 'fadeInUp'); element.style.animationDelay = ''; element.style.transform = ''; }
+        function calculateProfit() {
+            const langStrings = uiStrings[currentLang];
+            const getVal = (id) => parseFloat(document.getElementById(id)?.value) || 0;
+            const revenue = getVal('revenue'), cogs = getVal('cogs'), marketing = getVal('marketing'), shipping = getVal('shipping'), otherCosts = getVal('otherCosts');
+            const totalCosts = cogs + marketing + shipping + otherCosts;
+            const netProfit = revenue - totalCosts;
+            const profitMargin = revenue !== 0 ? (netProfit / revenue) * 100 : 0;
+            const resultsContainer = document.getElementById('results-container');
+            const resultsContent = document.getElementById('results-content');
+            if (!resultsContainer || !resultsContent) return;
+            const profitClass = netProfit >= 0 ? 'profit' : 'loss';
+            resultsContent.innerHTML = '';
+            const resultsData = [
+                { labelKey: 'calculator_total_costs', value: totalCosts.toFixed(2), class: '' },
+                { labelKey: 'calculator_net_profit', value: netProfit.toFixed(2), class: profitClass },
+                { labelKey: 'calculator_profit_margin', value: `${profitMargin.toFixed(1)}%`, class: profitClass }
+            ];
+            resultsData.forEach((result, index) => {
+                const card = document.createElement('div');
+                card.className = `result-card ${result.class} animated fadeInUp`;
+                card.style.animationDelay = `${0.1 + index * 0.1}s`;
+                card.innerHTML = `<span class="result-item-label" data-lang-key="${result.labelKey}">${langStrings[result.labelKey] || result.labelKey}</span><span class="result-item-value">${result.value}</span>`;
+                resultsContent.appendChild(card);
+            });
+            resultsContainer.style.display = 'block';
+            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
 
-        // --- PAID COURSE FUNCTIONS (NEW & UPDATED) ---
+        function saveBlog() {
+            const blogTextarea = document.getElementById('blogTextarea');
+            if (!blogTextarea) return;
+            const text = blogTextarea.value;
+            try {
+                localStorage.setItem('userBlogNote', text);
+                alert(currentLang === 'ar' ? 'تم الحفظ!' : 'Saved!');
+            } catch (e) {
+                console.error("Error saving note:", e);
+                alert('Error saving.');
+            }
+        }
 
-        // NEW function to show the modal from Screenshot 1
+        function playVideo(element, videoId) {
+            const existingIframe = element.querySelector('iframe');
+            if (existingIframe && existingIframe.src.includes(videoId)) return;
+            element.style.padding = '0';
+            element.style.backgroundColor = '#000';
+            element.style.boxShadow = 'none';
+            element.onclick = null;
+            element.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"></iframe>`;
+            element.classList.remove('animated', 'fadeInUp');
+            element.style.animationDelay = '';
+            element.style.transform = '';
+        }
+
         function showPurchaseModal(buttonElement, courseId, encodedCourseTitle) {
             const courseTitle = unescape(encodedCourseTitle);
             const modal = document.getElementById('purchase-modal');
             const titleElement = document.getElementById('purchase-modal-title');
             const enterPassBtn = document.getElementById('purchase-modal-enter-pass-btn');
-
             if (!modal || !titleElement || !enterPassBtn) {
                 console.error('Purchase modal elements not found.');
                 return;
             }
-
-            // Set the dynamic title
             let titleText = currentLang === 'ar' ? 'خطوة أخيرة! - ' : 'Final Step! - ';
             titleElement.textContent = titleText + courseTitle;
-
-            // Find the parent card element that needs to be replaced on unlock
             const cardElement = buttonElement.closest('.paid-course-card-new');
             if (!cardElement) {
                 console.error('Could not find parent card element.');
                 return;
             }
-
-            // Set the click handler for the "Enter Password" button INSIDE the modal
             enterPassBtn.onclick = function() {
                 closePurchaseModal();
-                // Call the ORIGINAL password prompt, passing the CARD ELEMENT and COURSE ID
                 showPasswordPrompt(cardElement, courseId);
             };
-
             modal.style.display = 'flex';
         }
 
-        // NEW function to close the purchase modal
         function closePurchaseModal() {
             const modal = document.getElementById('purchase-modal');
             if (modal) modal.style.display = 'none';
-            
-            // Clear the onclick to prevent memory leaks or old data
             const enterPassBtn = document.getElementById('purchase-modal-enter-pass-btn');
             if(enterPassBtn) enterPassBtn.onclick = null;
         }
 
-        // ORIGINAL function, now called by the new purchase modal
         function showPasswordPrompt(cardElement, videoId) {
             const langStrings = uiStrings[currentLang];
             const course = contentData.paidCourses.find(c => c.id === videoId);
-            if (!course || !Array.isArray(course.passwords)) { 
-                console.error('Course/pw invalid:', videoId); 
-                alert('Error: Course data missing.'); 
-                return; 
+            if (!course || !Array.isArray(course.passwords)) {
+                console.error('Course/pw invalid:', videoId);
+                alert('Error: Course data missing.');
+                return;
             }
-            if (!cardElement) { 
-                console.error('Parent element missing for password prompt.'); 
-                alert('Error: UI ref lost.'); 
-                return; 
+            if (!cardElement) {
+                console.error('Parent element missing for password prompt.');
+                alert('Error: UI ref lost.');
+                return;
             }
-            
-            // Store the data needed by submitPassword()
             currentCourseUnlockData = { id: videoId, passwords: course.passwords, element: cardElement };
-            
             const modal = document.getElementById('password-modal');
             const inputField = document.getElementById('password-input-field');
-            if (!modal || !inputField) { 
-                console.error('Password modal missing.'); 
-                alert('Error display prompt.'); 
-                return; 
+            if (!modal || !inputField) {
+                console.error('Password modal missing.');
+                alert('Error display prompt.');
+                return;
             }
-            
-            document.getElementById('password-modal-title').textContent = langStrings.enter_password_prompt_title; 
+            document.getElementById('password-modal-title').textContent = langStrings.enter_password_prompt_title;
             document.getElementById('password-modal-subtitle').textContent = langStrings.enter_password_prompt_subtitle;
-            inputField.value = ''; 
-            modal.style.display = 'flex'; 
-            setTimeout(() => inputField.focus(), 50); 
+            inputField.value = '';
+            modal.style.display = 'flex';
+            setTimeout(() => inputField.focus(), 50);
         }
 
-        // ORIGINAL function, UNCHANGED
-        function closePasswordModal() { 
-            const modal = document.getElementById('password-modal'); 
-            if (modal) modal.style.display = 'none'; 
-            currentCourseUnlockData = { id: null, passwords: [], element: null }; 
-            const inputField = document.getElementById('password-input-field'); 
-            if (inputField) inputField.value = ''; 
-        }
-        
-        // ORIGINAL function, UNCHANGED
-        function submitPassword() { 
-            const langStrings = uiStrings[currentLang]; 
-            const inputField = document.getElementById('password-input-field'); 
-            if (!inputField) return; 
-            const inputPassword = inputField.value.trim(); 
-            const { id, passwords, element } = currentCourseUnlockData; 
-            if (!inputPassword) return; 
-            if (!id || !passwords || !element) { 
-                console.error('Submit invalid data state.'); 
-                alert('Error. Try again.'); 
-                closePasswordModal(); 
-                return; 
-            } 
-            const storageKey = `usedPasswords_${id}`; 
-            let usedPasswords = []; 
-            try { 
-                const stored = localStorage.getItem(storageKey); 
-                usedPasswords = stored ? JSON.parse(stored) : []; 
-                if (!Array.isArray(usedPasswords)) usedPasswords = []; 
-            } catch (e) { console.error(`Error read ${storageKey}:`, e); } 
-            
-            const isValid = passwords.includes(inputPassword); 
-            const isUsed = usedPasswords.includes(inputPassword); 
-            
-            const modalContent = document.querySelector('#password-modal .payment-modal-content'); 
-            if (modalContent) modalContent.style.animation = 'none'; 
-            void modalContent?.offsetWidth; 
-            
-            if (isValid && !isUsed) { 
-                alert(langStrings.course_unlocked); 
-                usedPasswords.push(inputPassword); 
-                try { localStorage.setItem(storageKey, JSON.stringify(usedPasswords)); } 
-                catch (e) { console.error(`Error save ${storageKey}:`, e); alert('Note: Could not save password status.'); } 
-                closePasswordModal(); 
-                unlockCourse(element, id); 
-            } else { 
-                const message = isValid && isUsed ? langStrings.password_expired : langStrings.wrong_password; 
-                alert(message); 
-                if (modalContent) modalContent.style.animation = 'shake 0.5s'; 
-                inputField.select(); 
-                inputField.focus(); 
-            } 
-        }
-        
-        // ORIGINAL function, logic UNCHANGED (it replaces the 'itemElement' passed to it)
-        function unlockCourse(itemElement, videoId) { 
-             if (!itemElement) { console.error('Cannot unlock, element null for ID:', videoId); return; }
-             const langStrings = uiStrings[currentLang];
-             const youtubeLink = `https://www.youtube.com/watch?v=${videoId}`; // YouTube link
-             itemElement.innerHTML = `
-                 <div class="video-player-unlocked">
-                     <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3"
-                             frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                             allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"></iframe>
-                 </div>
-                 <div class="video-actions">
-                      <a href="${youtubeLink}" target="_blank" rel="noopener noreferrer" class="video-btn download-btn" style="flex: none; width: calc(100% - 20px); margin: 10px auto;">
-                           ${langStrings.download} </a>
-                 </div>`;
-           itemElement.style.padding = '0'; 
-           itemElement.style.backgroundColor = '#000'; 
-           itemElement.style.border = 'none';
-           itemElement.classList.remove('animated', 'fadeInUp'); 
-           itemElement.style.animationDelay = '';
+        function closePasswordModal() {
+            const modal = document.getElementById('password-modal');
+            if (modal) modal.style.display = 'none';
+            currentCourseUnlockData = { id: null, passwords: [], element: null };
+            const inputField = document.getElementById('password-input-field');
+            if (inputField) inputField.value = '';
         }
 
-        // --- Settings Functions ---
-        function selectLanguage(element) { const lang = element.getAttribute('data-lang'); if (lang && lang !== currentLang) { localStorage.setItem('selectedLanguage', lang); currentLang = lang; updateLanguageUI(); } document.querySelectorAll('.language-option').forEach(el => el.classList.remove('selected')); element.classList.add('selected'); }
-        function selectTheme(element) { const theme = element.getAttribute('data-theme'); if (theme) { localStorage.setItem('selectedTheme', theme); const currentFontSize = localStorage.getItem('selectedFontSize') || 'font-medium'; bodyEl.className = `${theme} ${currentFontSize}`; document.querySelectorAll('.theme-option').forEach(el => el.classList.remove('selected')); element.classList.add('selected'); } }
-        function selectFontSize(element) { const fontSize = element.getAttribute('data-font-size'); if (fontSize) { localStorage.setItem('selectedFontSize', fontSize); const currentTheme = localStorage.getItem('selectedTheme') || 'dark-theme'; bodyEl.className = `${currentTheme} ${fontSize}`; let baseSize = '16px'; if (fontSize === 'font-small') baseSize = '14px'; else if (fontSize === 'font-large') baseSize = '18px'; document.documentElement.style.setProperty('--font-size-base', baseSize); document.querySelectorAll('.font-size-option').forEach(el => el.classList.remove('selected')); element.classList.add('selected'); } }
-        function loadSettingsUI() { const savedTheme = localStorage.getItem('selectedTheme') || 'dark-theme'; document.querySelectorAll('.theme-option').forEach(el => el.classList.toggle('selected', el.getAttribute('data-theme') === savedTheme)); const savedLang = localStorage.getItem('selectedLanguage') || 'ar'; document.querySelectorAll('.language-option').forEach(el => el.classList.toggle('selected', el.getAttribute('data-lang') === savedLang)); const savedFontSize = localStorage.getItem('selectedFontSize') || 'font-medium'; document.querySelectorAll('.font-size-option').forEach(el => el.classList.toggle('selected', el.getAttribute('data-font-size') === savedFontSize)); let baseSize = '16px'; if (savedFontSize === 'font-small') baseSize = '14px'; else if (savedFontSize === 'font-large') baseSize = '18px'; document.documentElement.style.setProperty('--font-size-base', baseSize); }
-
-        // --- Navigation ---
-        function goBack() { if (historyStack.length > 1) { historyStack.pop(); _renderSection(historyStack[historyStack.length - 1]); } }
-        function toggleSidebar() { sidebar.classList.toggle("open"); }
-
-        // --- Initialization ---
-        window.onload = function() { 
-            // --- NEW ANDROID CHECK ---
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            if (/android/i.test(userAgent)) {
-                // Force a base theme for the blocker
-                document.body.className = 'dark-theme font-medium';
-                // Hide the real content
-                const sidebarEl = document.getElementById('sidebar');
-                const mainContentEl = document.getElementById('main-content');
-                if (sidebarEl) sidebarEl.style.display = 'none';
-                if (mainContentEl) mainContentEl.style.display = 'none';
-                
-                // Show the blocker
-                const blockerEl = document.getElementById('android-blocker');
-                if (blockerEl) blockerEl.style.display = 'flex';
-                
-                return; // Stop the rest of the app from loading
+        function submitPassword() {
+            const langStrings = uiStrings[currentLang];
+            const inputField = document.getElementById('password-input-field');
+            if (!inputField) return;
+            const inputPassword = inputField.value.trim();
+            const { id, passwords, element } = currentCourseUnlockData;
+            if (!inputPassword) return;
+            if (!id || !passwords || !element) {
+                console.error('Submit invalid data state.');
+                alert('Error. Try again.');
+                closePasswordModal();
+                return;
             }
-            // --- END NEW ANDROID CHECK ---
+            const storageKey = `usedPasswords_${id}`;
+            let usedPasswords = [];
+            try {
+                const stored = localStorage.getItem(storageKey);
+                usedPasswords = stored ? JSON.parse(stored) : [];
+                if (!Array.isArray(usedPasswords)) usedPasswords = [];
+            } catch (e) { console.error(`Error read ${storageKey}:`, e); }
+            const isValid = passwords.includes(inputPassword);
+            const isUsed = usedPasswords.includes(inputPassword);
+            const modalContent = document.querySelector('#password-modal .payment-modal-content');
+            if (modalContent) modalContent.style.animation = 'none';
+            void modalContent?.offsetWidth;
+            if (isValid && !isUsed) {
+                alert(langStrings.course_unlocked);
+                usedPasswords.push(inputPassword);
+                try { localStorage.setItem(storageKey, JSON.stringify(usedPasswords)); }
+                catch (e) { console.error(`Error save ${storageKey}:`, e); alert('Note: Could not save password status.'); }
+                closePasswordModal();
+                unlockCourse(element, id);
+            } else {
+                const message = isValid && isUsed ? langStrings.password_expired : langStrings.wrong_password;
+                alert(message);
+                if (modalContent) modalContent.style.animation = 'shake 0.5s';
+                inputField.select();
+                inputField.focus();
+            }
+        }
 
-            const savedTheme = localStorage.getItem('selectedTheme') || 'dark-theme'; 
-            const savedFontSize = localStorage.getItem('selectedFontSize') || 'font-medium'; 
-            bodyEl.className = `${savedTheme} ${savedFontSize}`; 
-            let baseSize = '16px'; 
-            if (savedFontSize === 'font-small') baseSize = '14px'; 
-            else if (savedFontSize === 'font-large') baseSize = '18px'; 
-            document.documentElement.style.setProperty('--font-size-base', baseSize); 
-            currentLang = localStorage.getItem('selectedLanguage') || 'ar'; 
-            historyStack = ['home']; 
-            updateLanguageUI(); 
+        function unlockCourse(itemElement, videoId) {
+            if (!itemElement) {
+                console.error('Cannot unlock, element null for ID:', videoId);
+                return;
+            }
+            const langStrings = uiStrings[currentLang];
+            const youtubeLink = `https://www.youtube.com/watch?v=${videoId}`;
+            itemElement.innerHTML = `
+                <div class="video-player-unlocked">
+                    <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3"
+                            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"></iframe>
+                </div>
+                <div class="video-actions">
+                     <a href="${youtubeLink}" target="_blank" rel="noopener noreferrer" class="video-btn download-btn" style="flex: none; width: calc(100% - 20px); margin: 10px auto;">
+                          ${langStrings.download} </a>
+                </div>`;
+            itemElement.style.padding = '0';
+            itemElement.style.backgroundColor = '#000';
+            itemElement.style.border = 'none';
+            itemElement.classList.remove('animated', 'fadeInUp');
+            itemElement.style.animationDelay = '';
+        }
+
+        function selectLanguage(element) {
+            const lang = element.getAttribute('data-lang');
+            if (lang && lang !== currentLang) {
+                localStorage.setItem('selectedLanguage', lang);
+                currentLang = lang;
+                updateLanguageUI();
+            }
+            document.querySelectorAll('.language-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function selectTheme(element) {
+            const theme = element.getAttribute('data-theme');
+            if (theme) {
+                localStorage.setItem('selectedTheme', theme);
+                const currentFontSize = localStorage.getItem('selectedFontSize') || 'font-medium';
+                bodyEl.className = `${theme} ${currentFontSize}`;
+                document.querySelectorAll('.theme-option').forEach(el => el.classList.remove('selected'));
+                element.classList.add('selected');
+            }
+        }
+
+        function selectFontSize(element) {
+            const fontSize = element.getAttribute('data-font-size');
+            if (fontSize) {
+                localStorage.setItem('selectedFontSize', fontSize);
+                const currentTheme = localStorage.getItem('selectedTheme') || 'dark-theme';
+                bodyEl.className = `${currentTheme} ${fontSize}`;
+                let baseSize = '16px';
+                if (fontSize === 'font-small') baseSize = '14px';
+                else if (fontSize === 'font-large') baseSize = '18px';
+                document.documentElement.style.setProperty('--font-size-base', baseSize);
+                document.querySelectorAll('.font-size-option').forEach(el => el.classList.remove('selected'));
+                element.classList.add('selected');
+            }
+        }
+
+        function loadSettingsUI() {
+            const savedTheme = localStorage.getItem('selectedTheme') || 'dark-theme';
+            document.querySelectorAll('.theme-option').forEach(el => el.classList.toggle('selected', el.getAttribute('data-theme') === savedTheme));
+            const savedLang = localStorage.getItem('selectedLanguage') || 'ar';
+            document.querySelectorAll('.language-option').forEach(el => el.classList.toggle('selected', el.getAttribute('data-lang') === savedLang));
+            const savedFontSize = localStorage.getItem('selectedFontSize') || 'font-medium';
+            document.querySelectorAll('.font-size-option').forEach(el => el.classList.toggle('selected', el.getAttribute('data-font-size') === savedFontSize));
+            let baseSize = '16px';
+            if (savedFontSize === 'font-small') baseSize = '14px';
+            else if (savedFontSize === 'font-large') baseSize = '18px';
+            document.documentElement.style.setProperty('--font-size-base', baseSize);
+        }
+
+        function goBack() {
+            if (historyStack.length > 1) {
+                historyStack.pop();
+                _renderSection(historyStack[historyStack.length - 1]);
+            }
+        }
+
+        function toggleSidebar() {
+            sidebar.classList.toggle("open");
+        }
+
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('selectedTheme') || 'dark-theme';
+            const savedFontSize = localStorage.getItem('selectedFontSize') || 'font-medium';
+            bodyEl.className = `${savedTheme} ${savedFontSize}`;
+            let baseSize = '16px';
+            if (savedFontSize === 'font-small') baseSize = '14px';
+            else if (savedFontSize === 'font-large') baseSize = '18px';
+            document.documentElement.style.setProperty('--font-size-base', baseSize);
+            currentLang = localStorage.getItem('selectedLanguage') || 'ar';
+            historyStack = ['home'];
+            updateLanguageUI();
         };
 
-        // --- Global Listeners ---
-        ['purchase-modal', 'password-modal'].forEach(id => { 
-            const m = document.getElementById(id); 
-            if(m) m.addEventListener('click', function(e){ 
-                if(e.target === this) { 
-                    id==='purchase-modal'?closePurchaseModal():closePasswordModal(); 
-                } 
-            }); 
+        ['purchase-modal', 'password-modal'].forEach(id => {
+            const m = document.getElementById(id);
+            if(m) m.addEventListener('click', function(e){
+                if(e.target === this) {
+                    id==='purchase-modal'?closePurchaseModal():closePasswordModal();
+                }
+            });
         });
-        const pwInput = document.getElementById('password-input-field'); 
-        if(pwInput) pwInput.addEventListener('keypress', function(e){ 
-            if(e.key === 'Enter') { 
-                e.preventDefault(); 
-                submitPassword(); 
-            } 
+
+        const pwInput = document.getElementById('password-input-field');
+        if(pwInput) pwInput.addEventListener('keypress', function(e){
+            if(e.key === 'Enter') {
+                e.preventDefault();
+                submitPassword();
+            }
         });
-        document.addEventListener('click', function(e) { 
-            const menuIcon = document.querySelector('.menu-icon'); 
-            if (sidebar && menuIcon && sidebar.classList.contains('open') && !sidebar.contains(e.target) && !menuIcon.contains(e.target) && window.innerWidth <= 768) { 
-                sidebar.classList.remove('open'); 
-            } 
+
+        document.addEventListener('click', function(e) {
+            const menuIcon = document.querySelector('.menu-icon');
+            if (sidebar && menuIcon && sidebar.classList.contains('open') && !sidebar.contains(e.target) && !menuIcon.contains(e.target) && window.innerWidth <= 768) {
+                sidebar.classList.remove('open');
+            }
         });
-        document.addEventListener('DOMContentLoaded', () => { 
-            const logo = document.querySelector('.logo-container img'); 
-            if(logo){ 
-                logo.addEventListener('mouseenter', ()=>{ 
-                    logo.style.transform = 'scale(1.1) rotate(10deg)'; 
-                    logo.style.boxShadow = '0 0 25px rgba(0, 123, 255, 0.8)'; 
-                }); 
-                logo.addEventListener('mouseleave', ()=>{ 
-                    logo.style.transform = 'scale(1) rotate(0deg)'; 
-                    logo.style.boxShadow = '0 0 15px rgba(0, 123, 255, 0.5)'; 
-                }); 
-            } 
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const logo = document.querySelector('.logo-container img');
+            if(logo){
+                logo.addEventListener('mouseenter', ()=>{
+                    logo.style.transform = 'scale(1.1) rotate(10deg)';
+                    logo.style.boxShadow = '0 0 25px rgba(0, 123, 255, 0.8)';
+                });
+                logo.addEventListener('mouseleave', ()=>{
+                    logo.style.transform = 'scale(1) rotate(0deg)';
+                    logo.style.boxShadow = '0 0 15px rgba(0, 123, 255, 0.5)';
+                });
+            }
         });
     </script>
 </body>
