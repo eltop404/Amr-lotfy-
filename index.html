@@ -279,9 +279,9 @@
         .app-info-logo { width: 120px; height: 120px; border-radius: 50%; margin-bottom: 1.5rem; border: 4px solid var(--primary-color); box-shadow: 0 8px 30px rgba(0, 123, 255, 0.5); transition: transform 0.5s ease, box-shadow 0.5s ease; } .app-info-logo:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 12px 40px rgba(0, 123, 255, 0.7); } .app-info-details { margin-top: 3rem; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 2rem; } .cinematic-info-item { text-align: center; width: 100%; border-bottom: 1px solid var(--border-color); padding-bottom: 1.25rem; } .cinematic-info-item:last-child { border-bottom: none; } .info-label { font-size: 1rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.5rem; display: block; } .info-value { font-size: 1.8rem; font-weight: 700; color: var(--text-color); text-shadow: 0 0 8px rgba(255, 255, 255, 0.1); word-wrap: break-word; } .info-value.developer { color: var(--secondary-color); text-shadow: 0 0 15px rgba(245, 158, 11, 0.5); }
         footer { text-align: center; margin-top: auto; padding: 0.75rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border-color); width: 100%; background-color: var(--dark-bg); box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); } footer p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.5px; }
         
-        /* --- NEW LOGIN/SIGNUP STYLES (TRANSPARENT/GLOWING) --- */
+        /* --- LOGIN/SIGNUP STYLES (TRANSPARENT/GLOWING) --- */
         #login-overlay {
-            display: none; /* Hidden by default, shown by JS */
+            display: none; 
             position: fixed;
             top: 0;
             left: 0;
@@ -302,69 +302,91 @@
             height: 100%;
             z-index: 1;
         }
-        /* MODIFIED: Remove background and borders from container */
         .auth-form-container {
             position: relative;
             z-index: 2;
             width: 90%;
             max-width: 400px;
-            background: transparent; /* TRANSPARENT */
-            backdrop-filter: none; /* NO BLUR */
-            border-radius: 20px;
-            padding: 2.5rem 2rem;
-            border: none; /* NO BORDER */
-            box-shadow: none; /* NO SHADOW */
+            background: transparent; 
+            backdrop-filter: none; 
+            border-radius: 0; 
+            padding: 0; 
+            border: none; 
+            box-shadow: none; 
             animation: fadeInUp 0.5s ease;
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
         }
-        /* MODIFIED: Add glow to title */
         .auth-form-container h2 {
             text-align: center;
             color: var(--primary-color);
-            margin-bottom: 2rem;
-            font-size: 2.2rem; /* Make title bigger */
+            margin-bottom: 2.5rem; 
+            font-size: 2.2rem; 
             font-weight: 700;
-            /* GLOWING EFFECT */
             text-shadow: 0 0 10px var(--primary-color), 0 0 20px rgba(0, 123, 255, 0.7);
+        }
+        #auth-initial-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem; /* Reduced gap */
+            width: 100%;
+            max-width: 250px; /* Reduced max-width */
+            margin-bottom: 2rem;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .auth-fields-container {
+            display: none; 
+            width: 100%;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0; 
+            transform: translateY(20px); 
+        }
+        .auth-fields-container.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
         .auth-form-group {
             margin-bottom: 1.5rem;
             position: relative;
         }
-        /* MODIFIED: Add glow to labels */
         .auth-form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: var(--text-color); /* Brighter label */
+            color: var(--text-color); 
             font-weight: 600;
-            /* GLOWING EFFECT */
             text-shadow: 0 0 5px var(--text-color);
+            text-align: right; 
         }
-        /* MODIFIED: Transparent inputs with glow */
+        [dir="ltr"] .auth-form-group label {
+            text-align: left; 
+        }
         .auth-form-group input,
         .auth-form-group select {
             width: 100%;
             padding: 0.875rem 0.5rem;
-            background-color: rgba(0, 0, 0, 0.2); /* Slight dark bg for readability */
+            background-color: rgba(0, 0, 0, 0.2); 
             border: none;
-            border-bottom: 2px solid var(--primary-color); /* Bottom border */
+            border-bottom: 2px solid var(--primary-color); 
             border-radius: 0;
             color: var(--text-color);
             font-size: 1.1rem;
             transition: all 0.3s ease;
-            /* RADIANT/GLOWING EFFECT */
             text-shadow: 0 0 5px var(--text-color);
             box-shadow: 0 5px 15px -5px rgba(0, 123, 255, 0.3); 
         }
         .auth-form-group input::placeholder {
             color: var(--text-muted);
             opacity: 0.7;
-            text-shadow: none; /* No shadow for placeholder */
+            text-shadow: none; 
         }
         .auth-form-group input:focus,
         .auth-form-group select:focus {
-            box-shadow: 0 8px 20px -5px rgba(245, 158, 11, 0.6); /* Glow with secondary color on focus */
+            box-shadow: 0 8px 20px -5px rgba(245, 158, 11, 0.6); 
             outline: none;
-            border-bottom-color: var(--secondary-color); /* Change border to secondary color */
+            border-bottom-color: var(--secondary-color); 
         }
         .auth-form-group select {
             -webkit-appearance: none;
@@ -380,35 +402,8 @@
             padding-left: 0.5rem;
             padding-right: 2.5rem;
         }
-        /* --- END LOGIN STYLE MODS --- */
-        
-        .auth-btn {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            margin-top: 1rem;
-        }
-        .btn-login {
-            background-color: var(--primary-color);
-            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
-        }
-        .btn-login:hover {
-            filter: brightness(1.1);
-            transform: translateY(-2px);
-        }
-        .btn-signup {
-            background-color: var(--secondary-color);
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
-        }
-        .btn-signup:hover {
-            filter: brightness(1.1);
-            transform: translateY(-2px);
+        .auth-fields-container .auth-btn {
+             margin-top: 1.5rem; 
         }
         .auth-switch-link {
             text-align: center;
@@ -424,11 +419,30 @@
         .auth-switch-link a:hover {
             text-decoration: underline;
         }
-        #signup-form {
-            display: none; /* Show login by default */
-        }
         
-        /* --- NEW ADMIN PANEL STYLES --- */
+        /* MODIFIED: Initial Buttons Styling */
+        .auth-btn-initial {
+            padding: 0.6rem 1rem; /* Smaller padding */
+            font-size: 1.0rem; /* Smaller font size */
+            font-weight: 600; /* Adjusted font weight */
+            border: none;
+            border-radius: 8px; /* Slightly smaller radius */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            width: 100%; 
+            background-color: rgba(0, 123, 255, 0.5); /* Transparent Blue */
+            box-shadow: 0 0 8px var(--primary-color), 0 0 15px rgba(0, 123, 255, 0.6); /* Glowing effect */
+        }
+        .auth-btn-initial:hover {
+            background-color: rgba(0, 123, 255, 0.7); /* Slightly less transparent on hover */
+            box-shadow: 0 0 12px var(--primary-color), 0 0 25px rgba(0, 123, 255, 0.8); /* Stronger glow on hover */
+            transform: translateY(-2px);
+        }
+
+        /* --- END LOGIN STYLE MODS --- */
+        
+        /* --- ADMIN PANEL STYLES (Blue Theme) --- */
         .admin-stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -441,11 +455,11 @@
             border-radius: 15px;
             text-align: center;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            border-left: 5px solid var(--primary-color);
+            border-left: 5px solid var(--primary-color); /* Blue border */
         }
         [dir="ltr"] .admin-stat-card {
             border-left: none;
-            border-right: 5px solid var(--primary-color);
+            border-right: 5px solid var(--primary-color); /* Blue border */
         }
         .admin-stat-card h3 {
             font-size: 1.1rem;
@@ -460,23 +474,21 @@
             color: var(--text-color);
             margin: 0;
         }
-        .admin-stat-card.ratings {
-             border-color: var(--secondary-color);
-        }
         .admin-section {
             background-color: var(--light-bg);
             padding: 1.5rem;
             border-radius: 15px;
             margin-bottom: 2rem;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color); /* Subtle blue border */
         }
         .admin-section h3 {
-            color: var(--secondary-color);
+            color: var(--primary-color); /* Blue heading */
             font-size: 1.5rem;
             margin-top: 0;
             margin-bottom: 1.5rem;
             padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color); /* Blue border */
         }
         .admin-user-table {
             width: 100%;
@@ -488,7 +500,7 @@
         .admin-user-table td {
             padding: 0.875rem 1rem;
             text-align: right;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color); /* Blue border */
             color: var(--text-muted);
             white-space: nowrap;
         }
@@ -497,7 +509,7 @@
             text-align: left;
         }
         .admin-user-table th {
-            color: var(--text-color);
+            color: var(--primary-color); /* Blue header text */
             font-size: 1rem;
         }
         .admin-user-table td {
@@ -507,7 +519,7 @@
             border-bottom: none;
         }
         .admin-user-table tr:hover {
-            background-color: var(--dark-bg);
+            background-color: rgba(0, 123, 255, 0.1); /* Light blue hover */
         }
         .admin-btn {
             padding: 0.5rem 0.875rem;
@@ -523,8 +535,11 @@
         .admin-btn.btn-delete {
             background-color: var(--danger-color);
         }
-        .admin-btn.btn-ban {
-            background-color: var(--secondary-color);
+        /* Blue admin buttons */
+        .admin-btn.btn-ban, 
+        .admin-btn.btn-login { 
+            background-color: var(--primary-color); 
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
         }
         .admin-btn:hover {
             filter: brightness(1.2);
@@ -545,14 +560,18 @@
             max-width: 150px;
             padding: 0.5rem 0.75rem;
             background-color: var(--dark-bg);
-            border: 2px solid var(--border-color);
+            border: 2px solid var(--border-color); /* Blue border */
             border-radius: 8px;
             color: var(--text-color);
+        }
+        .admin-form-group input:focus {
+             border-color: var(--primary-color);
+             box-shadow: 0 0 5px var(--primary-color);
         }
         .password-manager-item {
             margin-bottom: 1.5rem;
             padding-bottom: 1.5rem;
-            border-bottom: 1px dashed var(--border-color);
+            border-bottom: 1px dashed var(--border-color); /* Blue border */
         }
         .password-manager-item:last-child {
             border-bottom: none;
@@ -567,17 +586,23 @@
             width: 100%;
             min-height: 150px;
             background-color: var(--dark-bg);
-            border: 2px solid var(--border-color);
+            border: 2px solid var(--border-color); /* Blue border */
             border-radius: 8px;
             color: var(--text-color);
             padding: 0.75rem;
             font-size: 0.95rem;
             line-height: 1.6;
         }
+        .password-manager-item textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px var(--primary-color);
+        }
+
+        /* --- END ADMIN BLUE THEME --- */
         
-        /* --- NEW RATING MODAL --- */
+        /* --- RATING MODAL --- */
         #rating-modal-overlay {
-            display: none; /* Hidden by default */
+            display: none; 
             position: fixed;
             top: 0;
             left: 0;
@@ -664,7 +689,7 @@
             .menu-icon { width: 35px; height: 35px; font-size: 1.3rem; } 
             .logo-container img { width: 35px; height: 35px; } 
             .back-button { padding: 0.4rem 0.75rem; font-size: 0.85rem;} 
-            .auth-form-container { padding: 2rem 1.5rem; }
+            .auth-form-container { padding: 0 1.5rem; } 
             .auth-form-container h2 { font-size: 1.8rem; }
             .star-rating { font-size: 2rem; }
         }
@@ -675,51 +700,54 @@
     <div id="login-overlay">
         <div id="vanta-bg"></div>
         
-        <div class="auth-form-container" id="login-form">
-            <h2 data-lang-key="login_title">تسجيل الدخول</h2>
-            <div class="auth-form-group">
-                <label for="login-name" data-lang-key="login_name">الاسم</label>
-                <input type="text" id="login-name" autocomplete="username" placeholder="...اكتب اسمك">
-            </div>
-            <div class="auth-form-group">
-                <label for="login-age" data-lang-key="login_age">السن (للتأكيد)</label>
-                <input type="number" id="login-age" placeholder="...اكتب سنك">
-            </div>
-            <div class="auth-form-group">
-                <label for="login-pass" data-lang-key="login_pass">كلمة المرور</label>
-                <input type="password" id="login-pass" autocomplete="current-password" placeholder="...اكتب كلمة المرور">
-            </div>
-            <button class="auth-btn btn-login" onclick="handleLogin()" data-lang-key="login_btn">دخول</button>
-            <p class="auth-switch-link" data-lang-key="login_switch">
-                ليس لديك حساب؟ <a onclick="showSignupForm()">إنشاء حساب</a>
-            </p>
-        </div>
+        <div class="auth-form-container">
+            <h2 data-lang-key="app_name">Mora Learning</h2> 
 
-        <div class="auth-form-container" id="signup-form">
-            <h2 data-lang-key="signup_title">إنشاء حساب</h2>
-            <div class="auth-form-group">
-                <label for="signup-name" data-lang-key="signup_name">الاسم</label>
-                <input type="text" id="signup-name" autocomplete="name" placeholder="...اختر اسم فريد">
+            <div id="auth-initial-buttons">
+                 <button id="show-signup-btn" class="auth-btn-initial btn-signup" onclick="showSignupFields()" data-lang-key="signup_title">إنشاء حساب</button>
+                 <button id="show-login-btn" class="auth-btn-initial btn-login" onclick="showLoginFields()" data-lang-key="login_title">تسجيل الدخول</button>
             </div>
-            <div class="auth-form-group">
-                <label for="signup-age" data-lang-key="signup_age">السن</label>
-                <input type="number" id="signup-age" placeholder="...اكتب سنك">
+
+            <div id="login-fields" class="auth-fields-container">
+                <div class="auth-form-group">
+                    <label for="login-name" data-lang-key="login_name">الاسم</label>
+                    <input type="text" id="login-name" autocomplete="username" placeholder="...اكتب اسمك">
+                </div>
+                <div class="auth-form-group">
+                    <label for="login-pass" data-lang-key="login_pass">كلمة المرور</label>
+                    <input type="password" id="login-pass" autocomplete="current-password" placeholder="...اكتب كلمة المرور">
+                </div>
+                <button class="auth-btn btn-login" onclick="handleLogin()" data-lang-key="login_btn">دخول</button>
+                <p class="auth-switch-link" data-lang-key="login_switch">
+                    ليس لديك حساب؟ <a onclick="showSignupFields()">إنشاء حساب</a>
+                </p>
             </div>
-            <div class="auth-form-group">
-                <label for="signup-gender" data-lang-key="signup_gender">النوع</label>
-                <select id="signup-gender">
-                    <option value="male" data-lang-key="gender_male">ذكر</option>
-                    <option value="female" data-lang-key="gender_female">أنثى</option>
-                </select>
+
+            <div id="signup-fields" class="auth-fields-container">
+                <div class="auth-form-group">
+                    <label for="signup-name" data-lang-key="signup_name">الاسم</label>
+                    <input type="text" id="signup-name" autocomplete="name" placeholder="...اختر اسم فريد">
+                </div>
+                <div class="auth-form-group">
+                    <label for="signup-age" data-lang-key="signup_age">السن</label>
+                    <input type="number" id="signup-age" placeholder="...اكتب سنك">
+                </div>
+                <div class="auth-form-group">
+                    <label for="signup-gender" data-lang-key="signup_gender">النوع</label>
+                    <select id="signup-gender">
+                        <option value="male" data-lang-key="gender_male">ذكر</option>
+                        <option value="female" data-lang-key="gender_female">أنثى</option>
+                    </select>
+                </div>
+                <div class="auth-form-group">
+                    <label for="signup-pass" data-lang-key="signup_pass">كلمة المرور</label>
+                    <input type="password" id="signup-pass" autocomplete="new-password" placeholder="8+ حروف وأرقام">
+                </div>
+                <button class="auth-btn btn-signup" onclick="handleSignup()" data-lang-key="signup_btn">إنشاء</button>
+                <p class="auth-switch-link" data-lang-key="signup_switch">
+                    لديك حساب بالفعل؟ <a onclick="showLoginFields()">تسجيل الدخول</a>
+                </p>
             </div>
-            <div class="auth-form-group">
-                <label for="signup-pass" data-lang-key="signup_pass">كلمة المرور</label>
-                <input type="password" id="signup-pass" autocomplete="new-password" placeholder="8+ حروف وأرقام">
-            </div>
-            <button class="auth-btn btn-signup" onclick="handleSignup()" data-lang-key="signup_btn">إنشاء</button>
-            <p class="auth-switch-link" data-lang-key="signup_switch">
-                لديك حساب بالفعل؟ <a onclick="showLoginForm()">تسجيل الدخول</a>
-            </p>
         </div>
     </div>
     <aside class="sidebar" id="sidebar">
@@ -958,11 +986,11 @@
                 login_title: "تسجيل الدخول", login_name: "الاسم", login_age: "السن (للتأكيد)", login_pass: "كلمة المرور", login_btn: "دخول", login_switch: "ليس لديك حساب؟ <a>إنشاء حساب</a>",
                 signup_title: "إنشاء حساب", signup_name: "الاسم", signup_age: "السن", signup_gender: "النوع", gender_male: "ذكر", gender_female: "أنثى", signup_pass: "كلمة المرور (8+ حروف وأرقام)", signup_btn: "إنشاء", signup_switch: "لديك حساب بالفعل؟ <a>تسجيل الدخول</a>",
                 logout: "تسجيل الخروج", admin_panel: "لوحة التحكم", admin_visitors: "إجمالي الزوار", admin_users: "عدد المستخدمين", admin_platform: "إدارة المنصة", admin_add_video: "إضافة فيديو", admin_manage_sections: "إدارة الأقسام", admin_users_list: "قائمة المستخدمين",
-                th_name: "الاسم", th_age: "السن", th_gender: "النوع", th_signup_date: "تاريخ التسجيل", th_status: "الحالة", th_ip: "IP", th_actions: "إجراءات", btn_delete: "حذف", btn_ban: "حظر الحساب", btn_unban: "فك حظر الحساب", status_online: "متصل", status_banned: "محظور",
+                th_name: "الاسم", th_age: "السن", th_gender: "النوع", th_signup_date: "تاريخ/وقت التسجيل", th_status: "الحالة", th_ip: "IP", th_actions: "إجراءات", btn_delete: "حذف", btn_ban: "حظر الحساب", btn_unban: "فك حظر الحساب", status_online: "متصل", status_banned: "محظور",
                 admin_ratings: "إجمالي التقييمات", admin_edit_stats: "تعديل الإحصائيات", admin_edit_visitors: "تعديل الزوار:", admin_edit_ratings: "تعديل التقييمات:", btn_save: "حفظ", admin_passwords: "إدارة كلمات المرور",
                 rating_title: "ما رأيك في المنصة؟", rating_subtitle: "تقييمك يساعدنا على التحسين المستمر", rating_submit: "إرسال التقييم", rating_thanks: "شكراً لتقييمك!", btn_ban_ip: "حظر الجهاز (IP)"
             },
-            en: {
+            en: { // Kept English for completeness, though UI is primarily Arabic based on context
                 app_name: "Mora Learning", home: "Home", articles: "Articles", settings: "Settings", support: "Support", blog: "Blog", profit_calculator: "Profit Calculator", app_info: "App Information", privacy_policy: "Privacy Policy", paid_courses: "Paid Courses", developed_by: "Developed By", back_button: "Back", welcome_main_title: "Start Your Digital Journey...", welcome_main_subtitle: "The comprehensive learning platform...", footer_rights: "All Rights Reserved © Mora Learning 2025", 
                 page_titles: {'home':'Mora Learning','articles':'Articles','settings':'Settings','support':'Support','blog':'Blog','profit_calculator':'Profit Calculator','app_info':'App Information','privacy_policy':'Privacy Policy','paid_courses':'Paid Courses','e-commerce':'E-commerce','programming':'Programming','montage':'Video Editing','data-analytics':'Data Analytics','ai':'Artificial Intelligence','podcasting':'Podcasting','content-writing':'Content Writing','cybersecurity':'Cybersecurity','freelancing':'Freelancing','graphic-design':'Graphic Design', 'admin_panel': 'Admin Panel'}, 
                 category_prefix: "Learn", videos_title: "Videos", courses_title: "Courses", articles_title: "Diverse Educational Articles", settings_theme_title: "Change Theme", settings_lang_title: "Change Language", settings_font_title: "Change Font Size", support_contact: "Contact Us", font_small: "Small", font_medium: "Medium", font_large: "Large", buy_now: "Buy Now", enter_password: "Enter Password", enter_password_prompt_title: "Enter Password", enter_password_prompt_subtitle: "Please enter the password...", password_label: "Password", submit_password: "Submit", wrong_password: "Incorrect password...", password_expired: "This password has already been used...", course_unlocked: "Course unlocked! Enjoy.", price: "Price", download: "Download", watch: "Watch", app_info_title: "Our Mission...", app_info_subtitle: "Empowering individuals...", app_info_p1: "...", app_info_p2: "...", app_info_dev: "App Developer", app_info_version: "Platform Version", app_info_build: "Build Number", app_info_env: "Learning Environment", app_info_env_val: "Optimized for Desktop & Mobile", 
@@ -971,7 +999,7 @@
                 login_title: "Login", login_name: "Name", login_age: "Age (for confirmation)", login_pass: "Password", login_btn: "Login", login_switch: "Don't have an account? <a>Sign Up</a>",
                 signup_title: "Create Account", signup_name: "Name", signup_age: "Age", signup_gender: "Gender", gender_male: "Male", gender_female: "Female", signup_pass: "Password (8+ chars & numbers)", signup_btn: "Sign Up", signup_switch: "Already have an account? <a>Login</a>",
                 logout: "Logout", admin_panel: "Admin Panel", admin_visitors: "Total Visitors", admin_users: "Total Users", admin_platform: "Platform Management", admin_add_video: "Add Video", admin_manage_sections: "Manage Sections", admin_users_list: "Users List",
-                th_name: "Name", th_age: "Age", th_gender: "Gender", th_signup_date: "Signup Date", th_status: "Status", th_ip: "IP", th_actions: "Actions", btn_delete: "Delete", btn_ban: "Ban Account", btn_unban: "Unban Account", status_online: "Online", status_banned: "Banned",
+                th_name: "Name", th_age: "Age", th_gender: "Gender", th_signup_date: "Signup Date/Time", th_status: "Status", th_ip: "IP", th_actions: "Actions", btn_delete: "Delete", btn_ban: "Ban Account", btn_unban: "Unban Account", status_online: "Online", status_banned: "Banned",
                 admin_ratings: "Total Ratings", admin_edit_stats: "Edit Stats", admin_edit_visitors: "Edit Visitors:", admin_edit_ratings: "Edit Ratings:", btn_save: "Save", admin_passwords: "Password Management",
                 rating_title: "Rate the Platform", rating_subtitle: "Your feedback helps us improve", rating_submit: "Submit Rating", rating_thanks: "Thank you for your rating!", btn_ban_ip: "Ban Device (IP)"
             }
@@ -1006,42 +1034,23 @@
             return false; // Is not banned
         }
 
-        function showSignupForm() {
-            document.getElementById('login-form').style.display = 'block'; // Show login
-            document.getElementById('signup-form').style.display = 'block'; // Show signup
-            
-            // Animate switching
-            document.getElementById('login-form').style.opacity = '0';
-            document.getElementById('login-form').style.transform = 'translateX(50px)';
-            
-            document.getElementById('signup-form').style.opacity = '1';
-            document.getElementById('signup-form').style.transform = 'translateX(0)';
-
-            // Hide login form after animation
-            setTimeout(() => {
-                 if (document.getElementById('signup-form').style.opacity === '1') { // Check if we are still on signup
-                    document.getElementById('login-form').style.display = 'none';
-                 }
-            }, 300);
+        // MODIFIED: Show Login/Signup Fields
+        function showLoginFields() {
+            document.getElementById('auth-initial-buttons').style.display = 'none';
+            document.getElementById('signup-fields').classList.remove('visible');
+            document.getElementById('login-fields').classList.add('visible');
+        }
+        
+        function showSignupFields() {
+            document.getElementById('auth-initial-buttons').style.display = 'none';
+            document.getElementById('login-fields').classList.remove('visible');
+            document.getElementById('signup-fields').classList.add('visible');
         }
 
-        function showLoginForm() {
-            document.getElementById('login-form').style.display = 'block'; // Show login
-            document.getElementById('signup-form').style.display = 'block'; // Show signup
-            
-            // Animate switching
-            document.getElementById('signup-form').style.opacity = '0';
-            document.getElementById('signup-form').style.transform = 'translateX(-50px)';
-            
-            document.getElementById('login-form').style.opacity = '1';
-            document.getElementById('login-form').style.transform = 'translateX(0)';
-
-            // Hide signup form after animation
-            setTimeout(() => {
-                if (document.getElementById('login-form').style.opacity === '1') { // Check if we are still on login
-                    document.getElementById('signup-form').style.display = 'none';
-                }
-            }, 300);
+        function showInitialAuthButtons() {
+            document.getElementById('login-fields').classList.remove('visible');
+            document.getElementById('signup-fields').classList.remove('visible');
+            document.getElementById('auth-initial-buttons').style.display = 'flex';
         }
 
         function getUsers() {
@@ -1088,7 +1097,7 @@
                 password: pass, // In a real app, HASH this password
                 isBanned: false,
                 isAdmin: false,
-                signupDate: new Date().toISOString()
+                signupDate: new Date().toISOString() // Store as ISO string
             };
             
             users.push(newUser);
@@ -1098,10 +1107,10 @@
             
             // Pre-fill login form
             document.getElementById('login-name').value = name;
-            document.getElementById('login-age').value = age;
+            // document.getElementById('login-age').value = age; // Age removed from login
             document.getElementById('login-pass').focus();
             
-            showLoginForm();
+            showLoginFields(); // Show login fields directly
         }
 
         function handleLogin() {
@@ -1109,7 +1118,7 @@
 
             const name = document.getElementById('login-name').value.trim();
             const pass = document.getElementById('login-pass').value;
-            const age = document.getElementById('login-age').value; // Get age as requested
+            // const age = document.getElementById('login-age').value; // Age removed
 
             if (!name || !pass) {
                 alert(currentLang === 'ar' ? 'الرجاء إدخال الاسم وكلمة المرور.' : 'Please enter name and password.');
@@ -1126,7 +1135,8 @@
 
             // Regular user check
             const users = getUsers();
-            const user = users.find(u => u.name.toLowerCase() === name.toLowerCase() && u.password === pass);
+            // Match only name and password
+            const user = users.find(u => u.name.toLowerCase() === name.toLowerCase() && u.password === pass); 
 
             if (!user) {
                 alert(currentLang === 'ar' ? 'الاسم أو كلمة المرور غير صحيحة.' : 'Incorrect name or password.');
@@ -1138,11 +1148,11 @@
                 return;
             }
 
-            // Check if age matches (as requested)
-            if (user.age != age) {
-                 alert(currentLang === 'ar' ? 'السن المدخل لا يطابق السن المسجل.' : 'The age entered does not match the registered age.');
-                return;
-            }
+            // Age check removed
+            // if (user.age != age) {
+            //      alert(currentLang === 'ar' ? 'السن المدخل لا يطابق السن المسجل.' : 'The age entered does not match the registered age.');
+            //     return;
+            // }
 
             const userSession = { name: user.name, isAdmin: false };
             localStorage.setItem('loggedInUser', JSON.stringify(userSession));
@@ -1151,7 +1161,7 @@
 
         function handleLogout() {
             localStorage.removeItem('loggedInUser');
-            location.reload(); // This will reload the page, and window.onload will show the login form
+            location.reload(); // Reloads, onload will show the login buttons
         }
 
         function initializeApp() {
@@ -1190,7 +1200,7 @@
             updateLanguageUI();
         }
         
-        // --- NEW RATING MODAL FUNCTIONS ---
+        // --- RATING MODAL FUNCTIONS ---
         
         function showRatingModal() {
             const modal = document.getElementById('rating-modal-overlay');
@@ -1242,7 +1252,7 @@
             alert(uiStrings[currentLang].rating_thanks || 'Thank you for your rating!');
         }
 
-        // --- NEW ADMIN PANEL FUNCTIONS ---
+        // --- ADMIN PANEL FUNCTIONS ---
 
         function renderAdminPanel() {
             const langStrings = uiStrings[currentLang];
@@ -1269,8 +1279,9 @@
                         
                         <div class="admin-section">
                             <h3 data-lang-key="admin_platform">${langStrings.admin_platform}</h3>
-                            <button class="admin-btn btn-login" onclick="alert('Func not implemented')" data-lang-key="admin_add_video">${langStrings.admin_add_video}</button>
-                            <button class="admin-btn btn-login" onclick="alert('Func not implemented')" data-lang-key="admin_manage_sections">${langStrings.admin_manage_sections}</button>
+                            {/* Blue Admin Buttons */}
+                            <button class="admin-btn btn-login" onclick="alert('Add Video: ${currentLang === 'ar' ? 'الوظيفة قيد التنفيذ' : 'Functionality in progress'}')" data-lang-key="admin_add_video">${langStrings.admin_add_video}</button>
+                            <button class="admin-btn btn-login" onclick="alert('Manage Sections: ${currentLang === 'ar' ? 'الوظيفة قيد التنفيذ' : 'Functionality in progress'}')" data-lang-key="admin_manage_sections">${langStrings.admin_manage_sections}</button>
                         </div>
                         
                         <div class="admin-section">
@@ -1283,6 +1294,7 @@
                                 <label for="admin-ratings-input" data-lang-key="admin_edit_ratings">${langStrings.admin_edit_ratings}</label>
                                 <input type="number" id="admin-ratings-input" value="${displayRating}">
                             </div>
+                             {/* Blue Save Button */}
                             <button class="admin-btn btn-login" onclick="saveAdminStats()" data-lang-key="btn_save">${langStrings.btn_save}</button>
                         </div>
                         
@@ -1301,14 +1313,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    </tbody>
+                                    {/* User rows injected */}
+                                </tbody>
                             </table>
                         </div>
                         
                         <div class="admin-section">
                             <h3 data-lang-key="admin_passwords">${langStrings.admin_passwords}</h3>
                             <div id="password-manager-container">
-                                </div>
+                                {/* Passwords injected */}
+                            </div>
                         </div>`;
             return html;
         }
@@ -1333,7 +1347,11 @@
             tableBody.innerHTML = ''; // Clear existing rows
 
             users.forEach(user => {
-                const signupDate = new Date(user.signupDate).toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                // MODIFIED: Format date and time
+                const signupDateTime = new Date(user.signupDate).toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US', { 
+                    day: '2-digit', month: '2-digit', year: 'numeric', 
+                    hour: '2-digit', minute: '2-digit', hour12: true 
+                });
                 const gender = user.gender === 'male' ? langStrings.gender_male : langStrings.gender_female;
                 const status = user.isBanned ? `<span style="color: var(--danger-color);">${langStrings.status_banned}</span>` : `<span style="color: var(--success-color);">${langStrings.status_online}</span>`;
                 const banButton = user.isBanned 
@@ -1344,7 +1362,7 @@
                                 <td>${user.name}</td>
                                 <td>${user.age}</td>
                                 <td>${gender}</td>
-                                <td>${signupDate}</td>
+                                <td>${signupDateTime}</td> {/* Display date and time */}
                                 <td>${status}</td>
                                 <td>127.0.0.1 (Mock)</td>
                                 <td>
@@ -1416,6 +1434,7 @@
                     <div class="password-manager-item">
                         <h4>${course.title}</h4>
                         <textarea id="pass-edit-${courseId}" rows="5">${activePasswords.join('\n')}</textarea>
+                        {/* Blue Save Button */}
                         <button class="admin-btn btn-login" style="margin-top: 0.75rem;" onclick="saveCoursePasswords('${courseId}')" data-lang-key="btn_save">
                             ${langStrings.btn_save}
                         </button>
@@ -1448,7 +1467,8 @@
                     // Handle links with nested <a> tags like the auth switch
                     if (el.children.length > 0 && el.children[0].tagName === 'A') {
                         const linkText = el.children[0].innerHTML;
-                        el.innerHTML = langStrings[key].replace('<a>', `<a onclick="${el.children[0].getAttribute('onclick')}">`).replace('</a>', `${linkText}</a>`);
+                        const onclickAction = el.children[0].getAttribute('onclick'); // Get the action
+                        el.innerHTML = langStrings[key].replace('<a>', `<a onclick="${onclickAction}">`).replace('</a>', `${linkText}</a>`); // Re-apply action
                     } else {
                         el.textContent = langStrings[key];
                     }
@@ -1462,8 +1482,8 @@
             // Update auth form placeholders
             const loginName = document.getElementById('login-name');
             if (loginName) loginName.placeholder = currentLang === 'ar' ? '...اكتب اسمك' : '...Enter your name';
-            const loginAge = document.getElementById('login-age');
-            if (loginAge) loginAge.placeholder = currentLang === 'ar' ? '...اكتب سنك' : '...Enter your age';
+            // const loginAge = document.getElementById('login-age'); // Removed
+            // if (loginAge) loginAge.placeholder = currentLang === 'ar' ? '...اكتب سنك' : '...Enter your age';
             const loginPass = document.getElementById('login-pass');
             if (loginPass) loginPass.placeholder = currentLang === 'ar' ? '...اكتب كلمة المرور' : '...Enter your password';
             const signupName = document.getElementById('signup-name');
@@ -1605,7 +1625,7 @@
                             contentHTML = `<div class="page-content-wrapper"><h2 data-lang-key="privacy_title">${langStrings.privacy_title}</h2><p>${langStrings.privacy_intro}</p><h3>${langStrings.privacy_data_collection}</h3><p>${langStrings.privacy_data_collection_text}</p><h3>${langStrings.privacy_data_usage}</h3><p>${langStrings.privacy_data_usage_text}</p><h3>${langStrings.privacy_security}</h3><p>${langStrings.privacy_security_text}</p><h3>${langStrings.privacy_third_party}</h3><p>${langStrings.privacy_third_party_text}</p><h3>${langStrings.privacy_changes}</h3><p>${langStrings.privacy_changes_text}</p><h3>${langStrings.privacy_contact}</h3><p>${langStrings.privacy_contact_text}</p><p style="color:var(--text-muted);font-style:italic;margin-top:1.5rem;">${langStrings.privacy_dev_note}</p></div>`;
                             break;
                         case 'app_info':
-                            contentHTML = `<div class="page-content-wrapper" style="display:flex;flex-direction:column;align-items:center;"><img src="https://i.postimg.cc/Nf0Sr2zg/file-00000000d52862468b52a49178cf0009.png" alt="Mora Learning Logo" class="app-info-logo"><h2 data-lang-key="app_info_title">${langStrings.app_info_title}</h2><h3 data-lang-key="app_info_subtitle" style="color:var(--text-muted);font-weight:normal;margin-bottom:1.5rem;text-align:center;">${langStrings.app_info_subtitle}</h3><p data-lang-key="app_info_p1">${langStrings.app_info_p1}</p><p data-lang-key="app_info_p2">${langStrings.app_info_p2}</p><div class="app-info-details"><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_dev">${langStrings.app_info_dev}</span><span class="info-value developer">Amr Lotfy</span></div><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_version">${langStrings.app_info_version}</span><span class="info-value">2025.1.1</span></div><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_build">${langStrings.app_info_build}</span><span class="info-value">ML-20251018-2000</span></div><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_env">${langStrings.app_info_env}</span><span class="info-value" style="color:var(--success-color);">${langStrings.app_info_env_val}</span></div></div></div>`;
+                            contentHTML = `<div class="page-content-wrapper" style="display:flex;flex-direction:column;align-items:center;"><img src="https://i.postimg.cc/Nf0Sr2zg/file-00000000d52862468b52a49178cf0009.png" alt="Mora Learning Logo" class="app-info-logo"><h2 data-lang-key="app_info_title">${langStrings.app_info_title}</h2><h3 data-lang-key="app_info_subtitle" style="color:var(--text-muted);font-weight:normal;margin-bottom:1.5rem;text-align:center;">${langStrings.app_info_subtitle}</h3><p data-lang-key="app_info_p1">${langStrings.app_info_p1}</p><p data-lang-key="app_info_p2">${langStrings.app_info_p2}</p><div class="app-info-details"><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_dev">${langStrings.app_info_dev}</span><span class="info-value developer">Amr Lotfy</span></div><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_version">${langStrings.app_info_version}</span><span class="info-value">2025.1.1</span></div><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_build">${langStrings.app_info_build}</span><span class="info-value">ML-20251019-1325</span></div><div class="cinematic-info-item"><span class="info-label" data-lang-key="app_info_env">${langStrings.app_info_env}</span><span class="info-value" style="color:var(--success-color);">${langStrings.app_info_env_val}</span></div></div></div>`;
                             break;
                         case 'profit_calculator':
                             contentHTML = `<div class="profit-calculator-container"><div class="calculator-header"><h2 data-lang-key="calculator_header_title">${langStrings.calculator_header_title}</h2><p data-lang-key="calculator_header_subtitle">${langStrings.calculator_header_subtitle}</p></div><div class="calculator-form-grid"><div class="form-group"><input type="number" id="revenue" placeholder=" " autocomplete="off"><label for="revenue" data-lang-key="calculator_revenue">${langStrings.calculator_revenue}</label></div><div class="form-group"><input type="number" id="cogs" placeholder=" " autocomplete="off"><label for="cogs" data-lang-key="calculator_cogs">${langStrings.calculator_cogs}</label></div><div class="form-group"><input type="number" id="marketing" placeholder=" " autocomplete="off"><label for="marketing" data-lang-key="calculator_marketing">${langStrings.calculator_marketing}</label></div><div class="form-group"><input type="number" id="shipping" placeholder=" " autocomplete="off"><label for="shipping" data-lang-key="calculator_shipping">${langStrings.calculator_shipping}</label></div><div class="form-group"><input type="number" id="otherCosts" placeholder=" " autocomplete="off"><label for="otherCosts" data-lang-key="calculator_other">${langStrings.calculator_other}</label></div></div><div class="calculator-actions"><button class="calculate-btn" onclick="calculateProfit()" data-lang-key="calculator_calculate_btn">${langStrings.calculator_calculate_btn}</button></div><div class="calculator-results-container" id="results-container"><h3 style="text-align:center;margin-bottom:1.5rem;color:var(--primary-color);">${langStrings.calculator_results_title}</h3><div class="results-grid" id="results-content"></div></div></div>`;
@@ -1879,6 +1899,14 @@
             document.documentElement.style.setProperty('--font-size-base', baseSize);
         }
         function goBack() {
+             // MODIFIED: If going back from login/signup fields, show initial buttons
+            const loginFields = document.getElementById('login-fields');
+            const signupFields = document.getElementById('signup-fields');
+            if (loginFields.classList.contains('visible') || signupFields.classList.contains('visible')) {
+                showInitialAuthButtons();
+                return; // Don't pop history stack
+            }
+            
             if (historyStack.length > 1) {
                 historyStack.pop();
                 _renderSection(historyStack[historyStack.length - 1]);
@@ -1931,11 +1959,8 @@
                 currentLang = localStorage.getItem('selectedLanguage') || 'ar';
                 updateLanguageUI(); // Apply language to login screen
                 
-                // MODIFIED: Ensure login form is shown by default and signup is hidden
-                document.getElementById('login-form').style.display = 'block';
-                document.getElementById('login-form').style.opacity = '1';
-                document.getElementById('signup-form').style.display = 'none';
-                document.getElementById('signup-form').style.opacity = '0';
+                // Show initial buttons, hide fields
+                showInitialAuthButtons();
             }
         };
 
@@ -1977,12 +2002,14 @@
             }
             
             // Add transition to auth forms for smooth switching
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            if(loginForm && signupForm) {
-                loginForm.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                signupForm.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            }
+            const loginFields = document.getElementById('login-fields');
+            const signupFields = document.getElementById('signup-fields');
+            const initialButtons = document.getElementById('auth-initial-buttons');
+            
+            if(loginFields) loginFields.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            if(signupFields) signupFields.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            if(initialButtons) initialButtons.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            
         });
     </script>
 </body>
