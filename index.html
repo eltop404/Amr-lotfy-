@@ -120,28 +120,152 @@
         .download-btn:hover { filter: brightness(1.2); }
         .video-item iframe, .video-player-unlocked iframe { width: 100%; height: auto; aspect-ratio: 16/9; display: block; border: none; }
         .video-player-unlocked { width: 100%; aspect-ratio: 16/9; background-color: #000; }
-        .paid-video-item { background-color: var(--light-bg); border-radius: 14px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.3); display: flex; flex-direction: column; border: 1px solid var(--border-color); }
-        .video-thumbnail-locked { position: relative; background-color: #000; display: flex; justify-content: center; align-items: center; aspect-ratio: 16/9; overflow: hidden; }
-        .video-thumbnail-locked img { width: 100%; height: 100%; object-fit: cover; filter: blur(15px) brightness(0.6); transform: scale(1.1); }
-        .lock-icon { position: absolute; top: 50%; left: 50%; font-size: 3.5rem; color: white; text-shadow: 0 3px 10px rgba(0,0,0,0.4); animation: pulse 2s infinite ease-in-out; transform: translate(-50%, -50%); z-index: 2; opacity: 0.8; }
-        .paid-video-content { padding: 1rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .course-title-paid { font-size: 1.2rem; font-weight: 700; color: var(--text-color); margin-bottom: 0.5rem; }
-        .course-price { font-size: 1.1rem; font-weight: 600; color: var(--success-color); margin-bottom: 1rem; }
-        .paid-video-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: auto; }
-        .pay-btn, .password-btn { flex: 1; padding: 0.6rem; font-size: 0.9rem; font-weight: 600; border-radius: 8px; border: none; cursor: pointer; transition: all 0.3s ease; color: white; }
-        .pay-btn { background-color: var(--success-color); } .pay-btn:hover { filter: brightness(1.2); }
-        .password-btn { background-color: var(--primary-color); } .password-btn:hover { filter: brightness(1.2); }
-        .payment-modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); animation: fadeInUp 0.3s; }
-        .payment-modal-content { background-color: var(--light-bg); padding: 2rem; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); width: 90%; max-width: 450px; text-align: center; position: relative; border: 1px solid var(--primary-color); animation: none; }
-        .close-modal-btn { position: absolute; top: 10px; left: 15px; font-size: 2rem; font-weight: bold; color: var(--text-muted); cursor: pointer; transition: all 0.3s; }
+        
+        /* --- START: NEW PAID COURSE STYLES --- */
+        .paid-course-card-new {
+            background-color: var(--light-bg);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .paid-course-card-new:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.2);
+        }
+        .paid-thumbnail-new {
+            position: relative;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+        }
+        .lock-icon-new {
+            font-size: 4rem;
+            color: white;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.4);
+            animation: pulse 2s infinite ease-in-out;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 2;
+            opacity: 0.8;
+        }
+        .paid-content-new {
+            padding: 1rem;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .course-title-new {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+        .course-price-new {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--success-color);
+            margin-bottom: 1.25rem;
+        }
+        .buy-now-btn-new {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: auto;
+        }
+        .buy-now-btn-new:hover {
+            filter: brightness(1.2);
+            transform: scale(1.03);
+        }
+        /* --- END: NEW PAID COURSE STYLES --- */
+
+        .payment-modal-overlay { 
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            background-color: rgba(0,0,0,0.7); z-index: 2000; 
+            justify-content: center; align-items: center; 
+            backdrop-filter: blur(5px); animation: fadeInUp 0.3s; 
+        }
+        .payment-modal-content { 
+            background-color: var(--light-bg); padding: 2rem; border-radius: 15px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); width: 90%; max-width: 450px; 
+            text-align: center; position: relative; 
+            border: 1px solid var(--primary-color); animation: none; 
+        }
+        .close-modal-btn { 
+            position: absolute; top: 10px; left: 15px; font-size: 2rem; 
+            font-weight: bold; color: var(--text-muted); cursor: pointer; transition: all 0.3s; 
+        }
         .close-modal-btn:hover { color: var(--danger-color); transform: scale(1.2); }
         [dir="rtl"] .close-modal-btn { left: auto; right: 15px; }
         .payment-modal-content h2 { color: var(--primary-color); margin-bottom: 1rem; }
-        .payment-modal-content p { font-size: 1.1rem; line-height: 1.7; color: var(--text-color); margin-bottom: 0; }
-        #payment-icon { font-size: 3.5rem; margin-bottom: 1rem; color: var(--primary-color); text-shadow: 0 4px 10px rgba(0,0,0,0.3); transform-style: preserve-3d; perspective: 100px; display: inline-block; transition: transform 0.3s ease; }
-        #payment-icon:hover { transform: scale(1.1) rotateY(10deg); }
-        .payment-phone-number { color: var(--success-color); font-weight: 700; text-decoration: none; display: inline-block; transition: all 0.3s ease; }
+        .payment-modal-content p { font-size: 1.1rem; line-height: 1.7; color: var(--text-color); margin-bottom: 1rem; }
+        
+        .payment-phone-number { 
+            color: var(--success-color); font-weight: 700; text-decoration: none; 
+            display: inline-block; transition: all 0.3s ease; 
+            font-size: 1.25rem; letter-spacing: 1px;
+        }
         .payment-phone-number:hover { transform: scale(1.05); text-shadow: 0 0 10px var(--success-color); filter: brightness(1.2); }
+
+        /* --- START: NEW PURCHASE MODAL STYLES --- */
+        .purchase-modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        .btn-purchase-modal {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            display: block;
+            text-align: center;
+        }
+        .btn-purchase-modal:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+        .btn-call {
+            background-color: var(--primary-color); /* Blue */
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+        .btn-enter-pass {
+            background-color: var(--success-color); /* Green */
+             box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
+        }
+        .btn-close {
+            background-color: var(--danger-color); /* Red */
+             box-shadow: 0 4px 15px rgba(229, 62, 62, 0.3);
+        }
+        /* --- END: NEW PURCHASE MODAL STYLES --- */
+
+
         .password-input-container { position: relative; margin-top: 2rem; margin-bottom: 1rem; }
         #password-input-field { width: 100%; background-color: var(--dark-bg); border: 2px solid var(--border-color); color: var(--text-color); padding: 14px; border-radius: 12px; font-size: 1.1rem; outline: none; transition: all 0.3s ease; letter-spacing: 3px; }
         #password-input-field:focus { border-color: var(--primary-color); box-shadow: 0 0 15px rgba(0, 123, 255, 0.4); }
@@ -160,11 +284,91 @@
         .calculator-results-container { display: none; padding-top: 1.25rem; } .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; } .result-card { background-color: var(--light-bg); border-radius: 15px; padding: 1.5rem; text-align: center; border-left: 5px solid var(--secondary-color); box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: all 0.3s ease; } [dir="ltr"] .result-card { border-left: none; border-right: 5px solid var(--secondary-color); } .result-card:hover { transform: translateY(-5px); } .result-card .result-item-label { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 0.75rem; display: block; } .result-card .result-item-value { font-size: 2rem; font-weight: bold; display: block; word-wrap: break-word; } .result-card.profit { border-color: var(--success-color); } .result-card.loss { border-color: var(--danger-color); } .result-card.profit .result-item-value { color: var(--success-color); text-shadow: 0 0 10px rgba(56, 161, 105, 0.5); } .result-card.loss .result-item-value { color: var(--danger-color); text-shadow: 0 0 10px rgba(229, 62, 62, 0.5); }
         .app-info-logo { width: 120px; height: 120px; border-radius: 50%; margin-bottom: 1.5rem; border: 4px solid var(--primary-color); box-shadow: 0 8px 30px rgba(0, 123, 255, 0.5); transition: transform 0.5s ease, box-shadow 0.5s ease; } .app-info-logo:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 12px 40px rgba(0, 123, 255, 0.7); } .app-info-details { margin-top: 3rem; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 2rem; } .cinematic-info-item { text-align: center; width: 100%; border-bottom: 1px solid var(--border-color); padding-bottom: 1.25rem; } .cinematic-info-item:last-child { border-bottom: none; } .info-label { font-size: 1rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.5rem; display: block; } .info-value { font-size: 1.8rem; font-weight: 700; color: var(--text-color); text-shadow: 0 0 8px rgba(255, 255, 255, 0.1); word-wrap: break-word; } .info-value.developer { color: var(--secondary-color); text-shadow: 0 0 15px rgba(245, 158, 11, 0.5); }
         footer { text-align: center; margin-top: auto; padding: 0.75rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border-color); width: 100%; background-color: var(--dark-bg); box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); } footer p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.5px; }
-        @media (max-width: 768px) { .sidebar { width: 100%; right: -100%; border-radius: 0; } .sidebar.open { right: 0; } .main-content { padding: 1rem; } .welcome-message { padding: 1.25rem; } .article-title { font-size: 1.15rem; } .top-bar h1 { font-size: 1.4rem; } .video-list, .results-grid { grid-template-columns: 1fr; } .profit-calculator-container { padding: 1.25rem; } .calculator-header h2 { font-size: 1.8rem; } .page-content-wrapper h2 { font-size: 1.5rem; } .page-content-wrapper h3 { font-size: 1.2rem; } .page-content-wrapper p, .page-content-wrapper li { font-size: 1rem; } .app-info-logo { width: 100px; height: 100px; } .section-title { font-size: 1.3rem; } }
-        @media (max-width: 480px) { html { --font-size-base: 15px; } .font-small { --font-size-base: 13px; } .font-medium { --font-size-base: 15px; } .font-large { --font-size-base: 17px; } .category-card h2 { font-size: 1.2rem; } .welcome-message h2 { font-size: 1.4rem; } .welcome-message p { font-size: 0.95rem; } .calculate-btn { padding: 0.875rem 2.5rem; font-size: 1.1rem; } .result-card .result-item-value { font-size: 1.8rem; } .info-value { font-size: 1.5rem; } .payment-modal-content { padding: 2rem 1rem; } .top-bar h1 { font-size: 1.2rem;} .menu-icon { width: 35px; height: 35px; font-size: 1.3rem; } .logo-container img { width: 35px; height: 35px; } .back-button { padding: 0.4rem 0.75rem; font-size: 0.85rem;} }
+        
+        /* --- ANDROID BLOCKER STYLES --- */
+        #android-blocker {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 10001;
+            padding: 1rem;
+        }
+        .blocker-content-3d {
+            transform: perspective(600px) rotateX(10deg);
+            background: var(--light-bg);
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 0 5px var(--border-color);
+            border: 1px solid var(--primary-color);
+        }
+        .banner-3d-text {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.1), 
+                         -1px -1px 0px rgba(0,0,0,0.4), 
+                         0 0 15px var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        .developer-credit-text {
+            font-size: clamp(1rem, 4vw, 1.3rem);
+            color: var(--secondary-color);
+            font-weight: 600;
+            text-shadow: 0 0 8px var(--secondary-color);
+        }
+        /* --- END ANDROID BLOCKER STYLES --- */
+
+        @media (max-width: 768px) { 
+            .sidebar { width: 100%; right: -100%; border-radius: 0; } 
+            .sidebar.open { right: 0; } 
+            .main-content { padding: 1rem; } 
+            .welcome-message { padding: 1.25rem; } 
+            .article-title { font-size: 1.15rem; } 
+            .top-bar h1 { font-size: 1.4rem; } 
+            .video-list, .results-grid { grid-template-columns: 1fr; } 
+            .profit-calculator-container { padding: 1.25rem; } 
+            .calculator-header h2 { font-size: 1.8rem; } 
+            .page-content-wrapper h2 { font-size: 1.5rem; } 
+            .page-content-wrapper h3 { font-size: 1.2rem; } 
+            .page-content-wrapper p, .page-content-wrapper li { font-size: 1rem; } 
+            .app-info-logo { width: 100px; height: 100px; } 
+            .section-title { font-size: 1.3rem; } 
+        }
+        @media (max-width: 480px) { 
+            html { --font-size-base: 15px; } 
+            .font-small { --font-size-base: 13px; } 
+            .font-medium { --font-size-base: 15px; } 
+            .font-large { --font-size-base: 17px; } 
+            .category-card h2 { font-size: 1.2rem; } 
+            .welcome-message h2 { font-size: 1.4rem; } 
+            .welcome-message p { font-size: 0.95rem; } 
+            .calculate-btn { padding: 0.875rem 2.5rem; font-size: 1.1rem; } 
+            .result-card .result-item-value { font-size: 1.8rem; } 
+            .info-value { font-size: 1.5rem; } 
+            .payment-modal-content { padding: 2rem 1rem; } 
+            .top-bar h1 { font-size: 1.2rem;} 
+            .menu-icon { width: 35px; height: 35px; font-size: 1.3rem; } 
+            .logo-container img { width: 35px; height: 35px; } 
+            .back-button { padding: 0.4rem 0.75rem; font-size: 0.85rem;} 
+        }
     </style>
 </head>
 <body class="dark-theme font-medium">
+
+    <div id="android-blocker">
+        <div class="blocker-content-3d">
+            <h1 class="banner-3d-text">مخصص لهواتف ios فقط</h1>
+            <p class="developer-credit-text">تطوير Amr lotfy</p>
+        </div>
+    </div>
     <aside class="sidebar" id="sidebar">
          <h2 data-lang-key="app_name">Mora Learning</h2>
         <ul class="sidebar-menu" id="sidebar-menu">
@@ -205,8 +409,43 @@
         </footer>
     </div>
 
-    <div id="payment-modal" class="payment-modal-overlay" onclick="closePaymentModal()"><div class="payment-modal-content" onclick="event.stopPropagation();"><span class="close-modal-btn" onclick="closePaymentModal()" title="إغلاق">×</span><div id="payment-icon">💳</div><h2 id="payment-modal-title" data-lang-key="payment_info_title"></h2><p id="payment-modal-text"><span data-lang-key="payment_info_text_1"></span><a href="tel:01067941806" class="payment-phone-number" data-lang-key="payment_info_text_2"></a><span data-lang-key="payment_info_text_3"></span></p></div></div>
-    <div id="password-modal" class="payment-modal-overlay" onclick="closePasswordModal()"><div class="payment-modal-content" onclick="event.stopPropagation();"><span class="close-modal-btn" onclick="closePasswordModal()" title="إغلاق">×</span><h2 id="password-modal-title" data-lang-key="enter_password_prompt_title"></h2><p id="password-modal-subtitle" data-lang-key="enter_password_prompt_subtitle"></p><div class="password-input-container"><input type="password" id="password-input-field" placeholder="••••••••" autocomplete="off"><label for="password-input-field" data-lang-key="password_label"></label></div><button id="password-submit-btn" class="calculate-btn" onclick="submitPassword()"><span data-lang-key="submit_password"></span></button></div></div>
+    <div id="purchase-modal" class="payment-modal-overlay" onclick="closePurchaseModal()">
+        <div class="payment-modal-content" onclick="event.stopPropagation();">
+            <span class="close-modal-btn" onclick="closePurchaseModal()" title="إغلاق">×</span>
+            
+            <h2 id="purchase-modal-title" style="color: var(--primary-color); margin-bottom: 1rem; line-height: 1.4;"></h2>
+            
+            <p style="font-size: 1.1rem; line-height: 1.7; color: var(--text-color); margin-bottom: 0.5rem;">
+                للحصول على كلمة سر الكورس، قم بدفع <strong style="color: var(--secondary-color);">فودافون كاش</strong> على الرقم التالي:
+            </p>
+            <p class="payment-phone-number" style="font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 1rem; user-select: all;">
+                01067941806
+            </p>
+            <p style="font-size: 1.1rem; line-height: 1.7; color: var(--text-color); margin-bottom: 1.5rem;">
+                بعد الدفع، يجب عليك إرسال سكرين شوت لإثبات عملية الدفع على نفس الرقم عبر واتساب.
+            </p>
+            
+            <div class="purchase-modal-actions">
+                <a href="tel:01067941806" class="btn-purchase-modal btn-call">اتصل الآن للدفع</a>
+                <button class="btn-purchase-modal btn-enter-pass" id="purchase-modal-enter-pass-btn">أدخل كلمة السر</button>
+                <button class="btn-purchase-modal btn-close" onclick="closePurchaseModal()">إغلاق</button>
+            </div>
+        </div>
+    </div>
+    <div id="password-modal" class="payment-modal-overlay" onclick="closePasswordModal()">
+        <div class="payment-modal-content" onclick="event.stopPropagation();">
+            <span class="close-modal-btn" onclick="closePasswordModal()" title="إغلاق">×</span>
+            <h2 id="password-modal-title" data-lang-key="enter_password_prompt_title"></h2>
+            <p id="password-modal-subtitle" data-lang-key="enter_password_prompt_subtitle"></p>
+            <div class="password-input-container">
+                <input type="password" id="password-input-field" placeholder="••••••••" autocomplete="off">
+                <label for="password-input-field" data-lang-key="password_label"></label>
+            </div>
+            <button id="password-submit-btn" class="calculate-btn" onclick="submitPassword()">
+                <span data-lang-key="submit_password"></span>
+            </button>
+        </div>
+    </div>
 
     <script>
         // --- GLOBAL STATE ---
@@ -215,7 +454,7 @@
         // --- DATA ---
         const contentData = {
             videos: { // Free videos
-                 'e-commerce': [{id: 'hPLS6iZ8w2g'}, {id: '9d_EykIDid4'}, {id: '0fvYICr7m0M'}, {id: 'GFifm_fvkRk'}, {id: 't4qMMM3VuYM'}, {id: 'q2f_BVSVeHQ'}],
+                'e-commerce': [{id: 'hPLS6iZ8w2g'}, {id: '9d_EykIDid4'}, {id: '0fvYICr7m0M'}, {id: 'GFifm_fvkRk'}, {id: 't4qMMM3VuYM'}, {id: 'q2f_BVSVeHQ'}],
                 'programming': [ {id: 'qaNZKH5NohQ'}, {id: 'eeRw__TlgmQ'}, {id: 'sRLK-0W0K2Y'}, {id: 'ow5hlYceRNI'}, {id: 'FMSOoWQR92I'}, {id: 'syIMz6BI1iQ'}, {id: 'j1-HJhZRzYo'} ],
                 'montage': [{id: 'sm51PAGPPPM'}, {id: 'pC8n15SQPgs'}, {id: 'R3FrjHqAGoc'}, {id: 'Gy46eYYI5KA'}],
                 'data-analytics': [{id: '-PDckX34514'}, {id: 'Mmz6CDLrbqU'}, {id: 'sn7rjRoIuAk'}],
@@ -227,7 +466,7 @@
                 'graphic-design': [{id: 'GWPq_DHpSW8'}, {id: 'D5TONJQVwu0'}, {id: 'TI23HUhO5OY'}]
             },
             courses: { // Free courses
-                 'e-commerce': [{id: 'h0unhODkj40'}, {id: 'ICFXS5WIS3Y'}],
+                'e-commerce': [{id: 'h0unhODkj40'}, {id: 'ICFXS5WIS3Y'}],
                 'montage': [{id: 'qKtUjfolUOM'}, {id: '4XdTTX32Adg'}, {id: '8iGvUZKeLeU'}],
                 'data-analytics': [{id: 'nXdkuxAj7tg'}, {id: 'z7nN0hZ_PtQ'}],
                 'ai': [{id: 'oDmyhjwAYXk'}, {id: 'Rp5VnXnWMLk'}],
@@ -236,7 +475,7 @@
             },
             // --- UPDATED: Paid Courses Titles & Houriat Passwords (8 Courses) ---
             paidCourses: [
-                 { id: '07AC2Syf4Yg', title: 'كورس كامل ++C', price: '$6.00',
+                { id: '07AC2Syf4Yg', title: 'كورس كامل ++C', price: '$6.00',
                     passwords: ['huriya-c1p3', 'jannah-c4p7', 'firdaus-c8p2', 'naeem-c5p9', 'paradise-c0p6', 'eden-c3p1', 'celestial-c7p4', 'divine-c2p8', 'hoor-c6p5', 'nymph-c9p0','houri-c1v4', 'jannah-c7v2', 'firdaus-c5v8', 'naeem-c9v6', 'paradise-c3v0', 'eden-c2v7', 'celestial-c8v1', 'divine-c4v5', 'hoor-c0v9', 'nymph-c6v3','huriya-c7s1', 'jannah-c4s2', 'firdaus-c8s5', 'naeem-c2s9', 'paradise-c6s0', 'eden-c3s4', 'celestial-c0s7', 'divine-c5s8', 'hoor-c9s6', 'nymph-c1s3','houri-c5m4', 'jannah-c1m7', 'firdaus-c9m2', 'naeem-c3m8', 'paradise-c0m5', 'eden-c7m6', 'celestial-c2m1', 'divine-c8m9', 'hoor-c4m0', 'nymph-c6m3','huriya-c9k1', 'jannah-c2k4', 'firdaus-c6k8', 'naeem-c0k5', 'paradise-c3k9', 'eden-c7k0', 'celestial-c1k6', 'divine-c5k3', 'hoor-c8k7', 'nymph-c4k2','houri-c3z4', 'jannah-c8z7', 'firdaus-c1z2', 'naeem-c5z9', 'paradise-c9z6', 'eden-c0z1', 'celestial-c4z3', 'divine-c7z8', 'hoor-c2z5', 'nymph-c6z0','huriya-c7x1', 'jannah-c0x4', 'firdaus-c5x8', 'naeem-c9x2', 'paradise-c3x5', 'eden-c6x9', 'celestial-c2x0', 'divine-c8x3', 'hoor-c1x7', 'nymph-c4x6']
                 },
                 { id: 'aLv2oD0q5XA', title: 'كورس كامل تعلم فلاتر من الصفر', price: '$5.50',
@@ -265,21 +504,49 @@
                  'e-commerce': 'https://i.postimg.cc/tCDy383Y/afb04de7b01f843c45abbc9ee08dc58e.jpg','programming': 'https://i.postimg.cc/k5rQJvzk/pngtree-website-programming-language-technology-digital-display-data-photo-image-13914360.jpg','montage': 'https://i.postimg.cc/sgQf4s3w/Da-Vinci-Resolve.jpg','data-analytics': 'https://i.postimg.cc/PJ7Jdxtv/Data-analytics.jpg','ai': 'https://i.postimg.cc/ZYsXJ3hD/d47ded45213710012f9af45e100599b4.jpg','podcasting': 'https://i.postimg.cc/GpNbBfW6/3ee0013e2c893850c0f26032678b8714.jpg','content-writing': 'https://i.postimg.cc/Mp9QLWBR/image.jpg','cybersecurity': 'https://i.postimg.cc/j2Rf9CMH/1316.jpg','freelancing': 'https://i.postimg.cc/bv2FYFp6/64f2f0d349b722684ff0271474cb5cfe6dd4fa2b.jpg','graphic-design': 'https://i.postimg.cc/5tYN41XZ/bd19730469cd909972bf71d5ffaf7c74.jpg'
             },
             categoryIcons: { /* (unchanged) */
-                'e-commerce': '🛍️', 'programming': '💻', 'montage': '🎬', 'data-analytics': '📊', 'ai': '🤖','podcasting': '🎙️', 'content-writing': '✍️', 'cybersecurity': '🛡️', 'freelancing': '💼', 'graphic-design': '🎨'
+                 'e-commerce': '🛍️', 'programming': '💻', 'montage': '🎬', 'data-analytics': '📊', 'ai': '🤖','podcasting': '🎙️', 'content-writing': '✍️', 'cybersecurity': '🛡️', 'freelancing': '💼', 'graphic-design': '🎨'
             },
             articles: [ /* (unchanged - content shortened) */
                  { id: "article-0", title: "ما هو العمل الحر؟ وكيف تبدأ رحلتك؟", excerpt: "تعرف على مفهوم العمل الحر...", content: `<h2>ما هو العمل الحر...?</h2><p>...</p><h3>لماذا...?</h3><ul><li>...</li></ul><h3>كيف تبدأ...?</h3><ol><li>...</li></ol>`, img: "https://i.postimg.cc/bv2FYFp6/64f2f0d349b722684ff0271474cb5cfe6dd4fa2b.jpg" },
-                { id: "article-1", title: "دليل تحليل البيانات للمبتدئين", excerpt: "خطوة بخطوة لفهم تحليل البيانات...", content: `<h2>ما هو تحليل البيانات؟</h2><p>...</p><h3>أهمية...?</h3><ul><li>...</li></ul><h3>خطوات...?</h3><ol><li>...</li></ol><h3>أشهر الأدوات...?</h3><ul><li>...</li></ul>`, img: "https://i.postimg.cc/PJ7Jdxtv/Data-analytics.jpg" },
-                { id: "article-2", title: "التجارة الإلكترونية: كيف تبدأ متجرك؟", excerpt: "من اختيار المنتج إلى التسويق...", content: `<h2>مقدمة...?</h2><p>...</p><h3>خطوات...?</h3><ol><li>...</li></ol>`, img: "https://i.postimg.cc/tCDy383Y/afb04de7b01f843c45abbc9ee08dc58e.jpg" },
-                { id: "article-3", title: "مقدمة في الأمن السيبراني", excerpt: "ما هو الأمن السيبراني؟...", content: `<h2>ما هو الأمن السيبراني؟</h2><p>...</p><h3>أبرز التهديدات...?</h3><ul><li>...</li></ul><h3>كيف تحمي نفسك؟</h3><ol><li>...</li></ol>`, img: "https://i.postimg.cc/j2Rf9CMH/1316.jpg" },
-                { id: "article-4", title: "الذكاء الاصطناعي: من الألف إلى الياء", excerpt: "فهم أساسيات الذكاء الاصطناعي...", content: `<h2>ما هو الذكاء الاصطناعي?</h2><p>...</p><h3>فروع...?</h3><ul><li>...</li></ul><h3>تطبيقات...?</h3><p>...</p><h3>المستقبل...?</h3><p>...</p>`, img: "https://i.postimg.cc/ZYsXJ3hD/d47ded45213710012f9af45e100599b4.jpg" }
+                 { id: "article-1", title: "دليل تحليل البيانات للمبتدئين", excerpt: "خطوة بخطوة لفهم تحليل البيانات...", content: `<h2>ما هو تحليل البيانات؟</h2><p>...</p><h3>أهمية...?</h3><ul><li>...</li></ul><h3>خطوات...?</h3><ol><li>...</li></ol><h3>أشهر الأدوات...?</h3><ul><li>...</li></ul>`, img: "https://i.postimg.cc/PJ7Jdxtv/Data-analytics.jpg" },
+                 { id: "article-2", title: "التجارة الإلكترونية: كيف تبدأ متجرك؟", excerpt: "من اختيار المنتج إلى التسويق...", content: `<h2>مقدمة...?</h2><p>...</p><h3>خطوات...?</h3><ol><li>...</li></ol>`, img: "https://i.postimg.cc/tCDy383Y/afb04de7b01f843c45abbc9ee08dc58e.jpg" },
+                 { id: "article-3", title: "مقدمة في الأمن السيبراني", excerpt: "ما هو الأمن السيبراني؟...", content: `<h2>ما هو الأمن السيبراني؟</h2><p>...</p><h3>أبرز التهديدات...?</h3><ul><li>...</li></ul><h3>كيف تحمي نفسك؟</h3><ol><li>...</li></ol>`, img: "https://i.postimg.cc/j2Rf9CMH/1316.jpg" },
+                 { id: "article-4", title: "الذكاء الاصطناعي: من الألف إلى الياء", excerpt: "فهم أساسيات الذكاء الاصطناعي...", content: `<h2>ما هو الذكاء الاصطناعي?</h2><p>...</p><h3>فروع...?</h3><ul><li>...</li></ul><h3>تطبيقات...?</h3><p>...</p><h3>المستقبل...?</h3><p>...</p>`, img: "https://i.postimg.cc/ZYsXJ3hD/d47ded45213710012f9af45e100599b4.jpg" }
             ]
         };
 
         // --- UI Strings --- (unchanged)
         const uiStrings = {
-            ar: { app_name: "Mora Learning", home: "الرئيسية", articles: "المقالات", settings: "الإعدادات", support: "الدعم الفني", blog: "مدونة", profit_calculator: "حاسبة الأرباح", app_info: "معلومات التطبيق", privacy_policy: "سياسة الخصوصية", paid_courses: "كورسات مدفوعه", developed_by: "تم التطوير بواسطة", back_button: "الرجوع", welcome_main_title: "ابدأ رحلتك الرقمية مع Mora Learning", welcome_main_subtitle: "منصة التعلم الشاملة لعام 2025، حيث تبدأ رحلتك نحو التميز.", footer_rights: "جميع الحقوق محفوظة © Mora Learning 2025", page_titles: {'home':'Mora Learning','articles':'المقالات','settings':'الإعدادات','support':'الدعم الفني','blog':'مدونة','profit_calculator':'حاسبة الأرباح','app_info':'معلومات التطبيق','privacy_policy':'سياسة الخصوصية','paid_courses':'كورسات مدفوعه','e-commerce':'التجارة الإلكترونية','programming':'البرمجة','montage':'المونتاج','data-analytics':'تحليل البيانات','ai':'الذكاء الاصطناعي','podcasting':'البودكاست','content-writing':'كتابة المحتوى','cybersecurity':'الأمن السيبراني','freelancing':'العمل الحر','graphic-design':'الجرافيك ديزاين'}, category_prefix: "تعلم", videos_title: "فيديوهات", courses_title: "كورسات", articles_title: "مقالات تعليمية متنوعة", settings_theme_title: "تغيير المظهر", settings_lang_title: "تغيير اللغة", settings_font_title: "تغيير حجم الخط", support_contact: "تواصل معانا", font_small: "صغير", font_medium: "متوسط", font_large: "كبير", pay: "ادفع", enter_password: "ادخل كلمه السر", payment_info_title: "معلومات الدفع", payment_info_text_1: "لفتح الكورس، يرجى تحويل المبلغ على الرقم التالي (فودافون كاش): ", payment_info_text_2: "01067941806", payment_info_text_3: ". ثم أرسل سكرين شوت من التحويل على واتساب نفس الرقم لاستلام كلمة السر الخاصة بك.", enter_password_prompt_title: "إدخال كلمة السر", enter_password_prompt_subtitle: "الرجاء إدخال كلمة السر لفتح الكورس", password_label: "كلمة السر", submit_password: "تأكيد", wrong_password: "كلمة السر غير صحيحة. حاول مرة أخرى.", password_expired: "كلمة السر هذه تم استخدامها من قبل. الرجاء طلب كلمة سر جديدة.", course_unlocked: "تم فتح الكورس! مشاهدة ممتعة.", price: "السعر", download: "تحميل", watch: "شاهد", app_info_title: "مهمتنا في Mora Learning", app_info_subtitle: "تمكين الأفراد من خلال التعلم المبتكر والمتاح للجميع", app_info_p1: "...", app_info_p2: "...", app_info_dev: "مطور التطبيق", app_info_version: "إصدار المنصة", app_info_build: "بناء رقم", app_info_env: "بيئة التعلم", app_info_env_val: "محسّنة للمكتب والجوال", calculator_header_title: "حاسبة أرباح التجارة الإلكترونية", calculator_header_subtitle: "أدخل بياناتك المالية...", calculator_revenue: "إجمالي الإيرادات", calculator_cogs: "تكلفة المنتجات المباعة (COGS)", calculator_marketing: "مصاريف التسويق والإعلانات", calculator_shipping: "تكاليف الشحن والتوصيل", calculator_other: "مصاريف أخرى...", calculator_calculate_btn: "احسب الأرباح", calculator_results_title: "تحليل الأرباح", calculator_total_costs: "إجمالي التكاليف", calculator_net_profit: "صافي الربح", calculator_profit_margin: "هامش الربح", privacy_title: "سياسة الخصوصية", privacy_intro: "...", privacy_data_collection: "جمع البيانات", privacy_data_collection_text: "...", privacy_data_usage: "استخدام البيانات", privacy_data_usage_text: "...", privacy_security: "الأمان", privacy_security_text: "...", privacy_third_party: "روابط خارجية", privacy_third_party_text: "...", privacy_changes: "تعديلات على سياسة الخصوصية", privacy_changes_text: "...", privacy_contact: "للاتصال بنا", privacy_contact_text: "...", privacy_dev_note: "..." },
-            en: { /* English strings (unchanged) */ app_name: "Mora Learning", home: "Home", articles: "Articles", settings: "Settings", support: "Support", blog: "Blog", profit_calculator: "Profit Calculator", app_info: "App Information", privacy_policy: "Privacy Policy", paid_courses: "Paid Courses", developed_by: "Developed By", back_button: "Back", welcome_main_title: "Start Your Digital Journey...", welcome_main_subtitle: "The comprehensive learning platform...", footer_rights: "All Rights Reserved © Mora Learning 2025", page_titles: {'home':'Mora Learning','articles':'Articles','settings':'Settings','support':'Support','blog':'Blog','profit_calculator':'Profit Calculator','app_info':'App Information','privacy_policy':'Privacy Policy','paid_courses':'Paid Courses','e-commerce':'E-commerce','programming':'Programming','montage':'Video Editing','data-analytics':'Data Analytics','ai':'Artificial Intelligence','podcasting':'Podcasting','content-writing':'Content Writing','cybersecurity':'Cybersecurity','freelancing':'Freelancing','graphic-design':'Graphic Design'}, category_prefix: "Learn", videos_title: "Videos", courses_title: "Courses", articles_title: "Diverse Educational Articles", settings_theme_title: "Change Theme", settings_lang_title: "Change Language", settings_font_title: "Change Font Size", support_contact: "Contact Us", font_small: "Small", font_medium: "Medium", font_large: "Large", pay: "Pay", enter_password: "Enter Password", payment_info_title: "Payment Information", payment_info_text_1: "To unlock...", payment_info_text_2: "01067941806", payment_info_text_3: ". Then send...", enter_password_prompt_title: "Enter Password", enter_password_prompt_subtitle: "Please enter the password...", password_label: "Password", submit_password: "Submit", wrong_password: "Incorrect password...", password_expired: "This password has already been used...", course_unlocked: "Course unlocked! Enjoy.", price: "Price", download: "Download", watch: "Watch", app_info_title: "Our Mission...", app_info_subtitle: "Empowering individuals...", app_info_p1: "...", app_info_p2: "...", app_info_dev: "App Developer", app_info_version: "Platform Version", app_info_build: "Build Number", app_info_env: "Learning Environment", app_info_env_val: "Optimized for Desktop & Mobile", calculator_header_title: "E-commerce Profit Calculator", calculator_header_subtitle: "Enter your financial data...", calculator_revenue: "Total Revenue", calculator_cogs: "COGS", calculator_marketing: "Marketing & Ad Spend", calculator_shipping: "Shipping Costs", calculator_other: "Other Expenses...", calculator_calculate_btn: "Calculate Profit", calculator_results_title: "Profit Analysis", calculator_total_costs: "Total Costs", calculator_net_profit: "Net Profit", calculator_profit_margin: "Profit Margin", privacy_title: "Privacy Policy", privacy_intro: "...", privacy_data_collection: "Data Collection", privacy_data_collection_text: "...", privacy_data_usage: "Data Usage", privacy_data_usage_text: "...", privacy_security: "Security", privacy_security_text: "...", privacy_third_party: "External Links", privacy_third_party_text: "...", privacy_changes: "Changes to This Policy", privacy_changes_text: "...", privacy_contact: "Contact Us", privacy_contact_text: "...", privacy_dev_note: "..." }
+            ar: { app_name: "Mora Learning", home: "الرئيسية", articles: "المقالات", settings: "الإعدادات", support: "الدعم الفني", blog: "مدونة", profit_calculator: "حاسبة الأرباح", app_info: "معلومات التطبيق", privacy_policy: "سياسة الخصوصية", paid_courses: "كورسات مدفوعه", developed_by: "تم التطوير بواسطة", back_button: "الرجوع", welcome_main_title: "ابدأ رحلتك الرقمية مع Mora Learning", welcome_main_subtitle: "منصة التعلم الشاملة لعام 2025، حيث تبدأ رحلتك نحو التميز.", footer_rights: "جميع الحقوق محفوظة © Mora Learning 2025", page_titles: {'home':'Mora Learning','articles':'المقالات','settings':'الإعدادات','support':'الدعم الفني','blog':'مدونة','profit_calculator':'حاسبة الأرباح','app_info':'معلومات التطبيق','privacy_policy':'سياسة الخصوصية','paid_courses':'كورسات مدفوعه','e-commerce':'التجارة الإلكترونية','programming':'البرمجة','montage':'المونتاج','data-analytics':'تحليل البيانات','ai':'الذكاء الاصطناعي','podcasting':'البودكاست','content-writing':'كتابة المحتوى','cybersecurity':'الأمن السيبراني','freelancing':'العمل الحر','graphic-design':'الجرافيك ديزاين'}, category_prefix: "تعلم", videos_title: "فيديوهات", courses_title: "كورسات", articles_title: "مقالات تعليمية متنوعة", settings_theme_title: "تغيير المظهر", settings_lang_title: "تغيير اللغة", settings_font_title: "تغيير حجم الخط", support_contact: "تواصل معانا", font_small: "صغير", font_medium: "متوسط", font_large: "كبير", 
+                
+                /* MODIFIED: Removed old payment keys, added 'buy_now' */
+                buy_now: "اشترى الآن",
+                enter_password: "ادخل كلمه السر", 
+                payment_info_title: "معلومات الدفع", // This key is not used by new modal, but kept for safety
+                enter_password_prompt_title: "إدخال كلمة السر", 
+                enter_password_prompt_subtitle: "الرجاء إدخال كلمة السر لفتح الكورس", 
+                password_label: "كلمة السر", 
+                submit_password: "تأكيد", 
+                wrong_password: "كلمة السر غير صحيحة. حاول مرة أخرى.", 
+                password_expired: "كلمة السر هذه تم استخدامها من قبل. الرجاء طلب كلمة سر جديدة.", 
+                course_unlocked: "تم فتح الكورس! مشاهدة ممتعة.", 
+                
+                price: "السعر", download: "تحميل", watch: "شاهد", app_info_title: "مهمتنا في Mora Learning", app_info_subtitle: "تمكين الأفراد من خلال التعلم المبتكر والمتاح للجميع", app_info_p1: "...", app_info_p2: "...", app_info_dev: "مطور التطبيق", app_info_version: "إصدار المنصة", app_info_build: "بناء رقم", app_info_env: "بيئة التعلم", app_info_env_val: "محسّنة للمكتب والجوال", calculator_header_title: "حاسبة أرباح التجارة الإلكترونية", calculator_header_subtitle: "أدخل بياناتك المالية...", calculator_revenue: "إجمالي الإيرادات", calculator_cogs: "تكلفة المنتجات المباعة (COGS)", calculator_marketing: "مصاريف التسويق والإعلانات", calculator_shipping: "تكاليف الشحن والتوصيل", calculator_other: "مصاريف أخرى...", calculator_calculate_btn: "احسب الأرباح", calculator_results_title: "تحليل الأرباح", calculator_total_costs: "إجمالي التكاليف", calculator_net_profit: "صافي الربح", calculator_profit_margin: "هامش الربح", privacy_title: "سياسة الخصوصية", privacy_intro: "...", privacy_data_collection: "جمع البيانات", privacy_data_collection_text: "...", privacy_data_usage: "استخدام البيانات", privacy_data_usage_text: "...", privacy_security: "الأمان", privacy_security_text: "...", privacy_third_party: "روابط خارجية", privacy_third_party_text: "...", privacy_changes: "تعديلات على سياسة الخصوصية", privacy_changes_text: "...", privacy_contact: "للاتصال بنا", privacy_contact_text: "...", privacy_dev_note: "..." },
+            en: { /* English strings (unchanged) */ app_name: "Mora Learning", home: "Home", articles: "Articles", settings: "Settings", support: "Support", blog: "Blog", profit_calculator: "Profit Calculator", app_info: "App Information", privacy_policy: "Privacy Policy", paid_courses: "Paid Courses", developed_by: "Developed By", back_button: "Back", welcome_main_title: "Start Your Digital Journey...", welcome_main_subtitle: "The comprehensive learning platform...", footer_rights: "All Rights Reserved © Mora Learning 2025", page_titles: {'home':'Mora Learning','articles':'Articles','settings':'Settings','support':'Support','blog':'Blog','profit_calculator':'Profit Calculator','app_info':'App Information','privacy_policy':'Privacy Policy','paid_courses':'Paid Courses','e-commerce':'E-commerce','programming':'Programming','montage':'Video Editing','data-analytics':'Data Analytics','ai':'Artificial Intelligence','podcasting':'Podcasting','content-writing':'Content Writing','cybersecurity':'Cybersecurity','freelancing':'Freelancing','graphic-design':'Graphic Design'}, category_prefix: "Learn", videos_title: "Videos", courses_title: "Courses", articles_title: "Diverse Educational Articles", settings_theme_title: "Change Theme", settings_lang_title: "Change Language", settings_font_title: "Change Font Size", support_contact: "Contact Us", font_small: "Small", font_medium: "Medium", font_large: "Large", 
+                
+                /* MODIFIED: Removed old payment keys, added 'buy_now' */
+                buy_now: "Buy Now",
+                enter_password: "Enter Password", 
+                payment_info_title: "Payment Information", 
+                enter_password_prompt_title: "Enter Password", 
+                enter_password_prompt_subtitle: "Please enter the password...", 
+                password_label: "Password", 
+                submit_password: "Submit", 
+                wrong_password: "Incorrect password...", 
+                password_expired: "This password has already been used...", 
+                course_unlocked: "Course unlocked! Enjoy.", 
+                
+                price: "Price", download: "Download", watch: "Watch", app_info_title: "Our Mission...", app_info_subtitle: "Empowering individuals...", app_info_p1: "...", app_info_p2: "...", app_info_dev: "App Developer", app_info_version: "Platform Version", app_info_build: "Build Number", app_info_env: "Learning Environment", app_info_env_val: "Optimized for Desktop & Mobile", calculator_header_title: "E-commerce Profit Calculator", calculator_header_subtitle: "Enter your financial data...", calculator_revenue: "Total Revenue", calculator_cogs: "COGS", calculator_marketing: "Marketing & Ad Spend", calculator_shipping: "Shipping Costs", calculator_other: "Other Expenses...", calculator_calculate_btn: "Calculate Profit", calculator_results_title: "Profit Analysis", calculator_total_costs: "Total Costs", calculator_net_profit: "Net Profit", calculator_profit_margin: "Profit Margin", privacy_title: "Privacy Policy", privacy_intro: "...", privacy_data_collection: "Data Collection", privacy_data_collection_text: "...", privacy_data_usage: "Data Usage", privacy_data_usage_text: "...", privacy_security: "Security", privacy_security_text: "...", privacy_third_party: "External Links", privacy_third_party_text: "...", privacy_changes: "Changes to This Policy", privacy_changes_text: "...", privacy_contact: "Contact Us", privacy_contact_text: "...", privacy_dev_note: "..." }
         };
 
         // --- State Management ---
@@ -331,7 +598,28 @@
                     // --- OTHER SECTIONS (Home, Paid Courses, Settings, etc.) ---
                     switch (section) {
                         case 'home': contentHTML = `<div class="articles-container">` + Object.keys(contentData.categoryImages).map((cat, i) => { const title = langStrings.page_titles[cat] || cat; const free = currentLang === 'ar' ? '(مجاناً)' : '(Free)'; const emoji = contentData.categoryIcons[cat] || ''; return `<div class="category-card" onclick="showSection('${cat}')"><img src="${contentData.categoryImages[cat]}" alt="${title}" loading="lazy"><div class="category-text-overlay"><h2><span class="category-emoji">${emoji}</span><span class="category-title">${langStrings.category_prefix} ${title}</span><span class="category-free">${free}</span></h2></div></div>`; }).join('') + `</div>`; break;
-                        case 'paid_courses': contentHTML = `<div class="page-content-wrapper"><div class="video-list">` + contentData.paidCourses.map((course, i) => `<div class="paid-video-item"><div class="video-thumbnail-locked"><img src="https://img.youtube.com/vi/${course.id}/hqdefault.jpg" loading="lazy" alt="Locked: ${course.title}"><div class="lock-icon">🔒</div></div><div class="paid-video-content"><div><div class="course-title-paid">${course.title}</div><div class="course-price">${langStrings.price}: ${course.price}</div></div><div class="paid-video-actions"><button class="pay-btn" onclick="showPaymentModal()">${langStrings.pay}</button><button class="password-btn" onclick="showPasswordPrompt(this, '${course.id}')">${langStrings.enter_password}</button></div></div></div>`).join('') + `</div></div>`; break;
+                        
+                        // --- START: MODIFIED 'paid_courses' SECTION ---
+                        case 'paid_courses':
+                            const buyNowText = langStrings.buy_now || (currentLang === 'ar' ? 'اشترى الآن' : 'Buy Now');
+                            contentHTML = `<div class="page-content-wrapper"><div class="video-list">` + 
+                            contentData.paidCourses.map((course, i) => 
+                                `<div class="paid-course-card-new">
+                                    <div class="paid-thumbnail-new">
+                                        <span class="lock-icon-new">🔒</span>
+                                    </div>
+                                    <div class="paid-content-new">
+                                        <h3 class="course-title-new">${course.title}</h3>
+                                        <div class="course-price-new">${langStrings.price}: ${course.price}</div>
+                                        <button class="buy-now-btn-new" onclick="showPurchaseModal(this, '${course.id}', \`${escape(course.title)}\`)">
+                                            ${buyNowText}
+                                        </button>
+                                    </div>
+                                </div>`
+                            ).join('') + `</div></div>`; 
+                            break;
+                        // --- END: MODIFIED 'paid_courses' SECTION ---
+                            
                         // Other cases (articles, blog, settings, etc.) remain the same as previous version
                         case 'articles': contentHTML = `<div class="page-content-wrapper"><h2 class="section-title">${langStrings.articles_title}</h2><div class="articles-container">` + contentData.articles.map((article, i) => `<div class="article-card" onclick="showSection('${article.id}')"><img src="${article.img}" alt="${article.title}" class="article-img" loading="lazy"><div class="article-content"><div><div class="article-title">${article.title}</div><div class="article-excerpt">${article.excerpt}</div></div><div class="read-more">${currentLang === 'ar' ? 'اقرأ المزيد →' : 'Read More →'}</div></div></div>`).join('') + `</div></div>`; break;
                         case 'blog': const savedNote = localStorage.getItem('userBlogNote') || ''; contentHTML = `<div class="page-content-wrapper"><textarea class="blog-textarea" id="blogTextarea" placeholder="${currentLang === 'ar' ? 'اكتب ملاحظاتك...' : 'Write your notes...'}">${savedNote}</textarea><button class="blog-save-btn" onclick="saveBlog()">${currentLang === 'ar' ? 'حفظ' : 'Save'}</button></div>`; break;
@@ -345,7 +633,7 @@
                 }
                 contentArea.innerHTML = contentHTML;
                  const animatedElements = contentArea.querySelectorAll('.page-content-wrapper > *, .articles-container > *, .video-list > *');
-                 animatedElements.forEach((el, index) => { el.classList.remove('animated', 'fadeInUp', 'fadeOut'); void el.offsetWidth; el.classList.add('animated', 'fadeInUp'); el.style.animationDelay = `${0.1 + index * 0.05}s`; });
+                  animatedElements.forEach((el, index) => { el.classList.remove('animated', 'fadeInUp', 'fadeOut'); void el.offsetWidth; el.classList.add('animated', 'fadeInUp'); el.style.animationDelay = `${0.1 + index * 0.05}s`; });
             }, isLanguageUpdate ? 0 : fadeOutDuration);
         }
 
@@ -354,28 +642,158 @@
         function saveBlog() { const blogTextarea = document.getElementById('blogTextarea'); if (!blogTextarea) return; const text = blogTextarea.value; try { localStorage.setItem('userBlogNote', text); alert(currentLang === 'ar' ? 'تم الحفظ!' : 'Saved!'); } catch (e) { console.error("Error saving note:", e); alert('Error saving.'); } }
         function playVideo(element, videoId) { const existingIframe = element.querySelector('iframe'); if (existingIframe && existingIframe.src.includes(videoId)) return; element.style.padding = '0'; element.style.backgroundColor = '#000'; element.style.boxShadow = 'none'; element.onclick = null; element.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"></iframe>`; element.classList.remove('animated', 'fadeInUp'); element.style.animationDelay = ''; element.style.transform = ''; }
 
-        // --- PAID COURSE FUNCTIONS ---
-        function showPaymentModal() { const modal = document.getElementById('payment-modal'); if (modal) modal.style.display = 'flex'; }
-        function closePaymentModal() { const modal = document.getElementById('payment-modal'); if (modal) modal.style.display = 'none'; }
-        function showPasswordPrompt(buttonElement, videoId) { const langStrings = uiStrings[currentLang]; const course = contentData.paidCourses.find(c => c.id === videoId); if (!course || !Array.isArray(course.passwords)) { console.error('Course/pw invalid:', videoId); alert('Error: Course data missing.'); return; } const parentItem = buttonElement.closest('.paid-video-item'); if (!parentItem) { console.error('Parent element missing.'); alert('Error: UI ref lost.'); return; } currentCourseUnlockData = { id: videoId, passwords: course.passwords, element: parentItem }; const modal = document.getElementById('password-modal'); const inputField = document.getElementById('password-input-field'); if (!modal || !inputField) { console.error('Password modal missing.'); alert('Error display prompt.'); return; } document.getElementById('password-modal-title').textContent = langStrings.enter_password_prompt_title; document.getElementById('password-modal-subtitle').textContent = langStrings.enter_password_prompt_subtitle; inputField.value = ''; modal.style.display = 'flex'; setTimeout(() => inputField.focus(), 50); }
-        function closePasswordModal() { const modal = document.getElementById('password-modal'); if (modal) modal.style.display = 'none'; currentCourseUnlockData = { id: null, passwords: [], element: null }; const inputField = document.getElementById('password-input-field'); if (inputField) inputField.value = ''; }
-        function submitPassword() { const langStrings = uiStrings[currentLang]; const inputField = document.getElementById('password-input-field'); if (!inputField) return; const inputPassword = inputField.value.trim(); const { id, passwords, element } = currentCourseUnlockData; if (!inputPassword) return; if (!id || !passwords || !element) { console.error('Submit invalid data state.'); alert('Error. Try again.'); closePasswordModal(); return; } const storageKey = `usedPasswords_${id}`; let usedPasswords = []; try { const stored = localStorage.getItem(storageKey); usedPasswords = stored ? JSON.parse(stored) : []; if (!Array.isArray(usedPasswords)) usedPasswords = []; } catch (e) { console.error(`Error read ${storageKey}:`, e); } const isValid = passwords.includes(inputPassword); const isUsed = usedPasswords.includes(inputPassword); const modalContent = document.querySelector('#password-modal .payment-modal-content'); if (modalContent) modalContent.style.animation = 'none'; void modalContent?.offsetWidth; if (isValid && !isUsed) { alert(langStrings.course_unlocked); usedPasswords.push(inputPassword); try { localStorage.setItem(storageKey, JSON.stringify(usedPasswords)); } catch (e) { console.error(`Error save ${storageKey}:`, e); alert('Note: Could not save password status.'); } closePasswordModal(); unlockCourse(element, id); } else { const message = isValid && isUsed ? langStrings.password_expired : langStrings.wrong_password; alert(message); if (modalContent) modalContent.style.animation = 'shake 0.5s'; inputField.select(); inputField.focus(); } }
-        function unlockCourse(itemElement, videoId) { // UPDATED Download Link
+        // --- PAID COURSE FUNCTIONS (NEW & UPDATED) ---
+
+        // NEW function to show the modal from Screenshot 1
+        function showPurchaseModal(buttonElement, courseId, encodedCourseTitle) {
+            const courseTitle = unescape(encodedCourseTitle);
+            const modal = document.getElementById('purchase-modal');
+            const titleElement = document.getElementById('purchase-modal-title');
+            const enterPassBtn = document.getElementById('purchase-modal-enter-pass-btn');
+
+            if (!modal || !titleElement || !enterPassBtn) {
+                console.error('Purchase modal elements not found.');
+                return;
+            }
+
+            // Set the dynamic title
+            let titleText = currentLang === 'ar' ? 'خطوة أخيرة! - ' : 'Final Step! - ';
+            titleElement.textContent = titleText + courseTitle;
+
+            // Find the parent card element that needs to be replaced on unlock
+            const cardElement = buttonElement.closest('.paid-course-card-new');
+            if (!cardElement) {
+                console.error('Could not find parent card element.');
+                return;
+            }
+
+            // Set the click handler for the "Enter Password" button INSIDE the modal
+            enterPassBtn.onclick = function() {
+                closePurchaseModal();
+                // Call the ORIGINAL password prompt, passing the CARD ELEMENT and COURSE ID
+                showPasswordPrompt(cardElement, courseId);
+            };
+
+            modal.style.display = 'flex';
+        }
+
+        // NEW function to close the purchase modal
+        function closePurchaseModal() {
+            const modal = document.getElementById('purchase-modal');
+            if (modal) modal.style.display = 'none';
+            
+            // Clear the onclick to prevent memory leaks or old data
+            const enterPassBtn = document.getElementById('purchase-modal-enter-pass-btn');
+            if(enterPassBtn) enterPassBtn.onclick = null;
+        }
+
+        // ORIGINAL function, now called by the new purchase modal
+        function showPasswordPrompt(cardElement, videoId) {
+            const langStrings = uiStrings[currentLang];
+            const course = contentData.paidCourses.find(c => c.id === videoId);
+            if (!course || !Array.isArray(course.passwords)) { 
+                console.error('Course/pw invalid:', videoId); 
+                alert('Error: Course data missing.'); 
+                return; 
+            }
+            if (!cardElement) { 
+                console.error('Parent element missing for password prompt.'); 
+                alert('Error: UI ref lost.'); 
+                return; 
+            }
+            
+            // Store the data needed by submitPassword()
+            currentCourseUnlockData = { id: videoId, passwords: course.passwords, element: cardElement };
+            
+            const modal = document.getElementById('password-modal');
+            const inputField = document.getElementById('password-input-field');
+            if (!modal || !inputField) { 
+                console.error('Password modal missing.'); 
+                alert('Error display prompt.'); 
+                return; 
+            }
+            
+            document.getElementById('password-modal-title').textContent = langStrings.enter_password_prompt_title; 
+            document.getElementById('password-modal-subtitle').textContent = langStrings.enter_password_prompt_subtitle;
+            inputField.value = ''; 
+            modal.style.display = 'flex'; 
+            setTimeout(() => inputField.focus(), 50); 
+        }
+
+        // ORIGINAL function, UNCHANGED
+        function closePasswordModal() { 
+            const modal = document.getElementById('password-modal'); 
+            if (modal) modal.style.display = 'none'; 
+            currentCourseUnlockData = { id: null, passwords: [], element: null }; 
+            const inputField = document.getElementById('password-input-field'); 
+            if (inputField) inputField.value = ''; 
+        }
+        
+        // ORIGINAL function, UNCHANGED
+        function submitPassword() { 
+            const langStrings = uiStrings[currentLang]; 
+            const inputField = document.getElementById('password-input-field'); 
+            if (!inputField) return; 
+            const inputPassword = inputField.value.trim(); 
+            const { id, passwords, element } = currentCourseUnlockData; 
+            if (!inputPassword) return; 
+            if (!id || !passwords || !element) { 
+                console.error('Submit invalid data state.'); 
+                alert('Error. Try again.'); 
+                closePasswordModal(); 
+                return; 
+            } 
+            const storageKey = `usedPasswords_${id}`; 
+            let usedPasswords = []; 
+            try { 
+                const stored = localStorage.getItem(storageKey); 
+                usedPasswords = stored ? JSON.parse(stored) : []; 
+                if (!Array.isArray(usedPasswords)) usedPasswords = []; 
+            } catch (e) { console.error(`Error read ${storageKey}:`, e); } 
+            
+            const isValid = passwords.includes(inputPassword); 
+            const isUsed = usedPasswords.includes(inputPassword); 
+            
+            const modalContent = document.querySelector('#password-modal .payment-modal-content'); 
+            if (modalContent) modalContent.style.animation = 'none'; 
+            void modalContent?.offsetWidth; 
+            
+            if (isValid && !isUsed) { 
+                alert(langStrings.course_unlocked); 
+                usedPasswords.push(inputPassword); 
+                try { localStorage.setItem(storageKey, JSON.stringify(usedPasswords)); } 
+                catch (e) { console.error(`Error save ${storageKey}:`, e); alert('Note: Could not save password status.'); } 
+                closePasswordModal(); 
+                unlockCourse(element, id); 
+            } else { 
+                const message = isValid && isUsed ? langStrings.password_expired : langStrings.wrong_password; 
+                alert(message); 
+                if (modalContent) modalContent.style.animation = 'shake 0.5s'; 
+                inputField.select(); 
+                inputField.focus(); 
+            } 
+        }
+        
+        // ORIGINAL function, logic UNCHANGED (it replaces the 'itemElement' passed to it)
+        function unlockCourse(itemElement, videoId) { 
              if (!itemElement) { console.error('Cannot unlock, element null for ID:', videoId); return; }
              const langStrings = uiStrings[currentLang];
              const youtubeLink = `https://www.youtube.com/watch?v=${videoId}`; // YouTube link
              itemElement.innerHTML = `
-                <div class="video-player-unlocked">
-                    <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3"
-                            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"></iframe>
-                </div>
-                <div class="video-actions">
-                     <a href="${youtubeLink}" target="_blank" rel="noopener noreferrer" class="video-btn download-btn" style="flex: none; width: calc(100% - 20px); margin: 10px auto;">
-                         ${langStrings.download} </a>
-                </div>`;
-            itemElement.style.padding = '0'; itemElement.style.backgroundColor = '#000'; itemElement.style.border = 'none';
-            itemElement.classList.remove('animated', 'fadeInUp'); itemElement.style.animationDelay = '';
+                 <div class="video-player-unlocked">
+                     <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3"
+                             frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                             allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"></iframe>
+                 </div>
+                 <div class="video-actions">
+                      <a href="${youtubeLink}" target="_blank" rel="noopener noreferrer" class="video-btn download-btn" style="flex: none; width: calc(100% - 20px); margin: 10px auto;">
+                           ${langStrings.download} </a>
+                 </div>`;
+           itemElement.style.padding = '0'; 
+           itemElement.style.backgroundColor = '#000'; 
+           itemElement.style.border = 'none';
+           itemElement.classList.remove('animated', 'fadeInUp'); 
+           itemElement.style.animationDelay = '';
         }
 
         // --- Settings Functions ---
@@ -389,14 +807,73 @@
         function toggleSidebar() { sidebar.classList.toggle("open"); }
 
         // --- Initialization ---
-        window.onload = function() { const savedTheme = localStorage.getItem('selectedTheme') || 'dark-theme'; const savedFontSize = localStorage.getItem('selectedFontSize') || 'font-medium'; bodyEl.className = `${savedTheme} ${savedFontSize}`; let baseSize = '16px'; if (savedFontSize === 'font-small') baseSize = '14px'; else if (savedFontSize === 'font-large') baseSize = '18px'; document.documentElement.style.setProperty('--font-size-base', baseSize); currentLang = localStorage.getItem('selectedLanguage') || 'ar'; historyStack = ['home']; updateLanguageUI(); };
+        window.onload = function() { 
+            // --- NEW ANDROID CHECK ---
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            if (/android/i.test(userAgent)) {
+                // Force a base theme for the blocker
+                document.body.className = 'dark-theme font-medium';
+                // Hide the real content
+                const sidebarEl = document.getElementById('sidebar');
+                const mainContentEl = document.getElementById('main-content');
+                if (sidebarEl) sidebarEl.style.display = 'none';
+                if (mainContentEl) mainContentEl.style.display = 'none';
+                
+                // Show the blocker
+                const blockerEl = document.getElementById('android-blocker');
+                if (blockerEl) blockerEl.style.display = 'flex';
+                
+                return; // Stop the rest of the app from loading
+            }
+            // --- END NEW ANDROID CHECK ---
+
+            const savedTheme = localStorage.getItem('selectedTheme') || 'dark-theme'; 
+            const savedFontSize = localStorage.getItem('selectedFontSize') || 'font-medium'; 
+            bodyEl.className = `${savedTheme} ${savedFontSize}`; 
+            let baseSize = '16px'; 
+            if (savedFontSize === 'font-small') baseSize = '14px'; 
+            else if (savedFontSize === 'font-large') baseSize = '18px'; 
+            document.documentElement.style.setProperty('--font-size-base', baseSize); 
+            currentLang = localStorage.getItem('selectedLanguage') || 'ar'; 
+            historyStack = ['home']; 
+            updateLanguageUI(); 
+        };
 
         // --- Global Listeners ---
-        ['payment-modal', 'password-modal'].forEach(id => { const m = document.getElementById(id); if(m) m.addEventListener('click', function(e){ if(e.target === this) { id==='payment-modal'?closePaymentModal():closePasswordModal(); } }); });
-        const pwInput = document.getElementById('password-input-field'); if(pwInput) pwInput.addEventListener('keypress', function(e){ if(e.key === 'Enter') { e.preventDefault(); submitPassword(); } });
-        document.addEventListener('click', function(e) { const menuIcon = document.querySelector('.menu-icon'); if (sidebar && menuIcon && sidebar.classList.contains('open') && !sidebar.contains(e.target) && !menuIcon.contains(e.target) && window.innerWidth <= 768) { sidebar.classList.remove('open'); } });
-        document.addEventListener('DOMContentLoaded', () => { const logo = document.querySelector('.logo-container img'); if(logo){ logo.addEventListener('mouseenter', ()=>{ logo.style.transform = 'scale(1.1) rotate(10deg)'; logo.style.boxShadow = '0 0 25px rgba(0, 123, 255, 0.8)'; }); logo.addEventListener('mouseleave', ()=>{ logo.style.transform = 'scale(1) rotate(0deg)'; logo.style.boxShadow = '0 0 15px rgba(0, 123, 255, 0.5)'; }); } });
-
+        ['purchase-modal', 'password-modal'].forEach(id => { 
+            const m = document.getElementById(id); 
+            if(m) m.addEventListener('click', function(e){ 
+                if(e.target === this) { 
+                    id==='purchase-modal'?closePurchaseModal():closePasswordModal(); 
+                } 
+            }); 
+        });
+        const pwInput = document.getElementById('password-input-field'); 
+        if(pwInput) pwInput.addEventListener('keypress', function(e){ 
+            if(e.key === 'Enter') { 
+                e.preventDefault(); 
+                submitPassword(); 
+            } 
+        });
+        document.addEventListener('click', function(e) { 
+            const menuIcon = document.querySelector('.menu-icon'); 
+            if (sidebar && menuIcon && sidebar.classList.contains('open') && !sidebar.contains(e.target) && !menuIcon.contains(e.target) && window.innerWidth <= 768) { 
+                sidebar.classList.remove('open'); 
+            } 
+        });
+        document.addEventListener('DOMContentLoaded', () => { 
+            const logo = document.querySelector('.logo-container img'); 
+            if(logo){ 
+                logo.addEventListener('mouseenter', ()=>{ 
+                    logo.style.transform = 'scale(1.1) rotate(10deg)'; 
+                    logo.style.boxShadow = '0 0 25px rgba(0, 123, 255, 0.8)'; 
+                }); 
+                logo.addEventListener('mouseleave', ()=>{ 
+                    logo.style.transform = 'scale(1) rotate(0deg)'; 
+                    logo.style.boxShadow = '0 0 15px rgba(0, 123, 255, 0.5)'; 
+                }); 
+            } 
+        });
     </script>
 </body>
 </html>
